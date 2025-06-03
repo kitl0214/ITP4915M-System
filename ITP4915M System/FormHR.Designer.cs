@@ -198,6 +198,7 @@
             Name = "FormHR";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "HR Management";
+            Load += FormHR_Load;
             ((System.ComponentModel.ISupportInitialize)gvAccounts).EndInit();
             grpNew.ResumeLayout(false);
             grpNew.PerformLayout();

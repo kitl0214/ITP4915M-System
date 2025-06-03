@@ -1,16 +1,19 @@
-﻿namespace ITP4915MSystem
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace ITP4915M_System
 {
     partial class LoginForm
     {
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.ComboBox cmbDept;
-        private System.Windows.Forms.TextBox txtUser;
-        private System.Windows.Forms.TextBox txtPwd;
-        private System.Windows.Forms.Button btnLogin;
-        private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.Label lblDept;
-        private System.Windows.Forms.Label lblUser;
-        private System.Windows.Forms.Label lblPwd;
+        private ComboBox cmbDept;
+        private TextBox txtUser;
+        private TextBox txtPwd;
+        private Button btnLogin;
+        private Button btnClear;
+        private Label lblDept;
+        private Label lblUser;
+        private Label lblPwd;
 
         protected override void Dispose(bool disposing)
         {
@@ -18,6 +21,7 @@
             base.Dispose(disposing);
         }
 
+        #region Windows Form Designer generated code
         private void InitializeComponent()
         {
             cmbDept = new ComboBox();
@@ -33,43 +37,47 @@
             // cmbDept
             // 
             cmbDept.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbDept.Items.AddRange(new object[] { "HR", "Sales" });
-            cmbDept.Location = new Point(355, 251);
+            cmbDept.Location = new Point(371, 129);
+            cmbDept.Margin = new Padding(5);
             cmbDept.Name = "cmbDept";
-            cmbDept.Size = new Size(151, 31);
+            cmbDept.Size = new Size(235, 31);
             cmbDept.TabIndex = 7;
             // 
             // txtUser
             // 
-            txtUser.Location = new Point(346, 296);
+            txtUser.Location = new Point(387, 195);
+            txtUser.Margin = new Padding(5);
             txtUser.Name = "txtUser";
             txtUser.PlaceholderText = "Username";
-            txtUser.Size = new Size(151, 30);
+            txtUser.Size = new Size(235, 30);
             txtUser.TabIndex = 6;
             // 
             // txtPwd
             // 
-            txtPwd.Location = new Point(346, 339);
+            txtPwd.Location = new Point(387, 264);
+            txtPwd.Margin = new Padding(5);
             txtPwd.Name = "txtPwd";
             txtPwd.PlaceholderText = "Password";
-            txtPwd.Size = new Size(151, 30);
+            txtPwd.Size = new Size(235, 30);
             txtPwd.TabIndex = 5;
             txtPwd.UseSystemPasswordChar = true;
             // 
             // btnLogin
             // 
-            btnLogin.Location = new Point(219, 380);
+            btnLogin.Location = new Point(175, 341);
+            btnLogin.Margin = new Padding(5);
             btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(94, 30);
+            btnLogin.Size = new Size(148, 49);
             btnLogin.TabIndex = 4;
             btnLogin.Text = "Login";
             btnLogin.Click += btnLogin_Click;
             // 
             // btnClear
             // 
-            btnClear.Location = new Point(355, 380);
+            btnClear.Location = new Point(387, 341);
+            btnClear.Margin = new Padding(5);
             btnClear.Name = "btnClear";
-            btnClear.Size = new Size(94, 30);
+            btnClear.Size = new Size(148, 49);
             btnClear.TabIndex = 3;
             btnClear.Text = "Clear";
             btnClear.Click += btnClear_Click;
@@ -77,7 +85,8 @@
             // lblDept
             // 
             lblDept.AutoSize = true;
-            lblDept.Location = new Point(219, 259);
+            lblDept.Location = new Point(175, 132);
+            lblDept.Margin = new Padding(5, 0, 5, 0);
             lblDept.Name = "lblDept";
             lblDept.Size = new Size(114, 23);
             lblDept.TabIndex = 2;
@@ -86,7 +95,8 @@
             // lblUser
             // 
             lblUser.AutoSize = true;
-            lblUser.Location = new Point(219, 299);
+            lblUser.Location = new Point(175, 201);
+            lblUser.Margin = new Padding(5, 0, 5, 0);
             lblUser.Name = "lblUser";
             lblUser.Size = new Size(96, 23);
             lblUser.TabIndex = 1;
@@ -95,7 +105,8 @@
             // lblPwd
             // 
             lblPwd.AutoSize = true;
-            lblPwd.Location = new Point(219, 339);
+            lblPwd.Location = new Point(175, 270);
+            lblPwd.Margin = new Padding(5, 0, 5, 0);
             lblPwd.Name = "lblPwd";
             lblPwd.Size = new Size(90, 23);
             lblPwd.TabIndex = 0;
@@ -104,8 +115,9 @@
             // LoginForm
             // 
             AcceptButton = btnLogin;
-            AllowDrop = true;
-            ClientSize = new Size(742, 519);
+            AutoScaleDimensions = new SizeF(11F, 23F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1131, 736);
             Controls.Add(lblPwd);
             Controls.Add(lblUser);
             Controls.Add(lblDept);
@@ -115,6 +127,7 @@
             Controls.Add(txtUser);
             Controls.Add(cmbDept);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            Margin = new Padding(5);
             MaximizeBox = false;
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
@@ -123,5 +136,6 @@
             ResumeLayout(false);
             PerformLayout();
         }
+        #endregion
     }
 }

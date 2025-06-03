@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using ITP4915M_System;
+using ITP4915MSystem;
 
-namespace ITP4915MSystem
+namespace ITP4915M_System
 {
     public partial class LoginForm : Form
     {
@@ -10,17 +10,25 @@ namespace ITP4915MSystem
         {
             InitializeComponent();
 
-            // ① 讓下拉選單同時包含 HR 與 Sales
-            cmbDept.Items.Clear();
-            cmbDept.Items.AddRange(new object[] { "HR", "Sales", "RD", "Production", "Logistics" /* …其他 */ });
-            cmbDept.SelectedIndex = 0;
+            // 部門清單集中在建構子維護
+            cmbDept.Items.AddRange(new object[]
+            {
+                "Root",
+                "HR",
+                "Sales",
+                "RD",
+                "Production",
+                "Logistics"
+            });
+            cmbDept.SelectedIndex = 0;  // 預設 Root
+            cmbDept.Sorted = false;    // 保持自訂順序
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            var dept = cmbDept.Text.Trim();
-            var usr = txtUser.Text.Trim();
-            var pwd = txtPwd.Text;
+            string dept = cmbDept.Text.Trim();
+            string usr = txtUser.Text.Trim();
+            string pwd = txtPwd.Text;
 
             if (!Database.ValidateUser(dept, usr, pwd, out var msg))
             {
@@ -30,22 +38,22 @@ namespace ITP4915MSystem
 
             Hide();   // 登入成功 → 隱藏自己
 
-            // ② 依部門決定要開啟的表單
             Form next = dept switch
             {
+                "Root" => new FormNDashboard(),   // 查看全部頁面
                 "HR" => new FormHR(),
-                "Sales" => new FormSales(),   // ← 新增\
+                "Sales" => new FormSales(),
                 "RD" => new FormRD(),
                 "Production" => new FormProd(),
-                "logistics" => new FormLogistics(),
-                _ => new FormTemplate() // 其餘部門用空白模板
+                "Logistics" => new FormLogistics(),
+                _ => new FormTemplate()
             };
 
-            next.Owner = this;   // 讓子頁 Logout 時能呼叫 Owner.Show()
+            next.Owner = this;   // 子頁 Logout 時可呼叫 Owner.Show()
             next.ShowDialog();
 
-            Show();              // 回到登入畫面
-            txtPwd.Clear();      // 清密碼欄
+            Show();              // 返回登入
+            txtPwd.Clear();      // 清除密碼框
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -56,9 +64,7 @@ namespace ITP4915MSystem
             txtUser.Focus();
         }
 
-        private void LoginForm_Load(object sender, EventArgs e)
-        {
-
-        }
+        // 空方法—Designer 綁定用；日後可放初始化程式
+        private void LoginForm_Load(object sender, EventArgs e) { }
     }
 }

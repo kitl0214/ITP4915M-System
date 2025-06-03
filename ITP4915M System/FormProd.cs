@@ -7,11 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ITP4915MSystem;
 
 namespace ITP4915M_System
 {
-    public partial class FormProd : FormTemplate
+    public partial class FormProd : Form
     {
         public FormProd()
         {

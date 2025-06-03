@@ -81,5 +81,10 @@ namespace ITP4915MSystem
             Owner?.Show();                  // 顯示登入頁
             Close();                        // 關閉 HR
         }
+
+        private void FormHR_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

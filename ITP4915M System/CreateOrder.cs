@@ -10,25 +10,24 @@ using System.Windows.Forms;
 
 namespace ITP4915M_System
 {
-    public partial class FormSales : Form
+    public partial class CreateOrder : Form
     {
-        public FormSales()
+        public CreateOrder()
         {
             InitializeComponent();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void CreateOrder_Load(object sender, EventArgs e)
         {
 
         }
 
-        private void btcreato_Click(object sender, EventArgs e)
+        private void label1_Click(object sender, EventArgs e)
         {
-            CreateOrder newForm = new CreateOrder(); // 建立新的 Form2 物件
-            newForm.Show();
+
         }
 
-        private void FormSales_Load(object sender, EventArgs e)
+        private void label2_Click(object sender, EventArgs e)
         {
 
         }
