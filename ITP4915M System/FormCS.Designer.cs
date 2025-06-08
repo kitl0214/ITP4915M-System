@@ -1,8 +1,6 @@
-﻿using ITP4915MSystem;
-
-namespace ITP4915M_System
+﻿namespace ITP4915M_System
 {
-    partial class FormCS : FormTemplate
+    partial class FormCS
     {
         /// <summary>
         /// Required designer variable.
@@ -30,17 +28,10 @@ namespace ITP4915M_System
         /// </summary>
         private void InitializeComponent()
         {
-            SuspendLayout();
-            // 
-            // FormCS
-            // 
-            AutoScaleDimensions = new SizeF(11F, 23F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Name = "FormCS";
-            Text = "FormCS";
-            Load += FormCS_Load;
-            ResumeLayout(false);
+            this.components = new System.ComponentModel.Container();
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Text = "FormCS";
         }
 
         #endregion

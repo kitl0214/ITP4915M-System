@@ -1,4 +1,4 @@
-﻿// ✅ FormNDashboard.cs - 加入 FormCS、FormFinance、FormLogistics 支援並更新 OnLogout()
+﻿// ✅ FormNDashboard.cs - 加入 FormCS、FormFinance、FormLogistics、FormRD 支援並更新 OnLogout()
 using System;
 using System.Windows.Forms;
 using ITP4915MSystem;
@@ -20,6 +20,7 @@ namespace ITP4915M_System
             Embed(new FormCS(), "Customer Service");
             Embed(new FormFinance(), "Finance");
             Embed(new FormLogistics(), "Logistics");
+            Embed(new FormRD(), "R&D");
             tabMain.SelectedIndex = 0;
         }
 

@@ -1,11 +1,7 @@
-﻿using ITP4915MSystem;
-
-namespace ITP4915M_System
+﻿namespace ITP4915M_System
 {
-    partial class FormRD : FormTemplate
+    partial class FormRD
     {
-
-    
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -32,17 +28,10 @@ namespace ITP4915M_System
         /// </summary>
         private void InitializeComponent()
         {
-            SuspendLayout();
-            // 
-            // FormRD
-            // 
-            AutoScaleDimensions = new SizeF(11F, 23F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Name = "FormRD";
-            Text = "FormRD";
-            Load += FormRD_Load;
-            ResumeLayout(false);
+            this.components = new System.ComponentModel.Container();
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Text = "FormRD";
         }
 
         #endregion

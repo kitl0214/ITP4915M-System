@@ -7,20 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ITP4915MSystem;
 
 namespace ITP4915M_System
 {
-    public partial class FormRD : FormTemplate
+    public partial class FormRD : Form
     {
         public FormRD()
         {
             InitializeComponent();
-        }
-
-        private void FormRD_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
