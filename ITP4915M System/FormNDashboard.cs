@@ -1,4 +1,5 @@
-﻿using System;
+﻿// ✅ FormNDashboard.cs - 加入 FormCS、FormFinance、FormLogistics 支援並更新 OnLogout()
+using System;
 using System.Windows.Forms;
 using ITP4915MSystem;
 
@@ -13,13 +14,18 @@ namespace ITP4915M_System
 
         private void FormDashboard_Load(object sender, EventArgs e)
         {
-            // 將各部門表單嵌入對應 TabPage
             Embed(new FormSales(), "Sales");
             Embed(new FormProd(), "Production");
-           
             Embed(new FormHR(), "HR");
+            Embed(new FormCS(), "Customer Service");
+            Embed(new FormFinance(), "Finance");
+            Embed(new FormLogistics(), "Logistics");
+            tabMain.SelectedIndex = 0;
+        }
 
-            tabMain.SelectedIndex = 0;    // 預設顯示 Sales
+        private void tabProcurement_Click(object sender, EventArgs e)
+        {
+            // 可實作 tabProcurement 功能
         }
 
         /// <summary>嵌入子表單至指定 TabPage</summary>
@@ -42,6 +48,19 @@ namespace ITP4915M_System
                 if (tp.Text.Equals(name, StringComparison.Ordinal))
                     return tp;
             return null;
+        }
+
+        /// <summary>登出前清理嵌入子表單</summary>
+        protected override void OnLogout()
+        {
+            foreach (TabPage tp in tabMain.TabPages)
+            {
+                foreach (Control ctrl in tp.Controls)
+                {
+                    if (ctrl is Form embeddedForm)
+                        embeddedForm.Close();
+                }
+            }
         }
     }
 }

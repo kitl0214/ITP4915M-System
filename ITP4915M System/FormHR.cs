@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using ITP4915M_System;
 
 namespace ITP4915MSystem
 {
@@ -85,6 +86,23 @@ namespace ITP4915MSystem
         private void FormHR_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void gvAccounts_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void lobt_Click(object sender, EventArgs e)
+        {
+            LoginForm loginForm = new LoginForm();
+            loginForm.Show();
+
+            foreach (Form form in Application.OpenForms.Cast<Form>().ToList())
+            {
+                if (form != loginForm)
+                    form.Close();
+            }
         }
     }
 }

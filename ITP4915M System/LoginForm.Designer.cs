@@ -37,7 +37,7 @@ namespace ITP4915M_System
             // cmbDept
             // 
             cmbDept.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbDept.Location = new Point(371, 129);
+            cmbDept.Location = new Point(751, 343);
             cmbDept.Margin = new Padding(5);
             cmbDept.Name = "cmbDept";
             cmbDept.Size = new Size(235, 31);
@@ -45,26 +45,26 @@ namespace ITP4915M_System
             // 
             // txtUser
             // 
-            txtUser.Location = new Point(387, 195);
+            txtUser.Location = new Point(767, 409);
             txtUser.Margin = new Padding(5);
             txtUser.Name = "txtUser";
             txtUser.PlaceholderText = "Username";
             txtUser.Size = new Size(235, 30);
-            txtUser.TabIndex = 6;
+            txtUser.TabIndex = 1;
             // 
             // txtPwd
             // 
-            txtPwd.Location = new Point(387, 264);
+            txtPwd.Location = new Point(767, 478);
             txtPwd.Margin = new Padding(5);
             txtPwd.Name = "txtPwd";
             txtPwd.PlaceholderText = "Password";
             txtPwd.Size = new Size(235, 30);
-            txtPwd.TabIndex = 5;
+            txtPwd.TabIndex = 2;
             txtPwd.UseSystemPasswordChar = true;
             // 
             // btnLogin
             // 
-            btnLogin.Location = new Point(175, 341);
+            btnLogin.Location = new Point(555, 555);
             btnLogin.Margin = new Padding(5);
             btnLogin.Name = "btnLogin";
             btnLogin.Size = new Size(148, 49);
@@ -74,7 +74,7 @@ namespace ITP4915M_System
             // 
             // btnClear
             // 
-            btnClear.Location = new Point(387, 341);
+            btnClear.Location = new Point(767, 555);
             btnClear.Margin = new Padding(5);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(148, 49);
@@ -85,7 +85,7 @@ namespace ITP4915M_System
             // lblDept
             // 
             lblDept.AutoSize = true;
-            lblDept.Location = new Point(175, 132);
+            lblDept.Location = new Point(555, 346);
             lblDept.Margin = new Padding(5, 0, 5, 0);
             lblDept.Name = "lblDept";
             lblDept.Size = new Size(114, 23);
@@ -95,7 +95,7 @@ namespace ITP4915M_System
             // lblUser
             // 
             lblUser.AutoSize = true;
-            lblUser.Location = new Point(175, 201);
+            lblUser.Location = new Point(555, 415);
             lblUser.Margin = new Padding(5, 0, 5, 0);
             lblUser.Name = "lblUser";
             lblUser.Size = new Size(96, 23);
@@ -105,7 +105,7 @@ namespace ITP4915M_System
             // lblPwd
             // 
             lblPwd.AutoSize = true;
-            lblPwd.Location = new Point(175, 270);
+            lblPwd.Location = new Point(555, 484);
             lblPwd.Margin = new Padding(5, 0, 5, 0);
             lblPwd.Name = "lblPwd";
             lblPwd.Size = new Size(90, 23);

@@ -12,7 +12,6 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.Label lblFilter;
         private System.Windows.Forms.Label lblNU;
         private System.Windows.Forms.Label lblNP;
@@ -30,7 +29,6 @@
             gvAccounts = new DataGridView();
             btnDelete = new Button();
             btnRefresh = new Button();
-            btnLogout = new Button();
             grpNew = new GroupBox();
             lblND = new Label();
             lblNP = new Label();
@@ -40,6 +38,7 @@
             txtNewPwd = new TextBox();
             txtNewUser = new TextBox();
             lblFilter = new Label();
+            lobt = new Button();
             ((System.ComponentModel.ISupportInitialize)gvAccounts).BeginInit();
             grpNew.SuspendLayout();
             SuspendLayout();
@@ -48,9 +47,9 @@
             // 
             cmbFilter.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbFilter.Items.AddRange(new object[] { "All", "IT", "HR", "Sales" });
-            cmbFilter.Location = new Point(156, 21);
+            cmbFilter.Location = new Point(175, 21);
             cmbFilter.Name = "cmbFilter";
-            cmbFilter.Size = new Size(195, 31);
+            cmbFilter.Size = new Size(236, 31);
             cmbFilter.TabIndex = 6;
             cmbFilter.SelectedIndexChanged += cmbFilter_SelectedIndexChanged;
             // 
@@ -60,20 +59,21 @@
             gvAccounts.AllowUserToDeleteRows = false;
             gvAccounts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             gvAccounts.ColumnHeadersHeight = 34;
-            gvAccounts.Location = new Point(38, 77);
+            gvAccounts.Location = new Point(38, 82);
             gvAccounts.MultiSelect = false;
             gvAccounts.Name = "gvAccounts";
             gvAccounts.ReadOnly = true;
             gvAccounts.RowHeadersWidth = 62;
             gvAccounts.RowTemplate.Height = 25;
             gvAccounts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            gvAccounts.Size = new Size(431, 263);
+            gvAccounts.Size = new Size(452, 246);
             gvAccounts.TabIndex = 5;
             gvAccounts.CellClick += gvAccounts_CellClick;
+            gvAccounts.CellContentClick += gvAccounts_CellContentClick;
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(519, 144);
+            btnDelete.Location = new Point(518, 116);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(140, 30);
             btnDelete.TabIndex = 4;
@@ -82,21 +82,12 @@
             // 
             // btnRefresh
             // 
-            btnRefresh.Location = new Point(519, 78);
+            btnRefresh.Location = new Point(518, 54);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(140, 30);
             btnRefresh.TabIndex = 3;
             btnRefresh.Text = "Refresh";
             btnRefresh.Click += btnRefresh_Click;
-            // 
-            // btnLogout
-            // 
-            btnLogout.Location = new Point(519, 216);
-            btnLogout.Name = "btnLogout";
-            btnLogout.Size = new Size(140, 30);
-            btnLogout.TabIndex = 2;
-            btnLogout.Text = "Logout";
-            btnLogout.Click += btnLogout_Click;
             // 
             // grpNew
             // 
@@ -107,9 +98,9 @@
             grpNew.Controls.Add(cmbNewDept);
             grpNew.Controls.Add(txtNewPwd);
             grpNew.Controls.Add(txtNewUser);
-            grpNew.Location = new Point(38, 386);
+            grpNew.Location = new Point(38, 353);
             grpNew.Name = "grpNew";
-            grpNew.Size = new Size(560, 163);
+            grpNew.Size = new Size(649, 171);
             grpNew.TabIndex = 1;
             grpNew.TabStop = false;
             grpNew.Text = "Add New Account";
@@ -117,7 +108,7 @@
             // lblND
             // 
             lblND.AutoSize = true;
-            lblND.Location = new Point(18, 88);
+            lblND.Location = new Point(18, 105);
             lblND.Name = "lblND";
             lblND.Size = new Size(114, 23);
             lblND.TabIndex = 0;
@@ -126,7 +117,7 @@
             // lblNP
             // 
             lblNP.AutoSize = true;
-            lblNP.Location = new Point(18, 59);
+            lblNP.Location = new Point(18, 70);
             lblNP.Name = "lblNP";
             lblNP.Size = new Size(90, 23);
             lblNP.TabIndex = 1;
@@ -143,7 +134,7 @@
             // 
             // btnAdd
             // 
-            btnAdd.Location = new Point(325, 84);
+            btnAdd.Location = new Point(432, 27);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(120, 30);
             btnAdd.TabIndex = 3;
@@ -154,24 +145,24 @@
             // 
             cmbNewDept.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbNewDept.Items.AddRange(new object[] { "IT", "HR", "Sales" });
-            cmbNewDept.Location = new Point(138, 95);
+            cmbNewDept.Location = new Point(137, 102);
             cmbNewDept.Name = "cmbNewDept";
-            cmbNewDept.Size = new Size(135, 31);
+            cmbNewDept.Size = new Size(151, 31);
             cmbNewDept.TabIndex = 4;
             // 
             // txtNewPwd
             // 
-            txtNewPwd.Location = new Point(138, 59);
+            txtNewPwd.Location = new Point(137, 63);
             txtNewPwd.Name = "txtNewPwd";
-            txtNewPwd.Size = new Size(135, 30);
+            txtNewPwd.Size = new Size(151, 30);
             txtNewPwd.TabIndex = 5;
             txtNewPwd.UseSystemPasswordChar = true;
             // 
             // txtNewUser
             // 
-            txtNewUser.Location = new Point(142, 27);
+            txtNewUser.Location = new Point(137, 23);
             txtNewUser.Name = "txtNewUser";
-            txtNewUser.Size = new Size(135, 30);
+            txtNewUser.Size = new Size(151, 30);
             txtNewUser.TabIndex = 6;
             // 
             // lblFilter
@@ -183,12 +174,22 @@
             lblFilter.TabIndex = 0;
             lblFilter.Text = "Department";
             // 
+            // lobt
+            // 
+            lobt.Location = new Point(518, 186);
+            lobt.Name = "lobt";
+            lobt.Size = new Size(140, 34);
+            lobt.TabIndex = 7;
+            lobt.Text = "Logout";
+            lobt.UseVisualStyleBackColor = true;
+            lobt.Click += lobt_Click;
+            // 
             // FormHR
             // 
-            ClientSize = new Size(941, 587);
+            ClientSize = new Size(923, 547);
+            Controls.Add(lobt);
             Controls.Add(lblFilter);
             Controls.Add(grpNew);
-            Controls.Add(btnLogout);
             Controls.Add(btnRefresh);
             Controls.Add(btnDelete);
             Controls.Add(gvAccounts);
@@ -205,5 +206,6 @@
             ResumeLayout(false);
             PerformLayout();
         }
+        private Button lobt;
     }
 }

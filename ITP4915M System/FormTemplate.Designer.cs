@@ -3,11 +3,11 @@
     partial class FormTemplate
     {
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.Button btnLogout;
+        private Button btnLogout;
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && components != null) components.Dispose();
+            if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
 
@@ -18,22 +18,20 @@
             // 
             // btnLogout
             // 
-            btnLogout.Location = new Point(663, 44);
+            btnLogout.Location = new Point(640, 34);
             btnLogout.Name = "btnLogout";
-            btnLogout.Size = new Size(120, 35);
+            btnLogout.Size = new Size(126, 38);
             btnLogout.TabIndex = 0;
             btnLogout.Text = "Logout";
             btnLogout.Click += btnLogout_Click;
             // 
             // FormTemplate
             // 
-            ClientSize = new Size(837, 588);
+            ClientSize = new Size(801, 603);
             Controls.Add(btnLogout);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            MaximizeBox = false;
             Name = "FormTemplate";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Blank Page";
+            Text = "Main Page";
+            Load += FormTemplate_Load;
             ResumeLayout(false);
         }
     }

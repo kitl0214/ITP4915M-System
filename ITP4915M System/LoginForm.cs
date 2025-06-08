@@ -1,5 +1,7 @@
-﻿using System;
+﻿// ✅ LoginForm.cs - 修改後的完整版本（不再使用 ShowDialog）
+using System;
 using System.Windows.Forms;
+using ITP4915M_System;
 using ITP4915MSystem;
 
 namespace ITP4915M_System
@@ -10,7 +12,6 @@ namespace ITP4915M_System
         {
             InitializeComponent();
 
-            // 部門清單集中在建構子維護
             cmbDept.Items.AddRange(new object[]
             {
                 "Root",
@@ -20,8 +21,8 @@ namespace ITP4915M_System
                 "Production",
                 "Logistics"
             });
-            cmbDept.SelectedIndex = 0;  // 預設 Root
-            cmbDept.Sorted = false;    // 保持自訂順序
+            cmbDept.SelectedIndex = 0;
+            cmbDept.Sorted = false;
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -36,11 +37,10 @@ namespace ITP4915M_System
                 return;
             }
 
-            Hide();   // 登入成功 → 隱藏自己
-
+            // 根據部門開啟新表單
             Form next = dept switch
             {
-                "Root" => new FormNDashboard(),   // 查看全部頁面
+                "Root" => new FormNDashboard(),
                 "HR" => new FormHR(),
                 "Sales" => new FormSales(),
                 "RD" => new FormRD(),
@@ -49,11 +49,8 @@ namespace ITP4915M_System
                 _ => new FormTemplate()
             };
 
-            next.Owner = this;   // 子頁 Logout 時可呼叫 Owner.Show()
-            next.ShowDialog();
-
-            Show();              // 返回登入
-            txtPwd.Clear();      // 清除密碼框
+            next.Show();   // ✅ 開新頁
+            this.Hide();   // ✅ 隱藏登入頁（不再使用 ShowDialog）
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -64,7 +61,26 @@ namespace ITP4915M_System
             txtUser.Focus();
         }
 
-        // 空方法—Designer 綁定用；日後可放初始化程式
         private void LoginForm_Load(object sender, EventArgs e) { }
     }
 }
+
+// ✅ 登出邏輯範例（任何頁面使用）
+// 呼叫此方法以完全登出並回登入畫面：
+public static class AppHelper
+{
+    public static void LogoutToLogin()
+    {
+        LoginForm login = new LoginForm();
+        login.Show();
+
+        foreach (Form form in Application.OpenForms.Cast<Form>().ToList())
+        {
+            if (form != login)
+                form.Close();
+        }
+    }
+}
+
+// 使用方式：btnLogout_Click 中只需呼叫：
+// AppHelper.LogoutToLogin();
