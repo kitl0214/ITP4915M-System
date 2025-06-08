@@ -100,7 +100,7 @@ namespace ITP4915M_System
             txtCust.Location = new Point(236, 53);
             txtCust.Margin = new Padding(4, 5, 4, 5);
             txtCust.Name = "txtCust";
-            txtCust.Size = new Size(287, 30);
+            txtCust.Size = new Size(256, 30);
             txtCust.TabIndex = 1;
             // 
             // txtProd
@@ -108,7 +108,7 @@ namespace ITP4915M_System
             txtProd.Location = new Point(236, 115);
             txtProd.Margin = new Padding(4, 5, 4, 5);
             txtProd.Name = "txtProd";
-            txtProd.Size = new Size(287, 30);
+            txtProd.Size = new Size(247, 30);
             txtProd.TabIndex = 3;
             txtProd.TextChanged += txtProd_TextChanged;
             // 
