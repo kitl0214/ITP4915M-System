@@ -26,40 +26,46 @@ namespace ITP4915M_System
             // 
             // lblInfo
             // 
-            lblInfo.AutoSize = false;
+            lblInfo.Font = new Font("Consolas", 10F);
             lblInfo.Location = new Point(20, 20);
+            lblInfo.Name = "lblInfo";
             lblInfo.Size = new Size(360, 220);
-            lblInfo.Font = new Font("Consolas", 10);
-            lblInfo.TextAlign = ContentAlignment.TopLeft;
+            lblInfo.TabIndex = 0;
             // 
             // btnOK
             // 
-            btnOK.Location = new Point(80, 260);
-            btnOK.Size = new Size(90, 34);
-            btnOK.Text = "OK";
             btnOK.DialogResult = DialogResult.OK;
+            btnOK.Location = new Point(159, 499);
+            btnOK.Name = "btnOK";
+            btnOK.Size = new Size(90, 34);
+            btnOK.TabIndex = 1;
+            btnOK.Text = "OK";
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(220, 260);
-            btnCancel.Size = new Size(90, 34);
-            btnCancel.Text = "Cancel";
             btnCancel.DialogResult = DialogResult.Cancel;
+            btnCancel.Location = new Point(319, 499);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(90, 34);
+            btnCancel.TabIndex = 2;
+            btnCancel.Text = "Cancel";
             // 
             // OrderSummaryDialog
             // 
             AcceptButton = btnOK;
             CancelButton = btnCancel;
-            AutoScaleDimensions = new SizeF(8F, 15F);
-            ClientSize = new Size(400, 320);
-            Controls.AddRange(new Control[] { lblInfo, btnOK, btnCancel });
+            ClientSize = new Size(686, 609);
+            Controls.Add(lblInfo);
+            Controls.Add(btnOK);
+            Controls.Add(btnCancel);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
-            StartPosition = FormStartPosition.CenterParent;
-            TopMost = true;              // ★ 置於最前
+            Name = "OrderSummaryDialog";
             ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Order Summary";
+            TopMost = true;
             ResumeLayout(false);
         }
         #endregion

@@ -73,7 +73,7 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(518, 116);
+            btnDelete.Location = new Point(579, 126);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(140, 30);
             btnDelete.TabIndex = 4;
@@ -82,7 +82,7 @@
             // 
             // btnRefresh
             // 
-            btnRefresh.Location = new Point(518, 54);
+            btnRefresh.Location = new Point(590, 54);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(140, 30);
             btnRefresh.TabIndex = 3;
@@ -176,7 +176,7 @@
             // 
             // lobt
             // 
-            lobt.Location = new Point(518, 186);
+            lobt.Location = new Point(565, 193);
             lobt.Name = "lobt";
             lobt.Size = new Size(140, 34);
             lobt.TabIndex = 7;

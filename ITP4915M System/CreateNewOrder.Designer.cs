@@ -48,7 +48,7 @@ namespace ITP4915M_System
             // Custnlb
             // 
             Custnlb.AutoSize = true;
-            Custnlb.Location = new Point(38, 95);
+            Custnlb.Location = new Point(35, 53);
             Custnlb.Margin = new Padding(4, 0, 4, 0);
             Custnlb.Name = "Custnlb";
             Custnlb.Size = new Size(159, 23);
@@ -58,7 +58,7 @@ namespace ITP4915M_System
             // prodlb
             // 
             prodlb.AutoSize = true;
-            prodlb.Location = new Point(38, 179);
+            prodlb.Location = new Point(35, 115);
             prodlb.Margin = new Padding(4, 0, 4, 0);
             prodlb.Name = "prodlb";
             prodlb.Size = new Size(143, 23);
@@ -68,7 +68,7 @@ namespace ITP4915M_System
             // quanld
             // 
             quanld.AutoSize = true;
-            quanld.Location = new Point(38, 366);
+            quanld.Location = new Point(38, 232);
             quanld.Margin = new Padding(4, 0, 4, 0);
             quanld.Name = "quanld";
             quanld.Size = new Size(85, 23);
@@ -78,7 +78,7 @@ namespace ITP4915M_System
             // uninlb
             // 
             uninlb.AutoSize = true;
-            uninlb.Location = new Point(38, 477);
+            uninlb.Location = new Point(35, 299);
             uninlb.Margin = new Padding(4, 0, 4, 0);
             uninlb.Name = "uninlb";
             uninlb.Size = new Size(102, 23);
@@ -88,7 +88,7 @@ namespace ITP4915M_System
             // ecdlb
             // 
             ecdlb.AutoSize = true;
-            ecdlb.Location = new Point(38, 688);
+            ecdlb.Location = new Point(38, 445);
             ecdlb.Margin = new Padding(4, 0, 4, 0);
             ecdlb.Name = "ecdlb";
             ecdlb.Size = new Size(197, 23);
@@ -97,7 +97,7 @@ namespace ITP4915M_System
             // 
             // txtCust
             // 
-            txtCust.Location = new Point(265, 90);
+            txtCust.Location = new Point(236, 53);
             txtCust.Margin = new Padding(4, 5, 4, 5);
             txtCust.Name = "txtCust";
             txtCust.Size = new Size(287, 30);
@@ -105,7 +105,7 @@ namespace ITP4915M_System
             // 
             // txtProd
             // 
-            txtProd.Location = new Point(265, 179);
+            txtProd.Location = new Point(236, 115);
             txtProd.Margin = new Padding(4, 5, 4, 5);
             txtProd.Name = "txtProd";
             txtProd.Size = new Size(287, 30);
@@ -116,7 +116,7 @@ namespace ITP4915M_System
             // 
             gord.AutoSize = true;
             gord.Checked = true;
-            gord.Location = new Point(38, 265);
+            gord.Location = new Point(35, 169);
             gord.Margin = new Padding(4, 5, 4, 5);
             gord.Name = "gord";
             gord.Size = new Size(156, 27);
@@ -127,7 +127,7 @@ namespace ITP4915M_System
             // ctrd
             // 
             ctrd.AutoSize = true;
-            ctrd.Location = new Point(265, 265);
+            ctrd.Location = new Point(236, 169);
             ctrd.Margin = new Padding(4, 5, 4, 5);
             ctrd.Name = "ctrd";
             ctrd.Size = new Size(156, 27);
@@ -137,7 +137,7 @@ namespace ITP4915M_System
             // apcb
             // 
             apcb.AutoSize = true;
-            apcb.Location = new Point(38, 580);
+            apcb.Location = new Point(38, 382);
             apcb.Margin = new Padding(4, 5, 4, 5);
             apcb.Name = "apcb";
             apcb.Size = new Size(267, 27);
@@ -146,7 +146,7 @@ namespace ITP4915M_System
             // 
             // quannud
             // 
-            quannud.Location = new Point(192, 360);
+            quannud.Location = new Point(192, 232);
             quannud.Margin = new Padding(4, 5, 4, 5);
             quannud.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             quannud.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
@@ -157,7 +157,7 @@ namespace ITP4915M_System
             // 
             // uninud
             // 
-            uninud.Location = new Point(192, 469);
+            uninud.Location = new Point(192, 299);
             uninud.Margin = new Padding(4, 5, 4, 5);
             uninud.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             uninud.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
@@ -169,15 +169,15 @@ namespace ITP4915M_System
             // edcdtp
             // 
             edcdtp.Format = DateTimePickerFormat.Short;
-            edcdtp.Location = new Point(38, 767);
+            edcdtp.Location = new Point(35, 519);
             edcdtp.Margin = new Padding(4, 5, 4, 5);
             edcdtp.Name = "edcdtp";
-            edcdtp.Size = new Size(411, 30);
+            edcdtp.Size = new Size(378, 30);
             edcdtp.TabIndex = 12;
             // 
             // creatbt
             // 
-            creatbt.Location = new Point(55, 912);
+            creatbt.Location = new Point(24, 606);
             creatbt.Margin = new Padding(4, 5, 4, 5);
             creatbt.Name = "creatbt";
             creatbt.Size = new Size(154, 52);
@@ -187,7 +187,7 @@ namespace ITP4915M_System
             // 
             // cleanbt
             // 
-            cleanbt.Location = new Point(265, 912);
+            cleanbt.Location = new Point(222, 606);
             cleanbt.Margin = new Padding(4, 5, 4, 5);
             cleanbt.Name = "cleanbt";
             cleanbt.Size = new Size(154, 52);
@@ -199,7 +199,7 @@ namespace ITP4915M_System
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(961, 1027);
+            ClientSize = new Size(516, 698);
             Controls.Add(Custnlb);
             Controls.Add(txtCust);
             Controls.Add(prodlb);
