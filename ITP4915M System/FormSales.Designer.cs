@@ -44,7 +44,7 @@ namespace ITP4915M_System
             // 
             // btnRefresh
             // 
-            btnRefresh.Location = new Point(227, 22);
+            btnRefresh.Location = new Point(245, 24);
             btnRefresh.Margin = new Padding(4, 3, 4, 3);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(129, 33);
@@ -57,7 +57,7 @@ namespace ITP4915M_System
             // 
             creatobt.Location = new Point(47, 24);
             creatobt.Name = "creatobt";
-            creatobt.Size = new Size(112, 34);
+            creatobt.Size = new Size(173, 34);
             creatobt.TabIndex = 2;
             creatobt.Text = "CreateNewOrder";
             creatobt.UseVisualStyleBackColor = true;
