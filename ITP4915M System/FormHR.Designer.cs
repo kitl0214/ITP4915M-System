@@ -49,7 +49,7 @@
             cmbFilter.Items.AddRange(new object[] { "All", "IT", "HR", "Sales" });
             cmbFilter.Location = new Point(175, 21);
             cmbFilter.Name = "cmbFilter";
-            cmbFilter.Size = new Size(236, 31);
+            cmbFilter.Size = new Size(236, 23);
             cmbFilter.TabIndex = 6;
             cmbFilter.SelectedIndexChanged += cmbFilter_SelectedIndexChanged;
             // 
@@ -64,7 +64,6 @@
             gvAccounts.Name = "gvAccounts";
             gvAccounts.ReadOnly = true;
             gvAccounts.RowHeadersWidth = 62;
-            gvAccounts.RowTemplate.Height = 25;
             gvAccounts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             gvAccounts.Size = new Size(452, 246);
             gvAccounts.TabIndex = 5;
@@ -110,7 +109,7 @@
             lblND.AutoSize = true;
             lblND.Location = new Point(18, 105);
             lblND.Name = "lblND";
-            lblND.Size = new Size(114, 23);
+            lblND.Size = new Size(75, 15);
             lblND.TabIndex = 0;
             lblND.Text = "Department";
             // 
@@ -119,7 +118,7 @@
             lblNP.AutoSize = true;
             lblNP.Location = new Point(18, 70);
             lblNP.Name = "lblNP";
-            lblNP.Size = new Size(90, 23);
+            lblNP.Size = new Size(60, 15);
             lblNP.TabIndex = 1;
             lblNP.Text = "Password";
             // 
@@ -128,7 +127,7 @@
             lblNU.AutoSize = true;
             lblNU.Location = new Point(18, 30);
             lblNU.Name = "lblNU";
-            lblNU.Size = new Size(96, 23);
+            lblNU.Size = new Size(64, 15);
             lblNU.TabIndex = 2;
             lblNU.Text = "Username";
             // 
@@ -147,14 +146,14 @@
             cmbNewDept.Items.AddRange(new object[] { "IT", "HR", "Sales" });
             cmbNewDept.Location = new Point(137, 102);
             cmbNewDept.Name = "cmbNewDept";
-            cmbNewDept.Size = new Size(151, 31);
+            cmbNewDept.Size = new Size(151, 23);
             cmbNewDept.TabIndex = 4;
             // 
             // txtNewPwd
             // 
             txtNewPwd.Location = new Point(137, 63);
             txtNewPwd.Name = "txtNewPwd";
-            txtNewPwd.Size = new Size(151, 30);
+            txtNewPwd.Size = new Size(151, 23);
             txtNewPwd.TabIndex = 5;
             txtNewPwd.UseSystemPasswordChar = true;
             // 
@@ -162,7 +161,7 @@
             // 
             txtNewUser.Location = new Point(137, 23);
             txtNewUser.Name = "txtNewUser";
-            txtNewUser.Size = new Size(151, 30);
+            txtNewUser.Size = new Size(151, 23);
             txtNewUser.TabIndex = 6;
             // 
             // lblFilter
@@ -170,7 +169,7 @@
             lblFilter.AutoSize = true;
             lblFilter.Location = new Point(20, 21);
             lblFilter.Name = "lblFilter";
-            lblFilter.Size = new Size(114, 23);
+            lblFilter.Size = new Size(75, 15);
             lblFilter.TabIndex = 0;
             lblFilter.Text = "Department";
             // 

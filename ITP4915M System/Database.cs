@@ -141,5 +141,31 @@ namespace ITP4915MSystem
             adp.Fill(dt);
             return dt;
         }
+
+
+        /* Update Order Status */
+        public static void UpdateRAndDStatus(string specID, string status)
+        {
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                var cmd = new MySqlCommand("UPDATE r_and_d SET status = @status WHERE specID = @specID", conn);
+                cmd.Parameters.AddWithValue("@specID", specID);
+                cmd.Parameters.AddWithValue("@status", status);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        /* R&D Form's On Going Projects Data Grid View */
+        public static DataTable GetRDOrders()
+        {
+            var dt = new DataTable();
+            const string sql = "SELECT * FROM r_and_d ORDER BY specID DESC";
+            using var conn = GetConnection();
+            using var cmd = new MySqlCommand(sql, conn);
+            using var adp = new MySqlDataAdapter(cmd);
+            adp.Fill(dt);
+            return dt;
+        }
     }
 }
