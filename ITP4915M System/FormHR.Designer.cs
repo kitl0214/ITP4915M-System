@@ -60,6 +60,7 @@
             gvAccounts.Size = new Size(786, 399);
             gvAccounts.TabIndex = 2;
             gvAccounts.CellClick += gvAccounts_CellClick;
+      
             // 
             // cmbFilter
             // 
