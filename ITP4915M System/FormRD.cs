@@ -30,13 +30,50 @@ namespace ITP4915M_System
             }
         }
 
+        /* Edit Status Method */
+        private void DgvOP_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            // After edit the status column, update the database and remove the row if status is "Completed"
+            if (dgvOP.Columns[e.ColumnIndex].Name == "status")
+            {
+                string specID = dgvOP.Rows[e.RowIndex].Cells["specID"].Value?.ToString();
+                string newStatus = dgvOP.Rows[e.RowIndex].Cells["status"].Value?.ToString();
+
+                if (!string.IsNullOrEmpty(specID) && !string.IsNullOrEmpty(newStatus))
+                {
+                    try
+                    {
+                        
+                        Database.UpdateRAndDStatus(specID, newStatus);
+                        
+                        if (newStatus == "Completed")
+                        {
+                            dgvOP.Rows.RemoveAt(e.RowIndex);
+                        }
+                        else
+                        {
+                            
+                            LoadData();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error updating status: {ex.Message}", "Error",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        
+                        LoadData();
+                    }
+                }
+            }
+        }
+
         private void LoadData()
         {
             try
             {
                 
                 dgvOP.DataSource = Database.GetRDOrders();
-                dgvOP.ReadOnly = true;
+                
                 /* Spec ID */
                 dgvOP.Columns["specID"].HeaderText = "Tailor Made ID";
                 dgvOP.Columns["specID"].Width = 120;
@@ -54,8 +91,8 @@ namespace ITP4915M_System
                 dgvOP.Columns["approvedByName"].HeaderText = "User Name";
                 dgvOP.Columns["approvedByName"].Width = 120;
                 /* Approval Date */
-                dgvOP.Columns["approvalDate"].HeaderText = "Approval Date";
-                dgvOP.Columns["approvalDate"].Width = 120;
+                dgvOP.Columns["deadline"].HeaderText = "Deadline";
+                dgvOP.Columns["deadline"].Width = 80;
                 /* Status */
                 dgvOP.Columns["status"].HeaderText = "Status";
 

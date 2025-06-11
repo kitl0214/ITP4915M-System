@@ -15,7 +15,7 @@ namespace ITP4915MSystem
         public static MySqlConnection GetConnection()
         {
             var conn = new MySqlConnection(ConnStr);
-            conn.Open();
+            
             return conn;
         }
 
@@ -28,6 +28,7 @@ namespace ITP4915MSystem
                 """;
 
             using var conn = GetConnection();
+            conn.Open();
             using var cmd = new MySqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@dept", dept);
             cmd.Parameters.AddWithValue("@user", user);
@@ -43,6 +44,7 @@ namespace ITP4915MSystem
         {
             const string sql = "SELECT DISTINCT department FROM accounts ORDER BY department";
             using var conn = GetConnection();
+            conn.Open();
             using var cmd = new MySqlCommand(sql, conn);
             using var rdr = cmd.ExecuteReader();
             while (rdr.Read()) yield return rdr.GetString(0);
@@ -56,6 +58,7 @@ namespace ITP4915MSystem
                 ? "SELECT username, password, department FROM accounts"
                 : "SELECT username, password, department FROM accounts WHERE department=@dept";
             using var conn = GetConnection();
+            conn.Open();
             using var cmd = new MySqlCommand(sql, conn);
             if (deptFilter != "All") cmd.Parameters.AddWithValue("@dept", deptFilter);
             using var adp = new MySqlDataAdapter(cmd);
@@ -70,6 +73,7 @@ namespace ITP4915MSystem
                 VALUES (@u,@p,@d)
                 """;
             using var conn = GetConnection();
+            conn.Open();
             using var cmd = new MySqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@u", user);
             cmd.Parameters.AddWithValue("@p", pwd);
@@ -84,6 +88,7 @@ namespace ITP4915MSystem
                 WHERE username=@u AND department=@d
                 """;
             using var conn = GetConnection();
+            conn.Open();
             using var cmd = new MySqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@u", user);
             cmd.Parameters.AddWithValue("@p", newPwd);
@@ -95,6 +100,7 @@ namespace ITP4915MSystem
         {
             const string sql = "DELETE FROM accounts WHERE username=@u";
             using var conn = GetConnection();
+            conn.Open();
             using var cmd = new MySqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@u", user);
             cmd.ExecuteNonQuery();
@@ -104,6 +110,7 @@ namespace ITP4915MSystem
         public static int GetNextOrderId()
         {
             using var conn = GetConnection();
+            conn.Open();
             using var cmd = new MySqlCommand(
                 "SELECT IFNULL(MAX(CAST(oid AS UNSIGNED)),0)+1 FROM orders", conn);
             return Convert.ToInt32(cmd.ExecuteScalar());
@@ -119,6 +126,7 @@ namespace ITP4915MSystem
                         @prod,@unit,@qty,@otype,@pkg,@due,@total)
                 """;
             using var conn = GetConnection();
+            conn.Open();
             using var cmd = new MySqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@oid", m.Oid.ToString("000000"));
             cmd.Parameters.AddWithValue("@cust", m.Customer);
@@ -136,6 +144,7 @@ namespace ITP4915MSystem
             var dt = new DataTable();
             const string sql = "SELECT * FROM orders ORDER BY created_at DESC";
             using var conn = GetConnection();
+            conn.Open();
             using var cmd = new MySqlCommand(sql, conn);
             using var adp = new MySqlDataAdapter(cmd);
             adp.Fill(dt);
@@ -148,10 +157,10 @@ namespace ITP4915MSystem
         {
             using (var conn = GetConnection())
             {
-                conn.Open();
                 var cmd = new MySqlCommand("UPDATE r_and_d SET status = @status WHERE specID = @specID", conn);
                 cmd.Parameters.AddWithValue("@specID", specID);
                 cmd.Parameters.AddWithValue("@status", status);
+                conn.Open();
                 cmd.ExecuteNonQuery();
             }
         }
@@ -162,6 +171,7 @@ namespace ITP4915MSystem
             var dt = new DataTable();
             const string sql = "SELECT * FROM r_and_d ORDER BY specID DESC";
             using var conn = GetConnection();
+            conn.Open();
             using var cmd = new MySqlCommand(sql, conn);
             using var adp = new MySqlDataAdapter(cmd);
             adp.Fill(dt);
