@@ -1,5 +1,5 @@
-﻿// ✅ LoginForm.cs - 修改後的完整版本（不再使用 ShowDialog）
-using System;
+﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using ITP4915M_System;
 using ITP4915MSystem;
@@ -11,18 +11,16 @@ namespace ITP4915M_System
         public LoginForm()
         {
             InitializeComponent();
+        }
 
-            cmbDept.Items.AddRange(new object[]
-            {
-                "Root",
-                "HR",
-                "Sales",
-                "RD",
-                "Production",
-                "Logistics"
-            });
+        /*───────────────────────────────────────────────*/
+        /* UI EVENTS                                      */
+        /*───────────────────────────────────────────────*/
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+            RefreshDepartmentList();           // dynamic dept list
             cmbDept.SelectedIndex = 0;
-            cmbDept.Sorted = false;
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -33,24 +31,14 @@ namespace ITP4915M_System
 
             if (!Database.ValidateUser(dept, usr, pwd, out var msg))
             {
-                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(msg, "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 根據部門開啟新表單
-            Form next = dept switch
-            {
-                "Root" => new FormNDashboard(),
-                "HR" => new FormHR(),
-                "Sales" => new FormSales(),
-                "RD" => new FormRD(),
-                "Production" => new FormProd(),
-                "Logistics" => new FormLogistics(),
-                _ => new FormTemplate()
-            };
-
-            next.Show();   // ✅ 開新頁
-            this.Hide();   // ✅ 隱藏登入頁（不再使用 ShowDialog）
+            Form next = ResolveNextForm(dept);
+            next.Show();
+            Hide();
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -61,26 +49,38 @@ namespace ITP4915M_System
             txtUser.Focus();
         }
 
-        private void LoginForm_Load(object sender, EventArgs e) { }
-    }
-}
+        /*───────────────────────────────────────────────*/
+        /* HELPER METHODS                                 */
+        /*───────────────────────────────────────────────*/
 
-// ✅ 登出邏輯範例（任何頁面使用）
-// 呼叫此方法以完全登出並回登入畫面：
-public static class AppHelper
-{
-    public static void LogoutToLogin()
-    {
-        LoginForm login = new LoginForm();
-        login.Show();
-
-        foreach (Form form in Application.OpenForms.Cast<Form>().ToList())
+        public void RefreshDepartmentList()
         {
-            if (form != login)
-                form.Close();
+            var depts = Database.GetDepartments().ToList();
+
+            cmbDept.Items.Clear();
+            cmbDept.Items.Add("Root");          // super-user
+            cmbDept.Items.AddRange(depts.ToArray());
+        }
+
+        private Form ResolveNextForm(string dept)
+        {
+            return dept switch
+            {
+                "Root" => new FormNDashboard(),
+                "HR" => new FormHR(),
+                "Sales" => new FormSales(),
+                "RD" => new FormRD(),
+                "Production" => new FormProd(),
+                "Finance" => new FormFinance(),
+                "Customer Service" => new FormCS(),
+                "Logistics" => new FormLogistics(),
+
+                // 🔽 把這行換掉
+                //_                  => new FormDeptGeneric(dept) // ❌ 不再使用
+
+                // 🔽 改回您原先用的預設空白表單
+                _ => new FormTemplate()        // ✅ Fallback
+            };
         }
     }
 }
-
-// 使用方式：btnLogout_Click 中只需呼叫：
-// AppHelper.LogoutToLogin();

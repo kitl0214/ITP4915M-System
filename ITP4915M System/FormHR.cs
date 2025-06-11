@@ -1,19 +1,59 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using ITP4915M_System;
+using ITP4915MSystem;
+using static ITP4915MSystem.FormTemplate;
 
 namespace ITP4915MSystem
 {
     public partial class FormHR : Form
     {
+        /*─────────────────────────────────────────*/
+        /* MASTER DEPARTMENT LIST                   */
+        /*─────────────────────────────────────────*/
+        private static readonly string[] MasterDepts =
+        {
+            "Root",
+            "HR",
+            "Sales",
+            "RD",
+            "Production",
+            "Finance",
+            "Customer Service",
+            "Logistics"
+        };
+
         private string _selectedUser = string.Empty;
 
         public FormHR()
         {
             InitializeComponent();
-            cmbFilter.SelectedIndex = 0;
-            cmbNewDept.SelectedIndex = 0;
+            RefreshDepartmentLists();
             LoadData();
+        }
+
+        /*─────────────────────────────────────────*/
+        /* DATA BINDING                            */
+        /*─────────────────────────────────────────*/
+        private void RefreshDepartmentLists()
+        {
+            var dbDepts = Database.GetDepartments().ToList();
+            var allDepts = MasterDepts
+                           .Union(dbDepts, StringComparer.OrdinalIgnoreCase)
+                           .OrderBy(d => d)
+                           .ToList();
+
+            // Filter ComboBox (include "All")
+            cmbFilter.Items.Clear();
+            cmbFilter.Items.Add("All");
+            cmbFilter.Items.AddRange(allDepts.ToArray());
+            if (cmbFilter.SelectedIndex < 0) cmbFilter.SelectedIndex = 0;
+
+            // New-Dept ComboBox (no "All")
+            cmbNewDept.Items.Clear();
+            cmbNewDept.Items.AddRange(allDepts.ToArray());
+            if (cmbNewDept.SelectedIndex < 0) cmbNewDept.SelectedIndex = 0;
         }
 
         private void LoadData()
@@ -23,22 +63,26 @@ namespace ITP4915MSystem
             _selectedUser = string.Empty;
         }
 
-        private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e) => LoadData();
+        /*─────────────────────────────────────────*/
+        /* UI EVENTS                               */
+        /*─────────────────────────────────────────*/
+        private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e)
+            => LoadData();
 
         private void gvAccounts_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            var cellValue = gvAccounts.Rows[e.RowIndex].Cells["username"].Value;
-            _selectedUser = cellValue?.ToString() ?? string.Empty;
+            _selectedUser = gvAccounts.Rows[e.RowIndex]
+                                         .Cells["username"].Value?.ToString() ?? string.Empty;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            var user = txtNewUser.Text.Trim();
-            var pwd = txtNewPwd.Text;
-            var dept = cmbNewDept.Text;
+            string user = txtNewUser.Text.Trim();
+            string pwd = txtNewPwd.Text;
+            string dept = cmbNewDept.Text.Trim();
 
-            if (user == "" || pwd == "")
+            if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pwd))
             {
                 MessageBox.Show("Username / Password required");
                 return;
@@ -46,10 +90,8 @@ namespace ITP4915MSystem
 
             try
             {
-                Database.AddAccount(dept, user, pwd);
-                LoadData();
-                txtNewUser.Clear();
-                txtNewPwd.Clear();
+                Database.AddAccount(user, pwd, dept);
+                AfterAccountChanged();
             }
             catch (Exception ex)
             {
@@ -60,49 +102,47 @@ namespace ITP4915MSystem
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (_selectedUser == "")
+            if (string.IsNullOrEmpty(_selectedUser))
             {
                 MessageBox.Show("Select a row first.");
                 return;
             }
+
             if (MessageBox.Show($"Delete {_selectedUser} ?",
                                 "Confirm",
                                 MessageBoxButtons.YesNo,
                                 MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Database.DeleteAccount(_selectedUser);
-                LoadData();
+                AfterAccountChanged();
             }
         }
 
         private void btnRefresh_Click(object sender, EventArgs e) => LoadData();
 
         private void btnLogout_Click(object sender, EventArgs e)
+            => AppHelper.LogoutToLogin();
+
+        /*─────────────────────────────────────────*/
+        /* HELPER                                  */
+        /*─────────────────────────────────────────*/
+        private void AfterAccountChanged()
         {
-            Owner?.Show();                  // 顯示登入頁
-            Close();                        // 關閉 HR
+            RefreshDepartmentLists();
+            LoadData();
+
+            // Notify every opened LoginForm to refresh its department list
+            foreach (LoginForm lf in Application.OpenForms.OfType<LoginForm>())
+                lf.RefreshDepartmentList();
+
+            txtNewUser.Clear();
+            txtNewPwd.Clear();
+            txtNewUser.Focus();
         }
 
         private void FormHR_Load(object sender, EventArgs e)
         {
 
-        }
-
-        private void gvAccounts_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void lobt_Click(object sender, EventArgs e)
-        {
-            LoginForm loginForm = new LoginForm();
-            loginForm.Show();
-
-            foreach (Form form in Application.OpenForms.Cast<Form>().ToList())
-            {
-                if (form != loginForm)
-                    form.Close();
-            }
         }
     }
 }

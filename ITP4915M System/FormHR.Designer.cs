@@ -3,19 +3,21 @@
     partial class FormHR
     {
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.ComboBox cmbFilter;
-        private System.Windows.Forms.DataGridView gvAccounts;
-        private System.Windows.Forms.GroupBox grpNew;
-        private System.Windows.Forms.TextBox txtNewUser;
-        private System.Windows.Forms.TextBox txtNewPwd;
-        private System.Windows.Forms.ComboBox cmbNewDept;
-        private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.Label lblFilter;
-        private System.Windows.Forms.Label lblNU;
-        private System.Windows.Forms.Label lblNP;
-        private System.Windows.Forms.Label lblND;
+
+        private DataGridView gvAccounts;
+        private ComboBox cmbFilter;
+        private ComboBox cmbNewDept;
+        private TextBox txtNewUser;
+        private TextBox txtNewPwd;
+        private Button btnAdd;
+        private Button btnDelete;
+        private Button btnRefresh;
+        private Button btnLogout;
+        private Label lblFilter;
+        private Label lblNewUser;
+        private Label lblNewPwd;
+        private Label lblNewDept;
+        private GroupBox grpAdd;
 
         protected override void Dispose(bool disposing)
         {
@@ -23,189 +25,202 @@
             base.Dispose(disposing);
         }
 
+        #region Windows Form Designer generated code
         private void InitializeComponent()
         {
-            cmbFilter = new ComboBox();
             gvAccounts = new DataGridView();
+            cmbFilter = new ComboBox();
+            cmbNewDept = new ComboBox();
+            txtNewUser = new TextBox();
+            txtNewPwd = new TextBox();
+            btnAdd = new Button();
             btnDelete = new Button();
             btnRefresh = new Button();
-            grpNew = new GroupBox();
-            lblND = new Label();
-            lblNP = new Label();
-            lblNU = new Label();
-            btnAdd = new Button();
-            cmbNewDept = new ComboBox();
-            txtNewPwd = new TextBox();
-            txtNewUser = new TextBox();
+            btnLogout = new Button();
             lblFilter = new Label();
-            lobt = new Button();
+            lblNewUser = new Label();
+            lblNewPwd = new Label();
+            lblNewDept = new Label();
+            grpAdd = new GroupBox();
             ((System.ComponentModel.ISupportInitialize)gvAccounts).BeginInit();
-            grpNew.SuspendLayout();
+            grpAdd.SuspendLayout();
             SuspendLayout();
-            // 
-            // cmbFilter
-            // 
-            cmbFilter.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbFilter.Items.AddRange(new object[] { "All", "IT", "HR", "Sales" });
-            cmbFilter.Location = new Point(175, 21);
-            cmbFilter.Name = "cmbFilter";
-            cmbFilter.Size = new Size(236, 31);
-            cmbFilter.TabIndex = 6;
-            cmbFilter.SelectedIndexChanged += cmbFilter_SelectedIndexChanged;
             // 
             // gvAccounts
             // 
             gvAccounts.AllowUserToAddRows = false;
             gvAccounts.AllowUserToDeleteRows = false;
-            gvAccounts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             gvAccounts.ColumnHeadersHeight = 34;
-            gvAccounts.Location = new Point(38, 82);
-            gvAccounts.MultiSelect = false;
+            gvAccounts.Location = new Point(39, 92);
+            gvAccounts.Margin = new Padding(5, 5, 5, 5);
             gvAccounts.Name = "gvAccounts";
             gvAccounts.ReadOnly = true;
             gvAccounts.RowHeadersWidth = 62;
-            gvAccounts.RowTemplate.Height = 25;
             gvAccounts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            gvAccounts.Size = new Size(452, 246);
-            gvAccounts.TabIndex = 5;
+            gvAccounts.Size = new Size(786, 399);
+            gvAccounts.TabIndex = 2;
             gvAccounts.CellClick += gvAccounts_CellClick;
-            gvAccounts.CellContentClick += gvAccounts_CellContentClick;
             // 
-            // btnDelete
+            // cmbFilter
             // 
-            btnDelete.Location = new Point(579, 126);
-            btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(140, 30);
-            btnDelete.TabIndex = 4;
-            btnDelete.Text = "Delete Selected";
-            btnDelete.Click += btnDelete_Click;
-            // 
-            // btnRefresh
-            // 
-            btnRefresh.Location = new Point(590, 54);
-            btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(140, 30);
-            btnRefresh.TabIndex = 3;
-            btnRefresh.Text = "Refresh";
-            btnRefresh.Click += btnRefresh_Click;
-            // 
-            // grpNew
-            // 
-            grpNew.Controls.Add(lblND);
-            grpNew.Controls.Add(lblNP);
-            grpNew.Controls.Add(lblNU);
-            grpNew.Controls.Add(btnAdd);
-            grpNew.Controls.Add(cmbNewDept);
-            grpNew.Controls.Add(txtNewPwd);
-            grpNew.Controls.Add(txtNewUser);
-            grpNew.Location = new Point(38, 353);
-            grpNew.Name = "grpNew";
-            grpNew.Size = new Size(649, 171);
-            grpNew.TabIndex = 1;
-            grpNew.TabStop = false;
-            grpNew.Text = "Add New Account";
-            // 
-            // lblND
-            // 
-            lblND.AutoSize = true;
-            lblND.Location = new Point(18, 105);
-            lblND.Name = "lblND";
-            lblND.Size = new Size(114, 23);
-            lblND.TabIndex = 0;
-            lblND.Text = "Department";
-            // 
-            // lblNP
-            // 
-            lblNP.AutoSize = true;
-            lblNP.Location = new Point(18, 70);
-            lblNP.Name = "lblNP";
-            lblNP.Size = new Size(90, 23);
-            lblNP.TabIndex = 1;
-            lblNP.Text = "Password";
-            // 
-            // lblNU
-            // 
-            lblNU.AutoSize = true;
-            lblNU.Location = new Point(18, 30);
-            lblNU.Name = "lblNU";
-            lblNU.Size = new Size(96, 23);
-            lblNU.TabIndex = 2;
-            lblNU.Text = "Username";
-            // 
-            // btnAdd
-            // 
-            btnAdd.Location = new Point(432, 27);
-            btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(120, 30);
-            btnAdd.TabIndex = 3;
-            btnAdd.Text = "Add";
-            btnAdd.Click += btnAdd_Click;
+            cmbFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbFilter.Location = new Point(118, 34);
+            cmbFilter.Margin = new Padding(5, 5, 5, 5);
+            cmbFilter.Name = "cmbFilter";
+            cmbFilter.Size = new Size(218, 31);
+            cmbFilter.TabIndex = 1;
+            cmbFilter.SelectedIndexChanged += cmbFilter_SelectedIndexChanged;
             // 
             // cmbNewDept
             // 
             cmbNewDept.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbNewDept.Items.AddRange(new object[] { "IT", "HR", "Sales" });
-            cmbNewDept.Location = new Point(137, 102);
+            cmbNewDept.Location = new Point(173, 149);
+            cmbNewDept.Margin = new Padding(5, 5, 5, 5);
             cmbNewDept.Name = "cmbNewDept";
-            cmbNewDept.Size = new Size(151, 31);
-            cmbNewDept.TabIndex = 4;
-            // 
-            // txtNewPwd
-            // 
-            txtNewPwd.Location = new Point(137, 63);
-            txtNewPwd.Name = "txtNewPwd";
-            txtNewPwd.Size = new Size(151, 30);
-            txtNewPwd.TabIndex = 5;
-            txtNewPwd.UseSystemPasswordChar = true;
+            cmbNewDept.Size = new Size(233, 31);
+            cmbNewDept.TabIndex = 5;
             // 
             // txtNewUser
             // 
-            txtNewUser.Location = new Point(137, 23);
+            txtNewUser.Location = new Point(173, 41);
+            txtNewUser.Margin = new Padding(5, 5, 5, 5);
             txtNewUser.Name = "txtNewUser";
-            txtNewUser.Size = new Size(151, 30);
-            txtNewUser.TabIndex = 6;
+            txtNewUser.Size = new Size(233, 30);
+            txtNewUser.TabIndex = 1;
+            // 
+            // txtNewPwd
+            // 
+            txtNewPwd.Location = new Point(173, 95);
+            txtNewPwd.Margin = new Padding(5, 5, 5, 5);
+            txtNewPwd.Name = "txtNewPwd";
+            txtNewPwd.Size = new Size(233, 30);
+            txtNewPwd.TabIndex = 3;
+            txtNewPwd.UseSystemPasswordChar = true;
+            // 
+            // btnAdd
+            // 
+            btnAdd.Location = new Point(471, 41);
+            btnAdd.Margin = new Padding(5, 5, 5, 5);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(126, 43);
+            btnAdd.TabIndex = 6;
+            btnAdd.Text = "Add";
+            btnAdd.Click += btnAdd_Click;
+            // 
+            // btnDelete
+            // 
+            btnDelete.Location = new Point(471, 95);
+            btnDelete.Margin = new Padding(5, 5, 5, 5);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(126, 43);
+            btnDelete.TabIndex = 7;
+            btnDelete.Text = "Delete";
+            btnDelete.Click += btnDelete_Click;
+            // 
+            // btnRefresh
+            // 
+            btnRefresh.Location = new Point(471, 149);
+            btnRefresh.Margin = new Padding(5, 5, 5, 5);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(126, 43);
+            btnRefresh.TabIndex = 8;
+            btnRefresh.Text = "Refresh";
+            btnRefresh.Click += btnRefresh_Click;
+            // 
+            // btnLogout
+            // 
+            btnLogout.Location = new Point(691, 805);
+            btnLogout.Margin = new Padding(5, 5, 5, 5);
+            btnLogout.Name = "btnLogout";
+            btnLogout.Size = new Size(134, 43);
+            btnLogout.TabIndex = 4;
+            btnLogout.Text = "Logout";
+            btnLogout.Click += btnLogout_Click;
             // 
             // lblFilter
             // 
             lblFilter.AutoSize = true;
-            lblFilter.Location = new Point(20, 21);
+            lblFilter.Location = new Point(39, 38);
+            lblFilter.Margin = new Padding(5, 0, 5, 0);
             lblFilter.Name = "lblFilter";
-            lblFilter.Size = new Size(114, 23);
+            lblFilter.Size = new Size(53, 23);
             lblFilter.TabIndex = 0;
-            lblFilter.Text = "Department";
+            lblFilter.Text = "Filter";
             // 
-            // lobt
+            // lblNewUser
             // 
-            lobt.Location = new Point(565, 193);
-            lobt.Name = "lobt";
-            lobt.Size = new Size(140, 34);
-            lobt.TabIndex = 7;
-            lobt.Text = "Logout";
-            lobt.UseVisualStyleBackColor = true;
-            lobt.Click += lobt_Click;
+            lblNewUser.AutoSize = true;
+            lblNewUser.Location = new Point(31, 46);
+            lblNewUser.Margin = new Padding(5, 0, 5, 0);
+            lblNewUser.Name = "lblNewUser";
+            lblNewUser.Size = new Size(96, 23);
+            lblNewUser.TabIndex = 0;
+            lblNewUser.Text = "Username";
+            // 
+            // lblNewPwd
+            // 
+            lblNewPwd.AutoSize = true;
+            lblNewPwd.Location = new Point(31, 100);
+            lblNewPwd.Margin = new Padding(5, 0, 5, 0);
+            lblNewPwd.Name = "lblNewPwd";
+            lblNewPwd.Size = new Size(90, 23);
+            lblNewPwd.TabIndex = 2;
+            lblNewPwd.Text = "Password";
+            // 
+            // lblNewDept
+            // 
+            lblNewDept.AutoSize = true;
+            lblNewDept.Location = new Point(31, 153);
+            lblNewDept.Margin = new Padding(5, 0, 5, 0);
+            lblNewDept.Name = "lblNewDept";
+            lblNewDept.Size = new Size(114, 23);
+            lblNewDept.TabIndex = 4;
+            lblNewDept.Text = "Department";
+            // 
+            // grpAdd
+            // 
+            grpAdd.Controls.Add(lblNewUser);
+            grpAdd.Controls.Add(txtNewUser);
+            grpAdd.Controls.Add(lblNewPwd);
+            grpAdd.Controls.Add(txtNewPwd);
+            grpAdd.Controls.Add(lblNewDept);
+            grpAdd.Controls.Add(cmbNewDept);
+            grpAdd.Controls.Add(btnAdd);
+            grpAdd.Controls.Add(btnDelete);
+            grpAdd.Controls.Add(btnRefresh);
+            grpAdd.Location = new Point(39, 521);
+            grpAdd.Margin = new Padding(5, 5, 5, 5);
+            grpAdd.Name = "grpAdd";
+            grpAdd.Padding = new Padding(5, 5, 5, 5);
+            grpAdd.Size = new Size(786, 245);
+            grpAdd.TabIndex = 3;
+            grpAdd.TabStop = false;
+            grpAdd.Text = "Add New Account";
             // 
             // FormHR
             // 
-            ClientSize = new Size(923, 547);
-            Controls.Add(lobt);
+            AutoScaleDimensions = new SizeF(11F, 23F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(880, 874);
             Controls.Add(lblFilter);
-            Controls.Add(grpNew);
-            Controls.Add(btnRefresh);
-            Controls.Add(btnDelete);
-            Controls.Add(gvAccounts);
             Controls.Add(cmbFilter);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
+            Controls.Add(gvAccounts);
+            Controls.Add(grpAdd);
+            Controls.Add(btnLogout);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Margin = new Padding(5, 5, 5, 5);
             MaximizeBox = false;
+            MinimizeBox = false;
             Name = "FormHR";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "HR Management";
+            Text = "HR Dashboard";
             Load += FormHR_Load;
             ((System.ComponentModel.ISupportInitialize)gvAccounts).EndInit();
-            grpNew.ResumeLayout(false);
-            grpNew.PerformLayout();
+            grpAdd.ResumeLayout(false);
+            grpAdd.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
-        private Button lobt;
+        #endregion
     }
 }
