@@ -37,7 +37,7 @@
             cmbDept.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbDept.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbDept.Location = new Point(603, 344);
-            cmbDept.Margin = new Padding(5, 5, 5, 5);
+            cmbDept.Margin = new Padding(5);
             cmbDept.Name = "cmbDept";
             cmbDept.Size = new Size(312, 31);
             cmbDept.TabIndex = 1;
@@ -45,24 +45,24 @@
             // txtUser
             // 
             txtUser.Location = new Point(587, 403);
-            txtUser.Margin = new Padding(5, 5, 5, 5);
+            txtUser.Margin = new Padding(5);
             txtUser.Name = "txtUser";
             txtUser.Size = new Size(312, 30);
-            txtUser.TabIndex = 3;
+            txtUser.TabIndex = 1;
             // 
             // txtPwd
             // 
             txtPwd.Location = new Point(587, 465);
-            txtPwd.Margin = new Padding(5, 5, 5, 5);
+            txtPwd.Margin = new Padding(5);
             txtPwd.Name = "txtPwd";
             txtPwd.Size = new Size(312, 30);
-            txtPwd.TabIndex = 5;
+            txtPwd.TabIndex = 2;
             txtPwd.UseSystemPasswordChar = true;
             // 
             // btnLogin
             // 
             btnLogin.Location = new Point(587, 531);
-            btnLogin.Margin = new Padding(5, 5, 5, 5);
+            btnLogin.Margin = new Padding(5);
             btnLogin.Name = "btnLogin";
             btnLogin.Size = new Size(141, 43);
             btnLogin.TabIndex = 6;
@@ -73,7 +73,7 @@
             // btnClear
             // 
             btnClear.Location = new Point(760, 531);
-            btnClear.Margin = new Padding(5, 5, 5, 5);
+            btnClear.Margin = new Padding(5);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(141, 43);
             btnClear.TabIndex = 7;
@@ -125,7 +125,7 @@
             Controls.Add(btnLogin);
             Controls.Add(btnClear);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            Margin = new Padding(5, 5, 5, 5);
+            Margin = new Padding(5);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "LoginForm";
