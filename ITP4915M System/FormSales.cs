@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Linq;
 using System.Windows.Forms;
 using ITP4915MSystem;
 
@@ -32,7 +31,7 @@ namespace ITP4915M_System
             dgvOrders.DataSource = null;
             dgvOrders.Columns.Clear();
 
-            DataTable dt = Database.GetAllOrders();   // cid already resolved to customer name
+            DataTable dt = Database.GetAllOrders();  // cid already resolved to customer name
             dgvOrders.DataSource = dt;
 
             // friendly headers – check column existence
@@ -76,7 +75,8 @@ namespace ITP4915M_System
 
             if (dgvOrders.Columns[e.ColumnIndex].Name == "Action")
             {
-                string oid = dgvOrders.Rows[e.RowIndex].Cells["oid"].Value?.ToString();
+                string oid = dgvOrders.Rows[e.RowIndex]
+                                       .Cells["oid"].Value?.ToString();
                 if (string.IsNullOrEmpty(oid)) return;
 
                 // Example: open detail form
@@ -87,8 +87,9 @@ namespace ITP4915M_System
 
         private void creatobt_Click(object sender, EventArgs e)
         {
-            var newForm = new CreateNewOrder();
-            newForm.Show();
+            // TODO: open create-order dialog
+            // var newForm = new CreateNewOrder();
+            // newForm.Show();
         }
     }
 }
