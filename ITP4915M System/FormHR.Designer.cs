@@ -1,4 +1,7 @@
-﻿namespace ITP4915MSystem
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace ITP4915M_System
 {
     partial class FormHR
     {
@@ -52,7 +55,7 @@
             gvAccounts.AllowUserToDeleteRows = false;
             gvAccounts.ColumnHeadersHeight = 34;
             gvAccounts.Location = new Point(39, 92);
-            gvAccounts.Margin = new Padding(5, 5, 5, 5);
+            gvAccounts.Margin = new Padding(5);
             gvAccounts.Name = "gvAccounts";
             gvAccounts.ReadOnly = true;
             gvAccounts.RowHeadersWidth = 62;
@@ -60,13 +63,12 @@
             gvAccounts.Size = new Size(786, 399);
             gvAccounts.TabIndex = 2;
             gvAccounts.CellClick += gvAccounts_CellClick;
-      
             // 
             // cmbFilter
             // 
             cmbFilter.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbFilter.Location = new Point(118, 34);
-            cmbFilter.Margin = new Padding(5, 5, 5, 5);
+            cmbFilter.Margin = new Padding(5);
             cmbFilter.Name = "cmbFilter";
             cmbFilter.Size = new Size(218, 31);
             cmbFilter.TabIndex = 1;
@@ -76,7 +78,7 @@
             // 
             cmbNewDept.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbNewDept.Location = new Point(173, 149);
-            cmbNewDept.Margin = new Padding(5, 5, 5, 5);
+            cmbNewDept.Margin = new Padding(5);
             cmbNewDept.Name = "cmbNewDept";
             cmbNewDept.Size = new Size(233, 31);
             cmbNewDept.TabIndex = 5;
@@ -84,7 +86,7 @@
             // txtNewUser
             // 
             txtNewUser.Location = new Point(173, 41);
-            txtNewUser.Margin = new Padding(5, 5, 5, 5);
+            txtNewUser.Margin = new Padding(5);
             txtNewUser.Name = "txtNewUser";
             txtNewUser.Size = new Size(233, 30);
             txtNewUser.TabIndex = 1;
@@ -92,7 +94,7 @@
             // txtNewPwd
             // 
             txtNewPwd.Location = new Point(173, 95);
-            txtNewPwd.Margin = new Padding(5, 5, 5, 5);
+            txtNewPwd.Margin = new Padding(5);
             txtNewPwd.Name = "txtNewPwd";
             txtNewPwd.Size = new Size(233, 30);
             txtNewPwd.TabIndex = 3;
@@ -101,7 +103,7 @@
             // btnAdd
             // 
             btnAdd.Location = new Point(471, 41);
-            btnAdd.Margin = new Padding(5, 5, 5, 5);
+            btnAdd.Margin = new Padding(5);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(126, 43);
             btnAdd.TabIndex = 6;
@@ -111,7 +113,7 @@
             // btnDelete
             // 
             btnDelete.Location = new Point(471, 95);
-            btnDelete.Margin = new Padding(5, 5, 5, 5);
+            btnDelete.Margin = new Padding(5);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(126, 43);
             btnDelete.TabIndex = 7;
@@ -121,7 +123,7 @@
             // btnRefresh
             // 
             btnRefresh.Location = new Point(471, 149);
-            btnRefresh.Margin = new Padding(5, 5, 5, 5);
+            btnRefresh.Margin = new Padding(5);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(126, 43);
             btnRefresh.TabIndex = 8;
@@ -131,7 +133,7 @@
             // btnLogout
             // 
             btnLogout.Location = new Point(691, 805);
-            btnLogout.Margin = new Padding(5, 5, 5, 5);
+            btnLogout.Margin = new Padding(5);
             btnLogout.Name = "btnLogout";
             btnLogout.Size = new Size(134, 43);
             btnLogout.TabIndex = 4;
@@ -190,9 +192,9 @@
             grpAdd.Controls.Add(btnDelete);
             grpAdd.Controls.Add(btnRefresh);
             grpAdd.Location = new Point(39, 521);
-            grpAdd.Margin = new Padding(5, 5, 5, 5);
+            grpAdd.Margin = new Padding(5);
             grpAdd.Name = "grpAdd";
-            grpAdd.Padding = new Padding(5, 5, 5, 5);
+            grpAdd.Padding = new Padding(5);
             grpAdd.Size = new Size(786, 245);
             grpAdd.TabIndex = 3;
             grpAdd.TabStop = false;
@@ -209,7 +211,7 @@
             Controls.Add(grpAdd);
             Controls.Add(btnLogout);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            Margin = new Padding(5, 5, 5, 5);
+            Margin = new Padding(5);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FormHR";

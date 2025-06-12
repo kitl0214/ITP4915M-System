@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Data;
+using System.Linq;
 using System.Windows.Forms;
 using ITP4915MSystem;
 
 namespace ITP4915M_System
 {
-    public partial class FormSales  : FormTemplate
+    public partial class FormSales : FormTemplate
     {
         public FormSales()
         {
             InitializeComponent();
         }
 
-        /* -------------------- life‑cycle -------------------- */
+        /* -------------------- life-cycle -------------------- */
         private void FormSales_Load(object sender, EventArgs e)
         {
             LoadOrders();
@@ -27,19 +28,20 @@ namespace ITP4915M_System
         /* -------------------- data loading -------------------- */
         private void LoadOrders()
         {
-            // reset grid to avoid duplicated button column when re‑loading
+            // reset grid to avoid duplicated button column when re-loading
             dgvOrders.DataSource = null;
             dgvOrders.Columns.Clear();
 
-            DataTable dt = Database.GetAllOrders();   // ← 已把 cid 轉成客戶名稱 (見 Database)
+            DataTable dt = Database.GetAllOrders();   // cid already resolved to customer name
             dgvOrders.DataSource = dt;
 
-            // friendly headers – 安全檢查欄位是否存在
+            // friendly headers – check column existence
             void H(string col, string text)
             {
                 if (dgvOrders.Columns.Contains(col))
                     dgvOrders.Columns[col].HeaderText = text;
             }
+
             H("oid", "Order ID");
             H("customer", "Customer");
             H("product", "Product");
@@ -77,16 +79,16 @@ namespace ITP4915M_System
                 string oid = dgvOrders.Rows[e.RowIndex].Cells["oid"].Value?.ToString();
                 if (string.IsNullOrEmpty(oid)) return;
 
+                // Example: open detail form
                 // using var detail = new OrderDetailForm(oid);
-                //detail.ShowDialog(this);
+                // detail.ShowDialog(this);
             }
         }
 
         private void creatobt_Click(object sender, EventArgs e)
         {
-            CreateNewOrder newForm = new CreateNewOrder();
+            var newForm = new CreateNewOrder();
             newForm.Show();
-        }   
+        }
+    }
 }
-}
-

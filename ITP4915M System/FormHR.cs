@@ -3,9 +3,9 @@ using System.Linq;
 using System.Windows.Forms;
 using ITP4915M_System;
 using ITP4915MSystem;
-using static ITP4915MSystem.FormTemplate;
+using static ITP4915M_System.FormTemplate;
 
-namespace ITP4915MSystem
+namespace ITP4915M_System
 {
     public partial class FormHR : Form
     {
@@ -142,9 +142,7 @@ namespace ITP4915MSystem
 
         private void FormHR_Load(object sender, EventArgs e)
         {
-
+            // Optional: place holder for future use
         }
-
-
     }
 }

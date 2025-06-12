@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using ITP4915MSystem;
 
 namespace ITP4915M_System
 {
-    partial class FormSales : FormTemplate
+    partial class FormSales
     {
         private IContainer components = null;
         private DataGridView dgvOrders;
         private Button btnRefresh;
+        private Button creatobt;
 
         protected override void Dispose(bool disposing)
         {
@@ -18,6 +18,7 @@ namespace ITP4915M_System
             base.Dispose(disposing);
         }
 
+        #region Windows Form Designer generated code
         private void InitializeComponent()
         {
             dgvOrders = new DataGridView();
@@ -56,10 +57,11 @@ namespace ITP4915M_System
             // creatobt
             // 
             creatobt.Location = new Point(47, 24);
+            creatobt.Margin = new Padding(4, 3, 4, 3);
             creatobt.Name = "creatobt";
-            creatobt.Size = new Size(173, 34);
+            creatobt.Size = new Size(173, 33);
             creatobt.TabIndex = 2;
-            creatobt.Text = "CreateNewOrder";
+            creatobt.Text = "Create New Order";
             creatobt.UseVisualStyleBackColor = true;
             creatobt.Click += creatobt_Click;
             // 
@@ -71,16 +73,17 @@ namespace ITP4915M_System
             Controls.Add(creatobt);
             Controls.Add(btnRefresh);
             Controls.Add(dgvOrders);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "FormSales";
-            Text = "Sales";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Sales Dashboard";
             Load += FormSales_Load;
-            Controls.SetChildIndex(dgvOrders, 0);
-            Controls.SetChildIndex(btnRefresh, 0);
-            Controls.SetChildIndex(creatobt, 0);
             ((ISupportInitialize)dgvOrders).EndInit();
             ResumeLayout(false);
         }
-        private Button creatobt;
+        #endregion
     }
 }
