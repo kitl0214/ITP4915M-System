@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using ITP4915MSystem;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ITP4915M_System
 {
@@ -12,28 +11,27 @@ namespace ITP4915M_System
             InitializeComponent();
         }
 
-        /*-------------- 建立按鈕 --------------*/
+        /*-------------- Create button --------------*/
         private void creatbt_Click(object sender, EventArgs e)
         {
-            // 1) 驗證輸入
+            // 1) Validate input
             if (string.IsNullOrWhiteSpace(txtCust.Text) ||
                 string.IsNullOrWhiteSpace(txtProd.Text))
             {
-                MessageBox.Show("Customer & Product name are required."); return;
+                MessageBox.Show("Customer & Product name are required.");
+                return;
             }
 
-            // Radio 必選（已預設 General 打勾），理論上不會同時為 false
-            bool isCustom = ctrd.Checked;
-
+            bool isCustom = ctrd.Checked;          // radio
             int qty = (int)quannud.Value;
             int unit = (int)uninud.Value;
             bool extraPack = apcb.Checked;
             int addCost = extraPack ? 1 : 0;
             int total = qty * unit + addCost;
 
-            int newId = Database.GetNextOrderId();          // 000123
+            int newId = Database.GetNextOrderId();   // e.g., 123
 
-            // 2) 顯示確認對話框
+            // 2) Summary dialog
             using var sum = new OrderSummaryDialog(
                 orderId: newId,
                 customer: txtCust.Text.Trim(),
@@ -47,7 +45,7 @@ namespace ITP4915M_System
 
             if (sum.ShowDialog(this) != DialogResult.OK) return;
 
-            // 3) 寫進資料庫
+            // 3) Insert into DB
             var model = new OrderModel
             {
                 Oid = newId,
@@ -65,7 +63,7 @@ namespace ITP4915M_System
             {
                 Database.InsertOrder(model);
                 MessageBox.Show($"Order #{model.Oid:000000} created!", "Success");
-                DialogResult = DialogResult.OK;   // 關閉並通知父窗刷新
+                DialogResult = DialogResult.OK;   // signal parent to refresh
             }
             catch (Exception ex)
             {
@@ -73,21 +71,20 @@ namespace ITP4915M_System
             }
         }
 
-        /*-------------- 清除按鈕 --------------*/
+        /*-------------- Clear button --------------*/
         private void cleanbt_Click(object sender, EventArgs e)
         {
-            txtCust.Clear(); txtProd.Clear();
-            quannud.Value = 1; uninud.Value = 1;
-            gord.Checked = true; ctrd.Checked = false;
+            txtCust.Clear();
+            txtProd.Clear();
+            quannud.Value = 1;
+            uninud.Value = 1;
+            gord.Checked = true;
             apcb.Checked = false;
             edcdtp.Value = DateTime.Today;
         }
 
         private void CreateNewOrder_Load(object sender, EventArgs e) { }
 
-        private void txtProd_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        private void txtProd_TextChanged(object sender, EventArgs e) { }
     }
 }

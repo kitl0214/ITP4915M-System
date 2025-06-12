@@ -31,7 +31,7 @@ namespace ITP4915M_System
             dgvOrders.DataSource = null;
             dgvOrders.Columns.Clear();
 
-            DataTable dt = Database.GetAllOrders();  // cid already resolved to customer name
+            DataTable dt = Database.GetAllOrders();   // customer Id already resolved
             dgvOrders.DataSource = dt;
 
             // friendly headers – check column existence
@@ -75,11 +75,10 @@ namespace ITP4915M_System
 
             if (dgvOrders.Columns[e.ColumnIndex].Name == "Action")
             {
-                string oid = dgvOrders.Rows[e.RowIndex]
-                                       .Cells["oid"].Value?.ToString();
+                string oid = dgvOrders.Rows[e.RowIndex].Cells["oid"].Value?.ToString();
                 if (string.IsNullOrEmpty(oid)) return;
 
-                // Example: open detail form
+                // TODO: open order-detail dialog
                 // using var detail = new OrderDetailForm(oid);
                 // detail.ShowDialog(this);
             }
@@ -87,9 +86,9 @@ namespace ITP4915M_System
 
         private void creatobt_Click(object sender, EventArgs e)
         {
-            // TODO: open create-order dialog
-            // var newForm = new CreateNewOrder();
-            // newForm.Show();
+            using var dlg = new CreateNewOrder();
+            if (dlg.ShowDialog(this) == DialogResult.OK)
+                LoadOrders();   // refresh after successful creation
         }
     }
 }

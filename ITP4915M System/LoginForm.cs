@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using ITP4915M_System;
 using ITP4915MSystem;
 
 namespace ITP4915M_System
@@ -19,7 +18,7 @@ namespace ITP4915M_System
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-            RefreshDepartmentList();           // dynamic dept list
+            RefreshDepartmentList();   // dynamic dept list
             cmbDept.SelectedIndex = 0;
         }
 
@@ -58,7 +57,7 @@ namespace ITP4915M_System
             var depts = Database.GetDepartments().ToList();
 
             cmbDept.Items.Clear();
-            cmbDept.Items.Add("Root");          // super-user
+            cmbDept.Items.Add("Root");             // super-user
             cmbDept.Items.AddRange(depts.ToArray());
         }
 
@@ -66,7 +65,7 @@ namespace ITP4915M_System
         {
             return dept switch
             {
-                "Root" => new FormNDashboard(),
+                "Root" => new FormNDashboard(), // ⬅ 若名稱不同請自行替換
                 "HR" => new FormHR(),
                 "Sales" => new FormSales(),
                 "RD" => new FormRD(),
@@ -74,12 +73,7 @@ namespace ITP4915M_System
                 "Finance" => new FormFinance(),
                 "Customer Service" => new FormCS(),
                 "Logistics" => new FormLogistics(),
-
-                // 🔽 把這行換掉
-                //_                  => new FormDeptGeneric(dept) // ❌ 不再使用
-
-                // 🔽 改回您原先用的預設空白表單
-                _ => new FormTemplate()        // ✅ Fallback
+                _ => new FormTemplate()     // fallback
             };
         }
     }

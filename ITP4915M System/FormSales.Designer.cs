@@ -34,7 +34,6 @@ namespace ITP4915M_System
             dgvOrders.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             dgvOrders.ColumnHeadersHeight = 34;
             dgvOrders.Location = new Point(16, 75);
-            dgvOrders.Margin = new Padding(4, 3, 4, 3);
             dgvOrders.Name = "dgvOrders";
             dgvOrders.ReadOnly = true;
             dgvOrders.RowHeadersWidth = 62;
@@ -46,7 +45,6 @@ namespace ITP4915M_System
             // btnRefresh
             // 
             btnRefresh.Location = new Point(245, 24);
-            btnRefresh.Margin = new Padding(4, 3, 4, 3);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(129, 33);
             btnRefresh.TabIndex = 1;
@@ -57,7 +55,6 @@ namespace ITP4915M_System
             // creatobt
             // 
             creatobt.Location = new Point(47, 24);
-            creatobt.Margin = new Padding(4, 3, 4, 3);
             creatobt.Name = "creatobt";
             creatobt.Size = new Size(173, 33);
             creatobt.TabIndex = 2;
@@ -74,7 +71,6 @@ namespace ITP4915M_System
             Controls.Add(btnRefresh);
             Controls.Add(dgvOrders);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FormSales";
