@@ -86,7 +86,7 @@ namespace ITP4915M_System
         {
             CreateNewOrder newForm = new CreateNewOrder();
             newForm.Show();
-        }
-    }
+        }   
+}
 }
 

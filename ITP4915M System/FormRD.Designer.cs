@@ -51,6 +51,7 @@
             ongoingProjects.TabIndex = 2;
             ongoingProjects.TabStop = false;
             ongoingProjects.Text = "Ongoing Projects";
+            
             // 
             // dgvOP
             // 
@@ -60,7 +61,7 @@
             dgvOP.Name = "dgvOP";
             dgvOP.Size = new Size(770, 149);
             dgvOP.TabIndex = 7;
-            dgvOP.CellContentClick += dataGridView1_CellContentClick;
+            
             // 
             // taskReminder
             // 

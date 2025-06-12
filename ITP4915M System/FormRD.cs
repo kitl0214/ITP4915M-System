@@ -13,94 +13,141 @@ namespace ITP4915M_System
 {
     public partial class FormRD : Form
     {
+        private Button btnRefresh;
+
         public FormRD()
         {
             InitializeComponent();
-            LoadData();
+
+            // 新增手動刷新按鈕
+            btnRefresh = new Button();
+            btnRefresh.Text = "Refresh";
+            btnRefresh.Size = new Size(80, 30);
+            btnRefresh.Location = new Point(-140, 10); 
+            btnRefresh.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnRefresh.Click += btnRefresh_Click;
+            this.Controls.Add(btnRefresh);
+
+            // 註冊事件
             dgvOP.CellBeginEdit += DgvOP_CellBeginEdit;
-            dgvOP.CellEndEdit += DgvOP_CellEndEdit;
+            dgvTR.CellBeginEdit += DgvTR_CellBeginEdit;
+            dgvOP.CellValueChanged += DgvOP_CellValueChanged;
+            dgvTR.CellValueChanged += DgvTR_CellValueChanged;
+            dgvTR.RowPrePaint += DgvTR_RowPrePaint;
+            dgvCP.ReadOnly = true;
+
+            // 讓下拉一選即時觸發
+            dgvOP.CurrentCellDirtyStateChanged += dgvOP_CurrentCellDirtyStateChanged;
+            dgvTR.CurrentCellDirtyStateChanged += dgvTR_CurrentCellDirtyStateChanged;
+
+            // 關閉自動新增行
+            dgvOP.AllowUserToAddRows = false;
+            dgvTR.AllowUserToAddRows = false;
+            dgvCP.AllowUserToAddRows = false;
+
+            LoadData();
         }
 
+        // Ongoing 只允許編輯 status
         private void DgvOP_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            // Allow edit status
-            if (dgvOP.Columns[e.ColumnIndex].Name != "status")
-            {
-                e.Cancel = true;
-            }
+            if (dgvOP.Columns[e.ColumnIndex].Name != "status") e.Cancel = true;
+        }
+        private void DgvTR_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (dgvTR.Columns[e.ColumnIndex].Name != "status") e.Cancel = true;
         }
 
-        /* Edit Status Method */
-        private void DgvOP_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        // 狀態切換即時分流
+        private void DgvOP_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            // After edit the status column, update the database and remove the row if status is "Completed"
             if (dgvOP.Columns[e.ColumnIndex].Name == "status")
             {
                 string specID = dgvOP.Rows[e.RowIndex].Cells["specID"].Value?.ToString();
                 string newStatus = dgvOP.Rows[e.RowIndex].Cells["status"].Value?.ToString();
-
                 if (!string.IsNullOrEmpty(specID) && !string.IsNullOrEmpty(newStatus))
                 {
-                    try
-                    {
-                        
-                        Database.UpdateRAndDStatus(specID, newStatus);
-                        
-                        if (newStatus == "Completed")
-                        {
-                            dgvOP.Rows.RemoveAt(e.RowIndex);
-                        }
-                        else
-                        {
-                            
-                            LoadData();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Error updating status: {ex.Message}", "Error",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        
-                        LoadData();
-                    }
+                    Database.UpdateRAndDStatus(specID, newStatus);
+                    LoadData();
+                }
+            }
+        }
+        private void DgvTR_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvTR.Columns[e.ColumnIndex].Name == "status")
+            {
+                string specID = dgvTR.Rows[e.RowIndex].Cells["specID"].Value?.ToString();
+                string newStatus = dgvTR.Rows[e.RowIndex].Cells["status"].Value?.ToString();
+                if (!string.IsNullOrEmpty(specID) && !string.IsNullOrEmpty(newStatus))
+                {
+                    Database.UpdateRAndDStatus(specID, newStatus);
+                    LoadData();
                 }
             }
         }
 
-        private void LoadData()
+        // 下拉一選就即時觸發 ValueChanged
+        private void dgvOP_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (dgvOP.IsCurrentCellDirty)
+                dgvOP.CommitEdit(DataGridViewDataErrorContexts.Commit);
+        }
+        private void dgvTR_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (dgvTR.IsCurrentCellDirty)
+                dgvTR.CommitEdit(DataGridViewDataErrorContexts.Commit);
+        }
+
+        // Task Reminder 過期資料自動黃底
+        private void DgvTR_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            var row = dgvTR.Rows[e.RowIndex];
+            if (row.Cells["deadLine"].Value != null &&
+                DateTime.TryParse(row.Cells["deadLine"].Value.ToString(), out var deadline))
+            {
+                if (deadline < DateTime.Now)
+                    row.DefaultCellStyle.BackColor = Color.Yellow;
+                else
+                    row.DefaultCellStyle.BackColor = Color.White;
+            }
+        }
+
+        // 手動刷新
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        public void LoadData()
         {
             try
             {
-                
-                dgvOP.DataSource = Database.GetRDOrders();
-                
-                /* Spec ID */
-                dgvOP.Columns["specID"].HeaderText = "Tailor Made ID";
-                dgvOP.Columns["specID"].Width = 120;
-                /* Order ID */
-                dgvOP.Columns["orderID"].HeaderText = "Order ID";
-                dgvOP.Columns["orderID"].Width = 80;
-                /* Description */
-                dgvOP.Columns["description"].HeaderText = "Description";
-                dgvOP.Columns["description"].Width = 200;
-                dgvOP.Columns["description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-                /* Approved By ID */
-                dgvOP.Columns["approvedByID"].HeaderText = "User ID";
-                dgvOP.Columns["approvedByID"].Width = 80;
-                /* Approved By Name */
-                dgvOP.Columns["approvedByName"].HeaderText = "User Name";
-                dgvOP.Columns["approvedByName"].Width = 120;
-                /* Approval Date */
-                dgvOP.Columns["deadline"].HeaderText = "Deadline";
-                dgvOP.Columns["deadline"].Width = 80;
-                /* Status */
-                dgvOP.Columns["status"].HeaderText = "Status";
+                DataTable dtAll = Database.GetRDOrders();
+                var now = DateTime.Now;
+                var soon = now.AddDays(14);
 
-                /* Auto size rows height to fit the full content */
-                dgvOP.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-                // Clear Default Selection
-                dgvOP.ClearSelection();
+                var allRows = dtAll.AsEnumerable();
 
+                // Ongoing: status=On Going，且 deadline > soon（超過14天才到期）
+                var ongoing = allRows
+                    .Where(row => row.Field<string>("status") == "On Going"
+                        && row.Field<DateTime?>("deadLine") > soon);
+
+                // Task Reminder: status=On Going，且 deadline <= soon（不論已過期還是即將到期）
+                var reminder = allRows
+                    .Where(row => row.Field<string>("status") == "On Going"
+                        && row.Field<DateTime?>("deadLine") <= soon);
+
+                var completed = allRows
+                    .Where(row => row.Field<string>("status") == "Completed");
+
+                dgvOP.DataSource = ongoing.Any() ? ongoing.CopyToDataTable() : null;
+                dgvTR.DataSource = reminder.Any() ? reminder.CopyToDataTable() : null;
+                dgvCP.DataSource = completed.Any() ? completed.CopyToDataTable() : null;
+
+                SetHeaders(dgvOP, true);
+                SetHeaders(dgvTR, true);
+                SetHeaders(dgvCP, false);
             }
             catch (Exception ex)
             {
@@ -109,14 +156,65 @@ namespace ITP4915M_System
             }
         }
 
-        private void grpNew_Enter(object sender, EventArgs e)
+        // 設定欄位與 status 下拉/唯讀
+        private void SetHeaders(DataGridView dgv, bool useComboBox)
         {
+            if (dgv.DataSource == null) return;
 
-        }
+            dgv.Columns["specID"].HeaderText = "Tailor Made ID";
+            dgv.Columns["specID"].Width = 120;
+            dgv.Columns["orderID"].HeaderText = "Order ID";
+            dgv.Columns["orderID"].Width = 80;
+            dgv.Columns["description"].HeaderText = "Description";
+            dgv.Columns["description"].Width = 200;
+            dgv.Columns["description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dgv.Columns["approvedByID"].HeaderText = "User ID";
+            dgv.Columns["approvedByID"].Width = 80;
+            dgv.Columns["approvedByName"].HeaderText = "User Name";
+            dgv.Columns["approvedByName"].Width = 120;
+            dgv.Columns["deadLine"].HeaderText = "Deadline";
+            dgv.Columns["deadLine"].Width = 120;
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
+            if (dgv.Columns.Contains("status"))
+            {
+                int idx = dgv.Columns["status"].Index;
+                dgv.Columns.Remove("status");
+                if (useComboBox)
+                {
+                    var comboCol = new DataGridViewComboBoxColumn
+                    {
+                        Name = "status",
+                        HeaderText = "Status",
+                        DataPropertyName = "status",
+                        Width = 90
+                    };
+                    comboCol.Items.AddRange("On Going", "Completed");
+                    dgv.Columns.Insert(idx, comboCol);
 
+                    // 保證顯示值正確
+                    foreach (DataGridViewRow row in dgv.Rows)
+                    {
+                        if (row.Cells["status"] is DataGridViewComboBoxCell cbCell)
+                        {
+                            cbCell.Value = row.Cells["status"].Value ?? "On Going";
+                        }
+                    }
+                }
+                else
+                {
+                    var textCol = new DataGridViewTextBoxColumn
+                    {
+                        Name = "status",
+                        HeaderText = "Status",
+                        DataPropertyName = "status",
+                        Width = 90
+                    };
+                    dgv.Columns.Insert(idx, textCol);
+                }
+            }
+
+            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgv.ClearSelection();
         }
     }
 }
