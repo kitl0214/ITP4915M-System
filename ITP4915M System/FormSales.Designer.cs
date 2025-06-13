@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿// ========================= FormSales.Designer.cs =========================
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -8,22 +9,24 @@ namespace ITP4915M_System
     {
         private IContainer components = null;
         private DataGridView dgvOrders;
+        private Button btnCreate;
         private Button btnRefresh;
-        private Button creatobt;
+        private Button btnDelete;
+        private Button btnEdit;   // ← 全域 Edit Selected
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && components != null)
-                components.Dispose();
+            if (disposing && components != null) components.Dispose();
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
         private void InitializeComponent()
         {
             dgvOrders = new DataGridView();
+            btnCreate = new Button();
             btnRefresh = new Button();
-            creatobt = new Button();
+            btnDelete = new Button();
+            btnEdit = new Button();
             ((ISupportInitialize)dgvOrders).BeginInit();
             SuspendLayout();
             // 
@@ -32,54 +35,71 @@ namespace ITP4915M_System
             dgvOrders.AllowUserToAddRows = false;
             dgvOrders.AllowUserToDeleteRows = false;
             dgvOrders.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            dgvOrders.ColumnHeadersHeight = 34;
-            dgvOrders.Location = new Point(16, 75);
+            dgvOrders.ColumnHeadersHeight = 46;
+            dgvOrders.Location = new Point(19, 104);
+            dgvOrders.Margin = new Padding(4, 4, 4, 4);
             dgvOrders.Name = "dgvOrders";
-            dgvOrders.ReadOnly = true;
-            dgvOrders.RowHeadersWidth = 62;
-            dgvOrders.RowTemplate.Height = 25;
-            dgvOrders.Size = new Size(1320, 537);
+            dgvOrders.RowHeadersWidth = 82;
+            dgvOrders.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvOrders.Size = new Size(1560, 747);
             dgvOrders.TabIndex = 0;
-            dgvOrders.CellContentClick += dgvOrders_CellContentClick;
+            // 
+            // btnCreate
+            // 
+            btnCreate.Location = new Point(49, 33);
+            btnCreate.Margin = new Padding(4, 4, 4, 4);
+            btnCreate.Name = "btnCreate";
+            btnCreate.Size = new Size(146, 47);
+            btnCreate.TabIndex = 1;
+            btnCreate.Text = "Create";
+            btnCreate.Click += btnCreate_Click;
             // 
             // btnRefresh
             // 
-            btnRefresh.Location = new Point(245, 24);
+            btnRefresh.Location = new Point(203, 33);
+            btnRefresh.Margin = new Padding(4, 4, 4, 4);
             btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(129, 33);
-            btnRefresh.TabIndex = 1;
+            btnRefresh.Size = new Size(129, 47);
+            btnRefresh.TabIndex = 2;
             btnRefresh.Text = "Refresh";
-            btnRefresh.UseVisualStyleBackColor = true;
             btnRefresh.Click += btnRefresh_Click;
             // 
-            // creatobt
+            // btnDelete
             // 
-            creatobt.Location = new Point(47, 24);
-            creatobt.Name = "creatobt";
-            creatobt.Size = new Size(173, 33);
-            creatobt.TabIndex = 2;
-            creatobt.Text = "Create New Order";
-            creatobt.UseVisualStyleBackColor = true;
-            creatobt.Click += creatobt_Click;
+            btnDelete.Location = new Point(526, 33);
+            btnDelete.Margin = new Padding(4, 4, 4, 4);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(130, 47);
+            btnDelete.TabIndex = 4;
+            btnDelete.Text = "Delete Selected";
+            btnDelete.Click += btnDelete_Click;
+            // 
+            // btnEdit
+            // 
+            btnEdit.Location = new Point(368, 33);
+            btnEdit.Margin = new Padding(4, 4, 4, 4);
+            btnEdit.Name = "btnEdit";
+            btnEdit.Size = new Size(121, 47);
+            btnEdit.TabIndex = 3;
+            btnEdit.Text = "Edit Selected";
+            btnEdit.Click += btnEdit_Click;
             // 
             // FormSales
             // 
-            AutoScaleDimensions = new SizeF(11F, 23F);
+            AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1353, 645);
-            Controls.Add(creatobt);
-            Controls.Add(btnRefresh);
+            ClientSize = new Size(1599, 897);
             Controls.Add(dgvOrders);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
-            MaximizeBox = false;
-            MinimizeBox = false;
+            Controls.Add(btnCreate);
+            Controls.Add(btnRefresh);
+            Controls.Add(btnEdit);
+            Controls.Add(btnDelete);
+            Margin = new Padding(4, 4, 4, 4);
             Name = "FormSales";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Sales Dashboard";
+            Text = "Sales";
             Load += FormSales_Load;
             ((ISupportInitialize)dgvOrders).EndInit();
             ResumeLayout(false);
         }
-        #endregion
     }
 }

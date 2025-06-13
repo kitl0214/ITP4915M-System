@@ -150,6 +150,71 @@ namespace ITP4915MSystem
             adp.Fill(dt);
             return dt;
         }
+        public static void DeleteOrder(int oid)
+        {
+            const string sql = "DELETE FROM orders WHERE oid=@oid";
+            using var conn = GetConnection();
+            conn.Open();
+            using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@oid", oid);
+            cmd.ExecuteNonQuery();
+        }
+        public static OrderModel GetOrder(int oid)
+        {
+            const string sql = @"
+        SELECT o.*, c.name AS customerName
+        FROM orders o
+        LEFT JOIN customers c ON o.cid = c.cid
+        WHERE o.oid = @oid LIMIT 1";
+
+            using var conn = GetConnection();
+            conn.Open();
+            using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@oid", oid.ToString("000000"));
+
+            using var rdr = cmd.ExecuteReader();
+            rdr.Read();
+            return new OrderModel
+            {
+                Oid = oid,
+                Customer = rdr["customerName"].ToString(),
+                Product = rdr["product"].ToString(),
+                Unit = Convert.ToInt32(rdr["unit"]),
+                Qty = Convert.ToInt32(rdr["qty"]),
+                IsCustom = rdr["order_type"].ToString() == "CUSTOM",
+                ExtraPack = Convert.ToInt32(rdr["extra_pkg"]) == 1,
+                DueDate = Convert.ToDateTime(rdr["due_date"]),
+                Total = Convert.ToInt32(rdr["total"])
+            };
+        }
+        public static void UpdateOrder(OrderModel m)
+        {
+            const string sql = @"
+        UPDATE orders SET
+            cid        = (SELECT cid FROM customers WHERE name=@cust LIMIT 1),
+            product    = @prod,
+            unit       = @unit,
+            qty        = @qty,
+            order_type = @otype,
+            extra_pkg  = @pkg,
+            due_date   = @due,
+            total      = @total
+        WHERE oid = @oid";
+
+            using var conn = GetConnection();
+            conn.Open();
+            using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@oid", m.Oid.ToString("000000"));
+            cmd.Parameters.AddWithValue("@cust", m.Customer);
+            cmd.Parameters.AddWithValue("@prod", m.Product);
+            cmd.Parameters.AddWithValue("@unit", m.Unit);
+            cmd.Parameters.AddWithValue("@qty", m.Qty);
+            cmd.Parameters.AddWithValue("@otype", m.IsCustom ? "CUSTOM" : "GENERAL");
+            cmd.Parameters.AddWithValue("@pkg", m.ExtraPack ? 1 : 0);
+            cmd.Parameters.AddWithValue("@due", m.DueDate);
+            cmd.Parameters.AddWithValue("@total", m.Total);
+            cmd.ExecuteNonQuery();
+        }
 
 
         /* Update Order Status */

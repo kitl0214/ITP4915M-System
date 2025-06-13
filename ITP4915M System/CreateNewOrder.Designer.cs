@@ -1,20 +1,27 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
-
+﻿// -----------------------------------------------------------------------------
+// CreateNewOrder.Designer.cs  –  100% Designer-friendly (Customer ID 版本)
+// -----------------------------------------------------------------------------
 namespace ITP4915M_System
 {
     partial class CreateNewOrder
     {
         private System.ComponentModel.IContainer components = null;
 
-        // UI controls
-        private Label Custnlb, prodlb, quanlb, uninlb, duedlb;
-        private TextBox txtCust, txtProd;
-        private RadioButton gord, ctrd;
-        private CheckBox apcb;
-        private NumericUpDown quannud, uninud;
-        private DateTimePicker edcdtp;
-        private Button creatbt, cleanbt;
+        private System.Windows.Forms.Label Cidlb;
+        private System.Windows.Forms.Label prodlb;
+        private System.Windows.Forms.Label quanlb;
+        private System.Windows.Forms.Label uninlb;
+        private System.Windows.Forms.Label duedlb;
+        private System.Windows.Forms.TextBox txtCid;
+        private System.Windows.Forms.TextBox txtProd;
+        private System.Windows.Forms.RadioButton gord;
+        private System.Windows.Forms.RadioButton ctrd;
+        private System.Windows.Forms.CheckBox apcb;
+        private System.Windows.Forms.NumericUpDown quannud;
+        private System.Windows.Forms.NumericUpDown uninud;
+        private System.Windows.Forms.DateTimePicker edcdtp;
+        private System.Windows.Forms.Button creatbt;
+        private System.Windows.Forms.Button cleanbt;
 
         protected override void Dispose(bool disposing)
         {
@@ -25,169 +32,167 @@ namespace ITP4915M_System
         #region Windows Form Designer generated code
         private void InitializeComponent()
         {
-            Custnlb = new Label();
-            prodlb = new Label();
-            quanlb = new Label();
-            uninlb = new Label();
-            duedlb = new Label();
-            txtCust = new TextBox();
-            txtProd = new TextBox();
-            gord = new RadioButton();
-            ctrd = new RadioButton();
-            apcb = new CheckBox();
-            quannud = new NumericUpDown();
-            uninud = new NumericUpDown();
-            edcdtp = new DateTimePicker();
-            creatbt = new Button();
-            cleanbt = new Button();
+            Cidlb = new System.Windows.Forms.Label();
+            prodlb = new System.Windows.Forms.Label();
+            quanlb = new System.Windows.Forms.Label();
+            uninlb = new System.Windows.Forms.Label();
+            duedlb = new System.Windows.Forms.Label();
+            txtCid = new System.Windows.Forms.TextBox();
+            txtProd = new System.Windows.Forms.TextBox();
+            gord = new System.Windows.Forms.RadioButton();
+            ctrd = new System.Windows.Forms.RadioButton();
+            apcb = new System.Windows.Forms.CheckBox();
+            quannud = new System.Windows.Forms.NumericUpDown();
+            uninud = new System.Windows.Forms.NumericUpDown();
+            edcdtp = new System.Windows.Forms.DateTimePicker();
+            creatbt = new System.Windows.Forms.Button();
+            cleanbt = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)quannud).BeginInit();
             ((System.ComponentModel.ISupportInitialize)uninud).BeginInit();
             SuspendLayout();
             // 
-            // Custnlb
+            // Cidlb
             // 
-            Custnlb.AutoSize = true;
-            Custnlb.Location = new Point(35, 53);
-            Custnlb.Name = "Custnlb";
-            Custnlb.Size = new Size(159, 23);
-            Custnlb.Text = "Customer Name :";
+            Cidlb.AutoSize = true;
+            Cidlb.Location = new System.Drawing.Point(35, 50);
+            Cidlb.Name = "Cidlb";
+            Cidlb.Size = new System.Drawing.Size(176, 37);
+            Cidlb.Text = "Customer ID :";
             // 
             // prodlb
             // 
             prodlb.AutoSize = true;
-            prodlb.Location = new Point(35, 115);
+            prodlb.Location = new System.Drawing.Point(35, 110);
             prodlb.Name = "prodlb";
-            prodlb.Size = new Size(143, 23);
-            prodlb.Text = "Product Name :";
+            prodlb.Size = new System.Drawing.Size(122, 37);
+            prodlb.Text = "Product :";
             // 
             // quanlb
             // 
             quanlb.AutoSize = true;
-            quanlb.Location = new Point(38, 232);
+            quanlb.Location = new System.Drawing.Point(35, 230);
             quanlb.Name = "quanlb";
-            quanlb.Size = new Size(85, 23);
-            quanlb.Text = "Quantity";
+            quanlb.Size = new System.Drawing.Size(132, 37);
+            quanlb.Text = "Quantity :";
             // 
             // uninlb
             // 
             uninlb.AutoSize = true;
-            uninlb.Location = new Point(38, 299);
+            uninlb.Location = new System.Drawing.Point(35, 290);
             uninlb.Name = "uninlb";
-            uninlb.Size = new Size(102, 23);
-            uninlb.Text = "Unit Price :";
+            uninlb.Size = new System.Drawing.Size(102, 37);
+            uninlb.Text = "Unit $ :";
             // 
             // duedlb
             // 
             duedlb.AutoSize = true;
-            duedlb.Location = new Point(38, 445);
+            duedlb.Location = new System.Drawing.Point(35, 420);
             duedlb.Name = "duedlb";
-            duedlb.Size = new Size(197, 23);
-            duedlb.Text = "Estimated completion";
+            duedlb.Size = new System.Drawing.Size(141, 37);
+            duedlb.Text = "Due Date :";
             // 
-            // txtCust
+            // txtCid
             // 
-            txtCust.Location = new Point(236, 53);
-            txtCust.Name = "txtCust";
-            txtCust.Size = new Size(256, 30);
+            txtCid.Location = new System.Drawing.Point(220, 46);
+            txtCid.Name = "txtCid";
+            txtCid.Size = new System.Drawing.Size(240, 43);
             // 
             // txtProd
             // 
-            txtProd.Location = new Point(236, 115);
+            txtProd.Location = new System.Drawing.Point(220, 106);
             txtProd.Name = "txtProd";
-            txtProd.Size = new Size(247, 30);
+            txtProd.Size = new System.Drawing.Size(240, 43);
             txtProd.TextChanged += txtProd_TextChanged;
             // 
             // gord
             // 
             gord.AutoSize = true;
             gord.Checked = true;
-            gord.Location = new Point(35, 169);
+            gord.Location = new System.Drawing.Point(35, 165);
             gord.Name = "gord";
-            gord.Size = new Size(156, 27);
-            gord.TabStop = true;
-            gord.Text = "General Order";
+            gord.Size = new System.Drawing.Size(140, 41);
+            gord.Text = "General";
+            gord.UseVisualStyleBackColor = true;
             // 
             // ctrd
             // 
             ctrd.AutoSize = true;
-            ctrd.Location = new Point(236, 169);
+            ctrd.Location = new System.Drawing.Point(220, 165);
             ctrd.Name = "ctrd";
-            ctrd.Size = new Size(156, 27);
-            ctrd.Text = "Custom Order";
+            ctrd.Size = new System.Drawing.Size(139, 41);
+            ctrd.Text = "Custom";
+            ctrd.UseVisualStyleBackColor = true;
             // 
             // apcb
             // 
             apcb.AutoSize = true;
-            apcb.Location = new Point(38, 382);
+            apcb.Location = new System.Drawing.Point(55, 347);
             apcb.Name = "apcb";
-            apcb.Size = new Size(267, 27);
-            apcb.Text = "Additional Packaging (+$1)";
+            apcb.Size = new System.Drawing.Size(293, 41);
+            apcb.Text = "Extra Pkg (+$1/item)";
+            apcb.UseVisualStyleBackColor = true;
             // 
             // quannud
             // 
-            quannud.Location = new Point(192, 232);
-            quannud.Maximum = 100000;
-            quannud.Minimum = 1;
+            quannud.Location = new System.Drawing.Point(220, 224);
+            quannud.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            quannud.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             quannud.Name = "quannud";
-            quannud.Size = new Size(165, 30);
-            quannud.Value = 1;
+            quannud.Size = new System.Drawing.Size(120, 43);
+            quannud.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // uninud
             // 
-            uninud.Location = new Point(192, 299);
-            uninud.Maximum = 1000000;
-            uninud.Minimum = 1;
+            uninud.Location = new System.Drawing.Point(220, 284);
+            uninud.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            uninud.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             uninud.Name = "uninud";
-            uninud.Size = new Size(165, 30);
-            uninud.Value = 1;
+            uninud.Size = new System.Drawing.Size(120, 43);
+            uninud.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // edcdtp
             // 
-            edcdtp.Format = DateTimePickerFormat.Short;
-            edcdtp.Location = new Point(38, 519);
+            edcdtp.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            edcdtp.Location = new System.Drawing.Point(35, 480);
             edcdtp.Name = "edcdtp";
-            edcdtp.Size = new Size(378, 30);
+            edcdtp.Size = new System.Drawing.Size(218, 43);
             // 
             // creatbt
             // 
-            creatbt.Location = new Point(24, 606);
+            creatbt.Location = new System.Drawing.Point(35, 545);
             creatbt.Name = "creatbt";
-            creatbt.Size = new Size(154, 52);
+            creatbt.Size = new System.Drawing.Size(120, 40);
             creatbt.Text = "Create";
+            creatbt.UseVisualStyleBackColor = true;
             creatbt.Click += creatbt_Click;
             // 
             // cleanbt
             // 
-            cleanbt.Location = new Point(222, 606);
+            cleanbt.Location = new System.Drawing.Point(175, 545);
             cleanbt.Name = "cleanbt";
-            cleanbt.Size = new Size(154, 52);
+            cleanbt.Size = new System.Drawing.Size(120, 40);
             cleanbt.Text = "Clear";
+            cleanbt.UseVisualStyleBackColor = true;
             cleanbt.Click += cleanbt_Click;
             // 
             // CreateNewOrder
             // 
-            AutoScaleDimensions = new SizeF(11F, 23F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(516, 698);
-            Controls.AddRange(new Control[]
+            AutoScaleDimensions = new System.Drawing.SizeF(15F, 37F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(660, 760);
+            Controls.AddRange(new System.Windows.Forms.Control[]
             {
-                Custnlb, txtCust,
-                prodlb,  txtProd,
-                gord, ctrd,
-                quanlb, quannud,
-                uninlb, uninud,
-                apcb,
-                duedlb, edcdtp,
-                creatbt, cleanbt
+                cleanbt, creatbt, edcdtp, uninud, quannud, apcb,
+                ctrd, gord, txtProd, txtCid, duedlb, uninlb,
+                quanlb, prodlb, Cidlb
             });
-            FormBorderStyle = FormBorderStyle.FixedDialog;
+            Font = new System.Drawing.Font("Segoe UI", 10F);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "CreateNewOrder";
-            ShowInTaskbar = false;
-            StartPosition = FormStartPosition.CenterScreen;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Create New Order";
-            TopMost = true;
             Load += CreateNewOrder_Load;
             ((System.ComponentModel.ISupportInitialize)quannud).EndInit();
             ((System.ComponentModel.ISupportInitialize)uninud).EndInit();
