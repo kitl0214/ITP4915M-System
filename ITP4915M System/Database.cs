@@ -229,6 +229,55 @@ namespace ITP4915MSystem
                 cmd.ExecuteNonQuery();
             }
         }
+        /*───────────────────── 客戶服務專用 ─────────────────────*/
+        public static DataTable GetAllFollowups()
+        {
+            const string sql = """
+        SELECT f.fid, f.oid, o.product, o.created_at, o.due_date, o.qty,
+               f.action, f.comment, f.status, f.created_at AS followup_time
+        FROM cs_followups f
+        JOIN orders o ON o.oid = f.oid
+        ORDER BY f.created_at DESC;
+    """;
+
+            using var conn = GetConnection();
+            using var da = new MySqlDataAdapter(sql, conn);
+            var dt = new DataTable();
+            da.Fill(dt);
+            return dt;
+        }
+
+        public static void AddFollowup(string oid, string action, string comment)
+        {
+            const string sql = """
+        INSERT INTO cs_followups (oid, action, comment)
+        VALUES (@oid, @action, @comment);
+    """;
+
+            using var conn = GetConnection();
+            conn.Open();                                         // ★ 補這行
+            using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@oid", oid);
+            cmd.Parameters.AddWithValue("@action", action);
+            cmd.Parameters.AddWithValue("@comment", comment);
+            cmd.ExecuteNonQuery();
+        }
+
+        public static void SetFollowupCompleted(int fid)
+        {
+            const string sql = """
+        UPDATE cs_followups
+        SET status = 'COMPLETED', completed_at = NOW()
+        WHERE fid = @fid;
+    """;
+
+            using var conn = GetConnection();
+            conn.Open();                                         // ★ 補這行
+            using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@fid", fid);
+            cmd.ExecuteNonQuery();
+        }
+
 
         /* R&D Form's On Going Projects Data Grid View */
         public static DataTable GetRDOrders()
