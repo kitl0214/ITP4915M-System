@@ -15,7 +15,7 @@ namespace ITP4915MSystem
         public static MySqlConnection GetConnection()
         {
             var conn = new MySqlConnection(ConnStr);
-            
+
             return conn;
         }
 
@@ -216,19 +216,6 @@ namespace ITP4915MSystem
             cmd.ExecuteNonQuery();
         }
 
-
-        /* Update Order Status */
-        public static void UpdateRAndDStatus(string specID, string status)
-        {
-            using (var conn = GetConnection())
-            {
-                var cmd = new MySqlCommand("UPDATE r_and_d SET status = @status WHERE specID = @specID", conn);
-                cmd.Parameters.AddWithValue("@specID", specID);
-                cmd.Parameters.AddWithValue("@status", status);
-                conn.Open();
-                cmd.ExecuteNonQuery();
-            }
-        }
         /*───────────────────── 客戶服務專用 ─────────────────────*/
         public static DataTable GetAllFollowups()
         {
@@ -279,6 +266,21 @@ namespace ITP4915MSystem
         }
 
 
+        /*ｖ───────────────────── R&D Department ─────────────────────ｖ*/
+
+        /* Update Order Status */
+        public static void UpdateRAndDStatus(string specID, string status)
+        {
+            using (var conn = GetConnection())
+            {
+                var cmd = new MySqlCommand("UPDATE r_and_d SET status = @status WHERE specID = @specID", conn);
+                cmd.Parameters.AddWithValue("@specID", specID);
+                cmd.Parameters.AddWithValue("@status", status);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         /* R&D Form's On Going Projects Data Grid View */
         public static DataTable GetRDOrders()
         {
@@ -291,5 +293,102 @@ namespace ITP4915MSystem
             adp.Fill(dt);
             return dt;
         }
+
+        /*︿───────────────────── R&D Department ─────────────────────︿*/
+
+        /*ｖ───────────────────── Finance Department ─────────────────────ｖ*/
+        // Invoice 相關操作
+
+        // Invoice 相關操作
+
+        public static DataTable GetAllInvoices()
+        {
+            var dt = new DataTable();
+            const string sql = @"
+        SELECT
+            i.invoiceID,
+            i.orderID,
+            c.name AS user_name,   -- 新增
+            o.order_type,
+            i.amount,
+            i.issueDate,
+            i.status
+        FROM invoice i
+        INNER JOIN orders o ON i.orderID = o.oid
+        LEFT JOIN customers c ON o.cid = c.cid
+        ORDER BY i.invoiceID DESC";
+            using var conn = GetConnection();
+            conn.Open();
+            using var cmd = new MySqlCommand(sql, conn);
+            using var adp = new MySqlDataAdapter(cmd);
+            adp.Fill(dt);
+            return dt;
+        }
+
+        public static void InsertInvoice(InvoiceModel model)
+        {
+            const string sql = @"INSERT INTO Invoice (invoiceID, orderID, amount, issueDate, status)
+                         VALUES (@invoiceID, @orderID, @amount, @issueDate, @status)";
+            using var conn = GetConnection();
+            conn.Open();
+            using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@invoiceID", model.InvoiceID);
+            cmd.Parameters.AddWithValue("@orderID", model.OrderID);
+            cmd.Parameters.AddWithValue("@amount", model.Amount);
+            cmd.Parameters.AddWithValue("@issueDate", model.IssueDate);
+            cmd.Parameters.AddWithValue("@status", model.Status);
+            cmd.ExecuteNonQuery();
+        }
+
+        public static void UpdateInvoiceStatus(string invoiceID, string status)
+        {
+            const string sql = "UPDATE Invoice SET status = @status WHERE invoiceID = @invoiceID";
+            using var conn = GetConnection();
+            conn.Open();
+            using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@status", status);
+            cmd.Parameters.AddWithValue("@invoiceID", invoiceID);
+            cmd.ExecuteNonQuery();
+        }
+
+        public static void DeleteInvoice(string invoiceID)
+        {
+            const string sql = "DELETE FROM Invoice WHERE invoiceID = @invoiceID";
+            using var conn = GetConnection();
+            conn.Open();
+            using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@invoiceID", invoiceID);
+            cmd.ExecuteNonQuery();
+        }
+
+        public static DataTable GetInvoiceSelectableOrders()
+        {
+            var dt = new DataTable();
+            const string sql = @"
+        SELECT o.oid, o.product, o.total, o.due_date, o.order_type
+        FROM orders o
+        LEFT JOIN Invoice i ON o.oid = i.orderID
+        WHERE i.orderID IS NULL
+        ORDER BY o.created_at DESC
+    ";
+            using var conn = GetConnection();
+            conn.Open();
+            using var cmd = new MySqlCommand(sql, conn);
+            using var adp = new MySqlDataAdapter(cmd);
+            adp.Fill(dt);
+            return dt;
+        }
+
+
+        public static string GetNextInvoiceID()
+        {
+            using var conn = GetConnection();
+            conn.Open();
+            string sql = "SELECT IFNULL(MAX(CAST(SUBSTRING(invoiceID,2) AS UNSIGNED)), 0)+1 FROM Invoice";
+            using var cmd = new MySqlCommand(sql, conn);
+            int next = Convert.ToInt32(cmd.ExecuteScalar());
+            return "I" + next.ToString("D5");
+        }
+        /*︿───────────────────── Finance Department ─────────────────────︿*/
     }
 }
