@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------------
-// CreateNewOrder.cs  –  建立 / 編輯訂單（使用 Customer ID）
+// CreateNewOrder.cs  –  Create / Edit Order (uses Customer Name)
 // -----------------------------------------------------------------------------
 using System;
 using System.Windows.Forms;
@@ -9,23 +9,23 @@ namespace ITP4915M_System
 {
     public partial class CreateNewOrder : Form
     {
-        private readonly OrderModel? _original;   // null = 新增
+        private readonly OrderModel? _original;   // null = new order
 
-        /*─── 建立新訂單 ───*/
+        /*─── create new order ───*/
         public CreateNewOrder()
         {
             InitializeComponent();
             _original = null;
         }
 
-        /*─── 編輯舊訂單 ───*/
+        /*─── edit existing order ───*/
         public CreateNewOrder(OrderModel existing) : this()
         {
             _original = existing;
             Text = $"Edit Order #{existing.Oid:000000}";
             creatbt.Text = "Save";
 
-            txtCid.Text = existing.Customer;      // 存放 ID 字串
+            txtCName.Text = existing.Customer;      // customer name
             txtProd.Text = existing.Product;
             uninud.Value = existing.Unit;
             quannud.Value = existing.Qty;
@@ -38,12 +38,13 @@ namespace ITP4915M_System
         /*─── Create / Save ───*/
         private void creatbt_Click(object? sender, EventArgs e)
         {
-            /* 1) 必填驗證 ─ Customer ID 必須是正整數 */
-            if (!int.TryParse(txtCid.Text.Trim(), out int cid) || cid <= 0)
+            /* 1) validation – customer name required */
+            string custName = txtCName.Text.Trim();
+            if (string.IsNullOrWhiteSpace(custName))
             {
-                MessageBox.Show("Please enter a valid numeric Customer ID.", "Missing / Invalid",
+                MessageBox.Show("Please enter the customer name.", "Missing Field",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCid.Focus();
+                txtCName.Focus();
                 return;
             }
 
@@ -55,7 +56,7 @@ namespace ITP4915M_System
                 return;
             }
 
-            /* 2) 計算金額 */
+            /* 2) calculate amount */
             bool isCustom = ctrd.Checked;
             int qty = (int)quannud.Value;
             int unit = (int)uninud.Value;
@@ -64,10 +65,10 @@ namespace ITP4915M_System
 
             int oid = _original?.Oid ?? Database.GetNextOrderId();
 
-            /* 3) 預覽對話框 */
+            /* 3) preview dialog */
             using var sum = new OrderSummaryDialog(
                 orderId: oid,
-                customer: $"#{cid}",
+                customer: custName,
                 product: txtProd.Text.Trim(),
                 qty: qty,
                 unit: unit,
@@ -78,11 +79,11 @@ namespace ITP4915M_System
 
             if (sum.ShowDialog(this) != DialogResult.OK) return;
 
-            /* 4) 組成模型、寫入 DB */
+            /* 4) build model & write DB */
             var model = new OrderModel
             {
                 Oid = oid,
-                Customer = cid.ToString(),     // 以字串形式存放 ID
+                Customer = custName,
                 Product = txtProd.Text.Trim(),
                 Unit = unit,
                 Qty = qty,
@@ -94,10 +95,12 @@ namespace ITP4915M_System
 
             try
             {
-                if (_original == null) Database.InsertOrder(model);
-                else Database.UpdateOrder(model);
+                if (_original == null)
+                    Database.InsertOrder(model);
+                else
+                    Database.UpdateOrder(model);
 
-                DialogResult = DialogResult.OK;   // 通知父窗刷新
+                DialogResult = DialogResult.OK;   // notify parent to refresh
             }
             catch (Exception ex)
             {
@@ -108,14 +111,17 @@ namespace ITP4915M_System
         /*─── Clear ───*/
         private void cleanbt_Click(object? sender, EventArgs e)
         {
-            txtCid.Clear(); txtProd.Clear();
-            quannud.Value = 1; uninud.Value = 1;
-            gord.Checked = true; ctrd.Checked = false;
+            txtCName.Clear();
+            txtProd.Clear();
+            quannud.Value = 1;
+            uninud.Value = 1;
+            gord.Checked = true;
+            ctrd.Checked = false;
             apcb.Checked = false;
             edcdtp.Value = DateTime.Today;
         }
 
-        /*─── 其餘事件 (若需) ───*/
+        /*─── other events (optional) ───*/
         private void CreateNewOrder_Load(object? s, EventArgs e) { }
         private void txtProd_TextChanged(object? s, EventArgs e) { }
     }

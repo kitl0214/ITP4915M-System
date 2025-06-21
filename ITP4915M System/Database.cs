@@ -119,26 +119,30 @@ namespace ITP4915MSystem
         public static void InsertOrder(OrderModel m)
         {
             const string sql = """
-                INSERT INTO orders
-                (oid,cid,product,unit,qty,order_type,extra_pkg,due_date,total)
-                VALUES (@oid,
-                        (SELECT cid FROM customers WHERE name=@cust LIMIT 1),
-                        @prod,@unit,@qty,@otype,@pkg,@due,@total)
-                """;
+        INSERT INTO orders
+              (oid, customer_name, product, unit, qty,
+               order_type, extra_pkg, due_date, total)
+        VALUES (@oid, @cust,        @prod,  @unit, @qty,
+                @otype, @pkg,       @due,   @total);
+        """;
+
             using var conn = GetConnection();
             conn.Open();
             using var cmd = new MySqlCommand(sql, conn);
+
             cmd.Parameters.AddWithValue("@oid", m.Oid.ToString("000000"));
-            cmd.Parameters.AddWithValue("@cust", m.Customer);
+            cmd.Parameters.AddWithValue("@cust", m.Customer);                 // ← 直接存名稱
             cmd.Parameters.AddWithValue("@prod", m.Product);
             cmd.Parameters.AddWithValue("@unit", m.Unit);
             cmd.Parameters.AddWithValue("@qty", m.Qty);
             cmd.Parameters.AddWithValue("@otype", m.IsCustom ? "CUSTOM" : "GENERAL");
-            cmd.Parameters.AddWithValue("@pkg", m.ExtraPack ? 1 : 0);
+            cmd.Parameters.AddWithValue("@pkg", (m.ExtraPack ? 1 : 0));
             cmd.Parameters.AddWithValue("@due", m.DueDate);
             cmd.Parameters.AddWithValue("@total", m.Total);
+
             cmd.ExecuteNonQuery();
         }
+
         public static DataTable GetAllOrders()
         {
             var dt = new DataTable();
@@ -162,10 +166,19 @@ namespace ITP4915MSystem
         public static OrderModel GetOrder(int oid)
         {
             const string sql = @"
-        SELECT o.*, c.name AS customerName
-        FROM orders o
-        LEFT JOIN customers c ON o.cid = c.cid
-        WHERE o.oid = @oid LIMIT 1";
+        SELECT
+            oid,
+            customer_name,   -- ← 改用此欄位
+            product,
+            unit,
+            qty,
+            order_type,
+            extra_pkg,
+            due_date,
+            total
+        FROM orders
+        WHERE oid = @oid
+        LIMIT 1";
 
             using var conn = GetConnection();
             conn.Open();
@@ -173,11 +186,12 @@ namespace ITP4915MSystem
             cmd.Parameters.AddWithValue("@oid", oid.ToString("000000"));
 
             using var rdr = cmd.ExecuteReader();
-            rdr.Read();
+            if (!rdr.Read()) throw new InvalidOperationException("Order not found.");
+
             return new OrderModel
             {
                 Oid = oid,
-                Customer = rdr["customerName"].ToString(),
+                Customer = rdr["customer_name"].ToString(),   // ← 改這裡
                 Product = rdr["product"].ToString(),
                 Unit = Convert.ToInt32(rdr["unit"]),
                 Qty = Convert.ToInt32(rdr["qty"]),
@@ -187,34 +201,38 @@ namespace ITP4915MSystem
                 Total = Convert.ToInt32(rdr["total"])
             };
         }
+
         public static void UpdateOrder(OrderModel m)
         {
             const string sql = @"
         UPDATE orders SET
-            cid        = (SELECT cid FROM customers WHERE name=@cust LIMIT 1),
-            product    = @prod,
-            unit       = @unit,
-            qty        = @qty,
-            order_type = @otype,
-            extra_pkg  = @pkg,
-            due_date   = @due,
-            total      = @total
+            customer_name = @cust,     -- ← 改用名稱欄位
+            product       = @prod,
+            unit          = @unit,
+            qty           = @qty,
+            order_type    = @otype,
+            extra_pkg     = @pkg,
+            due_date      = @due,
+            total         = @total
         WHERE oid = @oid";
 
             using var conn = GetConnection();
             conn.Open();
             using var cmd = new MySqlCommand(sql, conn);
+
             cmd.Parameters.AddWithValue("@oid", m.Oid.ToString("000000"));
-            cmd.Parameters.AddWithValue("@cust", m.Customer);
+            cmd.Parameters.AddWithValue("@cust", m.Customer);                 // 名稱
             cmd.Parameters.AddWithValue("@prod", m.Product);
             cmd.Parameters.AddWithValue("@unit", m.Unit);
             cmd.Parameters.AddWithValue("@qty", m.Qty);
             cmd.Parameters.AddWithValue("@otype", m.IsCustom ? "CUSTOM" : "GENERAL");
-            cmd.Parameters.AddWithValue("@pkg", m.ExtraPack ? 1 : 0);
+            cmd.Parameters.AddWithValue("@pkg", (m.ExtraPack ? 1 : 0));
             cmd.Parameters.AddWithValue("@due", m.DueDate);
             cmd.Parameters.AddWithValue("@total", m.Total);
+
             cmd.ExecuteNonQuery();
         }
+
 
         /*───────────────────── 客戶服務專用 ─────────────────────*/
         public static DataTable GetAllFollowups()
@@ -264,6 +282,31 @@ namespace ITP4915MSystem
             cmd.Parameters.AddWithValue("@fid", fid);
             cmd.ExecuteNonQuery();
         }
+        public static void UpdateFollowup(int fid, string action, string comment)
+        {
+            const string sql = @"
+        UPDATE cs_followups
+        SET action = @act,
+            comment = @cm
+        WHERE fid = @fid";
+            using var conn = GetConnection();
+            conn.Open();
+            using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@act", action);
+            cmd.Parameters.AddWithValue("@cm", comment);
+            cmd.Parameters.AddWithValue("@fid", fid);
+            cmd.ExecuteNonQuery();
+        }
+        public static void SetFollowupStatus(int fid, string status)
+        {
+            const string sql = "UPDATE cs_followups SET status=@s WHERE fid=@id";
+            using var conn = GetConnection();
+            conn.Open();
+            using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@s", status);
+            cmd.Parameters.AddWithValue("@id", fid);
+            cmd.ExecuteNonQuery();
+        }
 
 
         /*ｖ───────────────────── R&D Department ─────────────────────ｖ*/
@@ -304,19 +347,20 @@ namespace ITP4915MSystem
         public static DataTable GetAllInvoices()
         {
             var dt = new DataTable();
+
             const string sql = @"
-        SELECT
-            i.invoiceID,
-            i.orderID,
-            c.name AS user_name,   -- 新增
-            o.order_type,
-            i.amount,
-            i.issueDate,
-            i.status
-        FROM invoice i
-        INNER JOIN orders o ON i.orderID = o.oid
-        LEFT JOIN customers c ON o.cid = c.cid
-        ORDER BY i.invoiceID DESC";
+SELECT
+    i.invoiceID,
+    i.orderID,
+    o.customer_name     AS user_name,   -- 改用 orders 裡的名稱
+    o.order_type,
+    i.amount,
+    i.issueDate,
+    i.status
+FROM invoice i
+INNER JOIN orders o ON i.orderID = o.oid
+ORDER BY i.invoiceID DESC";
+
             using var conn = GetConnection();
             conn.Open();
             using var cmd = new MySqlCommand(sql, conn);
@@ -324,6 +368,7 @@ namespace ITP4915MSystem
             adp.Fill(dt);
             return dt;
         }
+
 
         public static void InsertInvoice(InvoiceModel model)
         {

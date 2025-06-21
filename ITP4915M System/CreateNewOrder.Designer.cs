@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------------
-// CreateNewOrder.Designer.cs  –  100% Designer-friendly (Customer ID 版本)
+// CreateNewOrder.Designer.cs  –  Customer Name version (designer generated)
 // -----------------------------------------------------------------------------
 namespace ITP4915M_System
 {
@@ -7,12 +7,12 @@ namespace ITP4915M_System
     {
         private System.ComponentModel.IContainer components = null;
 
-        private System.Windows.Forms.Label Cidlb;
+        private System.Windows.Forms.Label NameLb;
         private System.Windows.Forms.Label prodlb;
         private System.Windows.Forms.Label quanlb;
         private System.Windows.Forms.Label uninlb;
         private System.Windows.Forms.Label duedlb;
-        private System.Windows.Forms.TextBox txtCid;
+        private System.Windows.Forms.TextBox txtCName;
         private System.Windows.Forms.TextBox txtProd;
         private System.Windows.Forms.RadioButton gord;
         private System.Windows.Forms.RadioButton ctrd;
@@ -32,12 +32,13 @@ namespace ITP4915M_System
         #region Windows Form Designer generated code
         private void InitializeComponent()
         {
-            Cidlb = new System.Windows.Forms.Label();
+            components = new System.ComponentModel.Container();
+            NameLb = new System.Windows.Forms.Label();
             prodlb = new System.Windows.Forms.Label();
             quanlb = new System.Windows.Forms.Label();
             uninlb = new System.Windows.Forms.Label();
             duedlb = new System.Windows.Forms.Label();
-            txtCid = new System.Windows.Forms.TextBox();
+            txtCName = new System.Windows.Forms.TextBox();
             txtProd = new System.Windows.Forms.TextBox();
             gord = new System.Windows.Forms.RadioButton();
             ctrd = new System.Windows.Forms.RadioButton();
@@ -47,17 +48,17 @@ namespace ITP4915M_System
             edcdtp = new System.Windows.Forms.DateTimePicker();
             creatbt = new System.Windows.Forms.Button();
             cleanbt = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)quannud).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)uninud).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(quannud)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(uninud)).BeginInit();
             SuspendLayout();
             // 
-            // Cidlb
+            // NameLb
             // 
-            Cidlb.AutoSize = true;
-            Cidlb.Location = new System.Drawing.Point(35, 50);
-            Cidlb.Name = "Cidlb";
-            Cidlb.Size = new System.Drawing.Size(176, 37);
-            Cidlb.Text = "Customer ID :";
+            NameLb.AutoSize = true;
+            NameLb.Location = new System.Drawing.Point(35, 50);
+            NameLb.Name = "NameLb";
+            NameLb.Size = new System.Drawing.Size(163, 37);
+            NameLb.Text = "Customer :";
             // 
             // prodlb
             // 
@@ -91,11 +92,11 @@ namespace ITP4915M_System
             duedlb.Size = new System.Drawing.Size(141, 37);
             duedlb.Text = "Due Date :";
             // 
-            // txtCid
+            // txtCName
             // 
-            txtCid.Location = new System.Drawing.Point(220, 46);
-            txtCid.Name = "txtCid";
-            txtCid.Size = new System.Drawing.Size(240, 43);
+            txtCName.Location = new System.Drawing.Point(220, 46);
+            txtCName.Name = "txtCName";
+            txtCName.Size = new System.Drawing.Size(240, 43);
             // 
             // txtProd
             // 
@@ -183,8 +184,8 @@ namespace ITP4915M_System
             Controls.AddRange(new System.Windows.Forms.Control[]
             {
                 cleanbt, creatbt, edcdtp, uninud, quannud, apcb,
-                ctrd, gord, txtProd, txtCid, duedlb, uninlb,
-                quanlb, prodlb, Cidlb
+                ctrd, gord, txtProd, txtCName, duedlb, uninlb,
+                quanlb, prodlb, NameLb
             });
             Font = new System.Drawing.Font("Segoe UI", 10F);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -194,8 +195,8 @@ namespace ITP4915M_System
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Create New Order";
             Load += CreateNewOrder_Load;
-            ((System.ComponentModel.ISupportInitialize)quannud).EndInit();
-            ((System.ComponentModel.ISupportInitialize)uninud).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(quannud)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(uninud)).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
