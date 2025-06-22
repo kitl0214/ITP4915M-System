@@ -19,6 +19,7 @@ namespace ITP4915M_System
         {
             InitializeComponent();
 
+           
             // 新增手動刷新按鈕
             btnRefresh = new Button();
             btnRefresh.Text = "Refresh";
@@ -106,9 +107,9 @@ namespace ITP4915M_System
                 DateTime.TryParse(row.Cells["deadLine"].Value.ToString(), out var deadline))
             {
                 if (deadline < DateTime.Now)
-                    row.DefaultCellStyle.BackColor = Color.Yellow;
+                    row.DefaultCellStyle.BackColor = Color.Red;
                 else
-                    row.DefaultCellStyle.BackColor = Color.White;
+                    row.DefaultCellStyle.BackColor = Color.Yellow;
             }
         }
 
@@ -120,8 +121,10 @@ namespace ITP4915M_System
 
         public void LoadData()
         {
+
             try
             {
+
                 DataTable dtAll = Database.GetRDOrders();
                 var now = DateTime.Now;
                 var soon = now.AddDays(14);
@@ -154,27 +157,32 @@ namespace ITP4915M_System
                 MessageBox.Show($"Error loading data: {ex.Message}", "Error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
         // 設定欄位與 status 下拉/唯讀
         private void SetHeaders(DataGridView dgv, bool useComboBox)
         {
             if (dgv.DataSource == null) return;
+            if (dgv.Columns.Contains("approvedByName"))
+                dgv.Columns.Remove("approvedByName");
 
             dgv.Columns["specID"].HeaderText = "Tailor Made ID";
             dgv.Columns["specID"].Width = 120;
             dgv.Columns["orderID"].HeaderText = "Order ID";
             dgv.Columns["orderID"].Width = 80;
+            if (dgv.Columns.Contains("customer_name"))
+            {
+                dgv.Columns["customer_name"].HeaderText = "Customer";
+                dgv.Columns["customer_name"].Width = 120;
+            }
             dgv.Columns["description"].HeaderText = "Description";
             dgv.Columns["description"].Width = 200;
             dgv.Columns["description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            dgv.Columns["approvedByID"].HeaderText = "User ID";
-            dgv.Columns["approvedByID"].Width = 80;
-            dgv.Columns["approvedByName"].HeaderText = "User Name";
-            dgv.Columns["approvedByName"].Width = 120;
             dgv.Columns["deadLine"].HeaderText = "Deadline";
             dgv.Columns["deadLine"].Width = 120;
 
+            // 狀態欄動態加 ComboBox
             if (dgv.Columns.Contains("status"))
             {
                 int idx = dgv.Columns["status"].Index;
@@ -191,7 +199,6 @@ namespace ITP4915M_System
                     comboCol.Items.AddRange("On Going", "Completed");
                     dgv.Columns.Insert(idx, comboCol);
 
-                    // 保證顯示值正確
                     foreach (DataGridViewRow row in dgv.Rows)
                     {
                         if (row.Cells["status"] is DataGridViewComboBoxCell cbCell)
@@ -213,8 +220,18 @@ namespace ITP4915M_System
                 }
             }
 
+            // ---- 這裡加欄位順序（強制排序） ----
+            if (dgv.Columns.Contains("specID")) dgv.Columns["specID"].DisplayIndex = 0;
+            if (dgv.Columns.Contains("orderID")) dgv.Columns["orderID"].DisplayIndex = 1;
+            if (dgv.Columns.Contains("customer_name")) dgv.Columns["customer_name"].DisplayIndex = 2;
+            if (dgv.Columns.Contains("description")) dgv.Columns["description"].DisplayIndex = 3;
+            if (dgv.Columns.Contains("deadLine")) dgv.Columns["deadLine"].DisplayIndex = 4;
+            if (dgv.Columns.Contains("status")) dgv.Columns["status"].DisplayIndex = 5;
+            // -------------------------------------
+
             dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgv.ClearSelection();
         }
+
     }
 }

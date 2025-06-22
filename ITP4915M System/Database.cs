@@ -328,7 +328,12 @@ namespace ITP4915MSystem
         public static DataTable GetRDOrders()
         {
             var dt = new DataTable();
-            const string sql = "SELECT * FROM r_and_d ORDER BY specID DESC";
+            const string sql = @"
+        SELECT r_and_d.*,
+               orders.customer_name
+        FROM r_and_d
+        JOIN orders ON r_and_d.orderID = orders.oid
+        ORDER BY r_and_d.specID DESC";
             using var conn = GetConnection();
             conn.Open();
             using var cmd = new MySqlCommand(sql, conn);
