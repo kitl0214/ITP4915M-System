@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;         // NEW
 using System.Windows.Forms;
 using ITP4915MSystem;
 
@@ -27,16 +28,25 @@ namespace ITP4915M_System
             dgvOrders.DataSource = null;
             dgvOrders.Columns.Clear();
 
-            DataTable dt = Database.GetAllOrders();          // 仍然含 cid / customer
+            DataTable dt = Database.GetAllOrders();      // still returns cid / customer_name
             dt.DefaultView.Sort = "created_at ASC";
 
-            /* ❶ 如果有 cid / customer，就把它直接移除 --------- */
-            if (dt.Columns.Contains("customer"))
-                dt.Columns.Remove("customer");   // ← 徹底刪欄
-            else if (dt.Columns.Contains("cid"))
+            /* 1 ─ remove cid only */
+            if (dt.Columns.Contains("cid"))
                 dt.Columns.Remove("cid");
 
-            /* ❷ extra_pkg 文字化（保持原樣） ------------------- */
+            /* 2 ─ unify customer_name format (trim & Title-Case) */
+            if (dt.Columns.Contains("customer_name"))
+            {
+                foreach (DataRow r in dt.Rows)
+                {
+                    var raw = (r["customer_name"]?.ToString() ?? "").Trim();
+                    r["customer_name"] = CultureInfo.CurrentCulture.TextInfo
+                                         .ToTitleCase(raw.ToLower());
+                }
+            }
+
+            /* 3 ─ convert extra_pkg 0/1 -> "Y"/"" */
             if (!dt.Columns.Contains("extra_txt"))
                 dt.Columns.Add("extra_txt", typeof(string));
 
@@ -48,30 +58,52 @@ namespace ITP4915M_System
 
             dgvOrders.DataSource = dt;
 
-            /* ❸ 勾選欄 Sel（保持原樣） ------------------------- */
+            /* 4 ─ add Sel checkbox column if missing */
             if (dgvOrders.Columns["Sel"] == null)
                 dgvOrders.Columns.Insert(0,
-                    new DataGridViewCheckBoxColumn { Name = "Sel", Width = 30 });
+                    new DataGridViewCheckBoxColumn
+                    {
+                        Name = "Sel",
+                        Width = 30
+                    });
 
-            /* ❹ 友善標題（把 customer 那行刪掉即可） ---------- */
+            /* 5 ─ user-friendly headers */
             void H(string c, string t)
             { if (dgvOrders.Columns.Contains(c)) dgvOrders.Columns[c].HeaderText = t; }
 
-            H("oid", "Order ID");          // ← 沒有 Customer ID 再也不設
+            H("oid", "Order ID");
+            H("customer_name", "Customer");
             H("product", "Product");
-            H("qty", "Qty"); H("unit", "Unit");
-            H("order_type", "Type"); H("extra_pkg", "Extra Pkg");
-            H("due_date", "Due"); H("total", "Total"); H("created_at", "Created");
+            H("qty", "Qty");
+            H("unit", "Unit");
+            H("order_type", "Type");
+            H("extra_pkg", "Extra Pkg");
+            H("due_date", "Due");
+            H("total", "Total");
+            H("created_at", "Created");
 
-            /* ❺ 欄位順序：少了 customer，依序往前推 ----------- */
+            /* 6 ─ column order */
             void Pos(string c, int p)
             { if (dgvOrders.Columns.Contains(c)) dgvOrders.Columns[c].DisplayIndex = p; }
 
-            Pos("Sel", 0); Pos("oid", 1);
-            Pos("product", 2); Pos("qty", 3);
-            Pos("unit", 4); Pos("order_type", 5);
-            Pos("extra_pkg", 6); Pos("due_date", 7);
-            Pos("total", 8); Pos("created_at", 9);
+            Pos("Sel", 0);
+            Pos("oid", 1);
+            Pos("customer_name", 2);
+            Pos("product", 3);
+            Pos("qty", 4);
+            Pos("unit", 5);
+            Pos("order_type", 6);
+            Pos("extra_pkg", 7);
+            Pos("due_date", 8);
+            Pos("total", 9);
+            Pos("created_at", 10);
+
+            /* 7 ─ shrink or hide row-header column */
+            dgvOrders.RowHeadersVisible = false;   // simplest
+            // If you prefer to keep the arrow but make it narrow, comment previous
+            // line and uncomment below two:
+            // dgvOrders.RowHeadersWidth         = 20;
+            // dgvOrders.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
         }
 
         /* ───── Buttons ───── */

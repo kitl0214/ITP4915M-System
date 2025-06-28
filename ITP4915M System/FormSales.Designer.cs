@@ -42,6 +42,7 @@ namespace ITP4915M_System
             dgvOrders.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvOrders.Size = new Size(1320, 537);
             dgvOrders.TabIndex = 0;
+           
             // 
             // btnCreate
             // 

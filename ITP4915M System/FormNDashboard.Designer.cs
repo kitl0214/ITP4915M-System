@@ -1,4 +1,4 @@
-﻿// ✅ FormNDashboard.Designer.cs - 加入 RD 分頁
+﻿// ✅ FormNDashboard.Designer.cs ─ 已加入 Report 分頁
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -15,6 +15,7 @@ namespace ITP4915M_System
         private TabPage tabFinance;
         private TabPage tabLogistics;
         private TabPage tabRD;
+        private TabPage tabReport;          // ★ 新增
 
         protected override void Dispose(bool disposing)
         {
@@ -33,10 +34,12 @@ namespace ITP4915M_System
             tabFinance = new TabPage();
             tabLogistics = new TabPage();
             tabRD = new TabPage();
+            tabReport = new TabPage();   // ★ 新增
 
             tabMain.SuspendLayout();
             SuspendLayout();
 
+            /* ---------- TabControl ---------- */
             tabMain.Controls.Add(tabSales);
             tabMain.Controls.Add(tabProduction);
             tabMain.Controls.Add(tabHR);
@@ -44,6 +47,7 @@ namespace ITP4915M_System
             tabMain.Controls.Add(tabFinance);
             tabMain.Controls.Add(tabLogistics);
             tabMain.Controls.Add(tabRD);
+            tabMain.Controls.Add(tabReport);                      // ★ 新增
             tabMain.Dock = DockStyle.Fill;
             tabMain.Location = new Point(0, 0);
             tabMain.Margin = new Padding(5);
@@ -52,55 +56,25 @@ namespace ITP4915M_System
             tabMain.Size = new Size(1509, 920);
             tabMain.TabIndex = 1;
 
-            tabSales.Location = new Point(4, 32);
-            tabSales.Margin = new Padding(5);
-            tabSales.Name = "tabSales";
-            tabSales.Size = new Size(1501, 884);
-            tabSales.TabIndex = 0;
+            /* ---------- 個別分頁 ---------- */
             tabSales.Text = "Sales";
-
-            tabProduction.Location = new Point(4, 32);
-            tabProduction.Margin = new Padding(5);
-            tabProduction.Name = "tabProduction";
-            tabProduction.Size = new Size(1501, 884);
-            tabProduction.TabIndex = 1;
             tabProduction.Text = "Production";
-
-            tabHR.Location = new Point(4, 32);
-            tabHR.Margin = new Padding(5);
-            tabHR.Name = "tabHR";
-            tabHR.Size = new Size(1501, 884);
-            tabHR.TabIndex = 2;
             tabHR.Text = "HR";
-
-            tabCS.Location = new Point(4, 32);
-            tabCS.Margin = new Padding(5);
-            tabCS.Name = "tabCS";
-            tabCS.Size = new Size(1501, 884);
-            tabCS.TabIndex = 3;
             tabCS.Text = "Customer Service";
-
-            tabFinance.Location = new Point(4, 32);
-            tabFinance.Margin = new Padding(5);
-            tabFinance.Name = "tabFinance";
-            tabFinance.Size = new Size(1501, 884);
-            tabFinance.TabIndex = 4;
             tabFinance.Text = "Finance";
-
-            tabLogistics.Location = new Point(4, 32);
-            tabLogistics.Margin = new Padding(5);
-            tabLogistics.Name = "tabLogistics";
-            tabLogistics.Size = new Size(1501, 884);
-            tabLogistics.TabIndex = 5;
             tabLogistics.Text = "Logistics";
-
-            tabRD.Location = new Point(4, 32);
-            tabRD.Margin = new Padding(5);
-            tabRD.Name = "tabRD";
-            tabRD.Size = new Size(1501, 884);
-            tabRD.TabIndex = 6;
             tabRD.Text = "R&D";
+            tabReport.Text = "Report";          // ★ 新增
 
+            // 統一尺寸與位置（以下為範例，保持一致即可）
+            foreach (TabPage tp in tabMain.TabPages)
+            {
+                tp.Location = new Point(4, 32);
+                tp.Margin = new Padding(5);
+                tp.Size = new Size(1501, 884);
+            }
+
+            /* ---------- Form ---------- */
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1509, 920);

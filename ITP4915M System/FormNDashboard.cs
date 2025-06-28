@@ -1,4 +1,4 @@
-﻿// ✅ FormNDashboard.cs - 加入 FormCS、FormFinance、FormLogistics、FormRD 支援並更新 OnLogout()
+﻿// ✅ FormNDashboard.cs ─ 已加入 FormReport
 using System;
 using System.Windows.Forms;
 using ITP4915MSystem;
@@ -7,11 +7,9 @@ namespace ITP4915M_System
 {
     public partial class FormNDashboard : FormTemplate
     {
-        public FormNDashboard()
-        {
-            InitializeComponent();
-        }
+        public FormNDashboard() => InitializeComponent();
 
+        /* ---------- life-cycle ---------- */
         private void FormDashboard_Load(object sender, EventArgs e)
         {
             Embed(new FormSales(), "Sales");
@@ -21,6 +19,7 @@ namespace ITP4915M_System
             Embed(new FormFinance(), "Finance");
             Embed(new FormLogistics(), "Logistics");
             Embed(new FormRD(), "R&D");
+            Embed(new FormReport(), "Report");   // ★ 新增
             tabMain.SelectedIndex = 0;
         }
 
@@ -55,13 +54,9 @@ namespace ITP4915M_System
         protected override void OnLogout()
         {
             foreach (TabPage tp in tabMain.TabPages)
-            {
                 foreach (Control ctrl in tp.Controls)
-                {
                     if (ctrl is Form embeddedForm)
                         embeddedForm.Close();
-                }
-            }
         }
     }
 }

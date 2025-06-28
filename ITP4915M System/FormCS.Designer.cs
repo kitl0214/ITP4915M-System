@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------------
-// FormCS.Designer.cs – WinForms layout (Designer-friendly version)
+// FormCS.Designer.cs – layout; no logic changes
 // -----------------------------------------------------------------------------
 using System.Drawing;
 using System.Windows.Forms;
@@ -42,7 +42,8 @@ namespace ITP4915M_System
             dgvOrders.Size = new Size(760, 250);
             dgvOrders.ReadOnly = true;
             dgvOrders.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvOrders.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            dgvOrders.AutoSizeColumnsMode =
+                DataGridViewAutoSizeColumnsMode.DisplayedCells;
             // 
             // dgvFollowups
             // 
@@ -51,12 +52,14 @@ namespace ITP4915M_System
             dgvFollowups.ReadOnly = false;
             dgvFollowups.AllowUserToAddRows = false;
             dgvFollowups.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvFollowups.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            dgvFollowups.AutoSizeColumnsMode =
+                DataGridViewAutoSizeColumnsMode.DisplayedCells;
             dgvFollowups.EditMode = DataGridViewEditMode.EditOnEnter;
             dgvFollowups.CellContentClick += dgvFollowups_CellContentClick;
             dgvFollowups.RowPrePaint += dgvFollowups_RowPrePaint;
             dgvFollowups.CellValueChanged += dgvFollowups_CellValueChanged;
-            dgvFollowups.CurrentCellDirtyStateChanged += dgvFollowups_CurrentCellDirtyStateChanged;
+            dgvFollowups.CurrentCellDirtyStateChanged
+                                                += dgvFollowups_CurrentCellDirtyStateChanged;
             // 
             // btnLoadOrders
             // 
@@ -94,6 +97,7 @@ namespace ITP4915M_System
             Name = "FormCS";
             Text = "Customer Service";
             Load += FormCS_Load;
+
             ((ISupportInitialize)dgvOrders).EndInit();
             ((ISupportInitialize)dgvFollowups).EndInit();
             ResumeLayout(false);
