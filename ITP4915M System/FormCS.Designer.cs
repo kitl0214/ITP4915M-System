@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------------
-// FormCS.Designer.cs – layout; no logic changes
+// FormCS.Designer.cs – layout; CellDoubleClick event wired
 // -----------------------------------------------------------------------------
 using System.Drawing;
 using System.Windows.Forms;
@@ -42,8 +42,7 @@ namespace ITP4915M_System
             dgvOrders.Size = new Size(760, 250);
             dgvOrders.ReadOnly = true;
             dgvOrders.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvOrders.AutoSizeColumnsMode =
-                DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            dgvOrders.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             // 
             // dgvFollowups
             // 
@@ -52,14 +51,14 @@ namespace ITP4915M_System
             dgvFollowups.ReadOnly = false;
             dgvFollowups.AllowUserToAddRows = false;
             dgvFollowups.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvFollowups.AutoSizeColumnsMode =
-                DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            dgvFollowups.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             dgvFollowups.EditMode = DataGridViewEditMode.EditOnEnter;
             dgvFollowups.CellContentClick += dgvFollowups_CellContentClick;
             dgvFollowups.RowPrePaint += dgvFollowups_RowPrePaint;
             dgvFollowups.CellValueChanged += dgvFollowups_CellValueChanged;
             dgvFollowups.CurrentCellDirtyStateChanged
-                                                += dgvFollowups_CurrentCellDirtyStateChanged;
+                                            += dgvFollowups_CurrentCellDirtyStateChanged;
+            dgvFollowups.CellDoubleClick += dgvFollowups_CellDoubleClick;   // ★
             // 
             // btnLoadOrders
             // 

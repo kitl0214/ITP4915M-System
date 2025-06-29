@@ -307,6 +307,70 @@ namespace ITP4915MSystem
             cmd.Parameters.AddWithValue("@id", fid);
             cmd.ExecuteNonQuery();
         }
+        public static DataTable GetFollowupsByOrder(string oid)
+        {
+            const string sqlFull = """
+        SELECT oid,
+               fid,
+               action,
+               comment,
+               status,
+               discount_amount,
+               refund_amount,
+               created_at,
+               followup_time
+        FROM followups
+        WHERE oid = @oid
+        ORDER BY created_at
+        """;
+
+            const string sqlLite = """
+        SELECT oid,
+               fid,
+               action,
+               comment,
+               status,
+               created_at,
+               followup_time
+        FROM followups
+        WHERE oid = @oid
+        ORDER BY created_at
+        """;
+
+            using var conn = GetConnection();
+            conn.Open();
+
+            var dt = new DataTable();
+
+            using var cmd = new MySqlCommand(sqlFull, conn);
+            cmd.Parameters.AddWithValue("@oid", oid);
+
+            try
+            {
+                // 先嘗試撈完整版
+                using var da = new MySqlDataAdapter(cmd);
+                da.Fill(dt);
+            }
+            catch (MySqlException ex) when (ex.Message.Contains("discount_amount")
+                                         || ex.Message.Contains("refund_amount"))
+            {
+                // 降級改用精簡版 SQL
+                cmd.CommandText = sqlLite;
+                dt.Clear();                            // 清空舊結構
+                using var daLite = new MySqlDataAdapter(cmd);
+                daLite.Fill(dt);
+
+                // 手動補上兩欄，保持欄位一致
+                if (!dt.Columns.Contains("discount_amount"))
+                    dt.Columns.Add("discount_amount", typeof(string));
+
+                if (!dt.Columns.Contains("refund_amount"))
+                    dt.Columns.Add("refund_amount", typeof(string));
+            }
+
+            return dt;
+        }
+
 
 
         /*ｖ───────────────────── R&D Department ─────────────────────ｖ*/
