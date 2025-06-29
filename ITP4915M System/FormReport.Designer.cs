@@ -46,7 +46,7 @@ namespace ITP4915M_System
             dgvOrders.ReadOnly = true;
             dgvOrders.RowHeadersVisible = false;
             dgvOrders.RowHeadersWidth = 62;
-            dgvOrders.Size = new Size(244, 188);
+            dgvOrders.Size = new Size(197, 180);
             dgvOrders.TabIndex = 0;
             // 
             // dgvFollowups
@@ -58,7 +58,7 @@ namespace ITP4915M_System
             dgvFollowups.ReadOnly = true;
             dgvFollowups.RowHeadersVisible = false;
             dgvFollowups.RowHeadersWidth = 62;
-            dgvFollowups.Size = new Size(244, 189);
+            dgvFollowups.Size = new Size(197, 169);
             dgvFollowups.TabIndex = 3;
             // 
             // lblOrderCount
@@ -109,7 +109,7 @@ namespace ITP4915M_System
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(72, 276);
+            label2.Location = new Point(72, 287);
             label2.Name = "label2";
             label2.Size = new Size(103, 23);
             label2.TabIndex = 7;
