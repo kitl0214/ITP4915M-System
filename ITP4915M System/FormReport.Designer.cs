@@ -1,5 +1,8 @@
 ﻿// -----------------------------------------------------------------------------
-// FormReport.Designer.cs – two DataGridViews + two export buttons
+// FormReport.Designer.cs  –  simple layout
+//   • 上半部：訂單月份統計 + Export Orders 按鈕 + 筆數摘要
+//   • 下半部：待跟進月份統計 + Export Follow-ups 按鈕 + 筆數摘要
+//   • 兩張 DataGridView 以 DisplayedCells 自動調欄寬（執行時在 FormReport.cs 設定）
 // -----------------------------------------------------------------------------
 using System.ComponentModel;
 using System.Drawing;
@@ -10,122 +13,147 @@ namespace ITP4915M_System
     partial class FormReport
     {
         private IContainer components = null;
-        private DataGridView dgvOrders;
-        private DataGridView dgvFollowups;
-        private Label lblOrderCount;
-        private Label lblFUCount;
-        private Button btnExportOrders;
-        private Button btnExportFU;
 
+        private Label lblOrdersTitle;
+        private DataGridView dgvOrders;
+        private Button btnExportOrders;
+        private Label lblOrderCount;
+
+        private Label lblFUTitle;
+        private DataGridView dgvFollowups;
+        private Button btnExportFU;
+        private Label lblFUCount;
+
+        /// <summary>clean resources</summary>
         protected override void Dispose(bool disposing)
         {
             if (disposing && components != null) components.Dispose();
             base.Dispose(disposing);
         }
 
+        #region Windows-Form Designer
         private void InitializeComponent()
         {
+            lblOrdersTitle = new Label();
             dgvOrders = new DataGridView();
-            dgvFollowups = new DataGridView();
-            lblOrderCount = new Label();
-            lblFUCount = new Label();
             btnExportOrders = new Button();
+            lblOrderCount = new Label();
+            lblFUTitle = new Label();
+            dgvFollowups = new DataGridView();
             btnExportFU = new Button();
-            label1 = new Label();
-            label2 = new Label();
+            lblFUCount = new Label();
             ((ISupportInitialize)dgvOrders).BeginInit();
             ((ISupportInitialize)dgvFollowups).BeginInit();
             SuspendLayout();
             // 
+            // lblOrdersTitle
+            // 
+            lblOrdersTitle.AutoSize = true;
+            lblOrdersTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblOrdersTitle.Location = new Point(39, 31);
+            lblOrdersTitle.Margin = new Padding(5, 0, 5, 0);
+            lblOrdersTitle.Name = "lblOrdersTitle";
+            lblOrdersTitle.Size = new Size(66, 28);
+            lblOrdersTitle.TabIndex = 0;
+            lblOrdersTitle.Text = "Order";
+            // 
             // dgvOrders
             // 
+            dgvOrders.AllowUserToAddRows = false;
+            dgvOrders.AllowUserToDeleteRows = false;
             dgvOrders.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvOrders.ColumnHeadersHeight = 34;
-            dgvOrders.Location = new Point(72, 35);
+            dgvOrders.Location = new Point(39, 69);
+            dgvOrders.Margin = new Padding(5, 5, 5, 5);
             dgvOrders.Name = "dgvOrders";
             dgvOrders.ReadOnly = true;
             dgvOrders.RowHeadersVisible = false;
             dgvOrders.RowHeadersWidth = 62;
-            dgvOrders.Size = new Size(197, 180);
-            dgvOrders.TabIndex = 0;
+            dgvOrders.Size = new Size(471, 337);
+            dgvOrders.TabIndex = 1;
             // 
-            // dgvFollowups
+            // btnExportOrders
             // 
-            dgvFollowups.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvFollowups.ColumnHeadersHeight = 34;
-            dgvFollowups.Location = new Point(72, 313);
-            dgvFollowups.Name = "dgvFollowups";
-            dgvFollowups.ReadOnly = true;
-            dgvFollowups.RowHeadersVisible = false;
-            dgvFollowups.RowHeadersWidth = 62;
-            dgvFollowups.Size = new Size(197, 169);
-            dgvFollowups.TabIndex = 3;
+            btnExportOrders.Location = new Point(536, 69);
+            btnExportOrders.Margin = new Padding(5, 5, 5, 5);
+            btnExportOrders.Name = "btnExportOrders";
+            btnExportOrders.Size = new Size(220, 54);
+            btnExportOrders.TabIndex = 2;
+            btnExportOrders.Text = "Export Orders";
+            btnExportOrders.Click += btnExportOrders_Click;
             // 
             // lblOrderCount
             // 
             lblOrderCount.AutoSize = true;
             lblOrderCount.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lblOrderCount.Location = new Point(18, 250);
+            lblOrderCount.Location = new Point(536, 128);
+            lblOrderCount.Margin = new Padding(5, 0, 5, 0);
             lblOrderCount.Name = "lblOrderCount";
-            lblOrderCount.Size = new Size(0, 25);
-            lblOrderCount.TabIndex = 1;
+            lblOrderCount.Size = new Size(133, 25);
+            lblOrderCount.TabIndex = 3;
+            lblOrderCount.Text = "Total orders: 0";
+            // 
+            // lblFUTitle
+            // 
+            lblFUTitle.AutoSize = true;
+            lblFUTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblFUTitle.Location = new Point(39, 460);
+            lblFUTitle.Margin = new Padding(5, 0, 5, 0);
+            lblFUTitle.Name = "lblFUTitle";
+            lblFUTitle.Size = new Size(115, 28);
+            lblFUTitle.TabIndex = 4;
+            lblFUTitle.Text = "Follow-ups";
+            // 
+            // dgvFollowups
+            // 
+            dgvFollowups.AllowUserToAddRows = false;
+            dgvFollowups.AllowUserToDeleteRows = false;
+            dgvFollowups.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvFollowups.ColumnHeadersHeight = 34;
+            dgvFollowups.Location = new Point(39, 498);
+            dgvFollowups.Margin = new Padding(5, 5, 5, 5);
+            dgvFollowups.Name = "dgvFollowups";
+            dgvFollowups.ReadOnly = true;
+            dgvFollowups.RowHeadersVisible = false;
+            dgvFollowups.RowHeadersWidth = 62;
+            dgvFollowups.Size = new Size(471, 337);
+            dgvFollowups.TabIndex = 5;
+            // 
+            // btnExportFU
+            // 
+            btnExportFU.Location = new Point(536, 498);
+            btnExportFU.Margin = new Padding(5, 5, 5, 5);
+            btnExportFU.Name = "btnExportFU";
+            btnExportFU.Size = new Size(220, 54);
+            btnExportFU.TabIndex = 6;
+            btnExportFU.Text = "Export Follow-ups";
+            btnExportFU.Click += btnExportFU_Click;
             // 
             // lblFUCount
             // 
             lblFUCount.AutoSize = true;
             lblFUCount.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lblFUCount.Location = new Point(18, 530);
+            lblFUCount.Location = new Point(536, 567);
+            lblFUCount.Margin = new Padding(5, 0, 5, 0);
             lblFUCount.Name = "lblFUCount";
-            lblFUCount.Size = new Size(0, 25);
-            lblFUCount.TabIndex = 4;
-            // 
-            // btnExportOrders
-            // 
-            btnExportOrders.Location = new Point(361, 44);
-            btnExportOrders.Name = "btnExportOrders";
-            btnExportOrders.Size = new Size(131, 32);
-            btnExportOrders.TabIndex = 2;
-            btnExportOrders.Text = "Export Orders";
-            btnExportOrders.Click += btnExportOrders_Click;
-            // 
-            // btnExportFU
-            // 
-            btnExportFU.Location = new Point(361, 301);
-            btnExportFU.Name = "btnExportFU";
-            btnExportFU.Size = new Size(163, 32);
-            btnExportFU.TabIndex = 5;
-            btnExportFU.Text = "Export Follow-ups";
-            btnExportFU.Click += btnExportFU_Click;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(72, 9);
-            label1.Name = "label1";
-            label1.Size = new Size(60, 23);
-            label1.TabIndex = 6;
-            label1.Text = "Order";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(72, 287);
-            label2.Name = "label2";
-            label2.Size = new Size(103, 23);
-            label2.TabIndex = 7;
-            label2.Text = "Follow-ups";
+            lblFUCount.Size = new Size(196, 25);
+            lblFUCount.TabIndex = 7;
+            lblFUCount.Text = "Pending follow-ups: 0";
             // 
             // FormReport
             // 
-            ClientSize = new Size(936, 663);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            AutoScaleDimensions = new SizeF(11F, 23F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(849, 882);
+            Controls.Add(lblOrdersTitle);
             Controls.Add(dgvOrders);
-            Controls.Add(lblOrderCount);
             Controls.Add(btnExportOrders);
+            Controls.Add(lblOrderCount);
+            Controls.Add(lblFUTitle);
             Controls.Add(dgvFollowups);
-            Controls.Add(lblFUCount);
             Controls.Add(btnExportFU);
+            Controls.Add(lblFUCount);
+            Margin = new Padding(5, 5, 5, 5);
             Name = "FormReport";
             Text = "Monthly Report";
             Load += FormReport_Load;
@@ -134,7 +162,6 @@ namespace ITP4915M_System
             ResumeLayout(false);
             PerformLayout();
         }
-        private Label label1;
-        private Label label2;
+        #endregion
     }
 }
