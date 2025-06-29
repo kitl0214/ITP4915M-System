@@ -46,7 +46,7 @@ namespace ITP4915M_System
             dgvOrders.ReadOnly = true;
             dgvOrders.RowHeadersVisible = false;
             dgvOrders.RowHeadersWidth = 62;
-            dgvOrders.Size = new Size(259, 199);
+            dgvOrders.Size = new Size(259, 193);
             dgvOrders.TabIndex = 0;
             // 
             // dgvFollowups
@@ -58,7 +58,7 @@ namespace ITP4915M_System
             dgvFollowups.ReadOnly = true;
             dgvFollowups.RowHeadersVisible = false;
             dgvFollowups.RowHeadersWidth = 62;
-            dgvFollowups.Size = new Size(259, 209);
+            dgvFollowups.Size = new Size(259, 201);
             dgvFollowups.TabIndex = 3;
             // 
             // lblOrderCount
@@ -81,7 +81,7 @@ namespace ITP4915M_System
             // 
             // btnExportOrders
             // 
-            btnExportOrders.Location = new Point(379, 211);
+            btnExportOrders.Location = new Point(361, 44);
             btnExportOrders.Name = "btnExportOrders";
             btnExportOrders.Size = new Size(131, 32);
             btnExportOrders.TabIndex = 2;
@@ -90,7 +90,7 @@ namespace ITP4915M_System
             // 
             // btnExportFU
             // 
-            btnExportFU.Location = new Point(379, 489);
+            btnExportFU.Location = new Point(361, 312);
             btnExportFU.Name = "btnExportFU";
             btnExportFU.Size = new Size(163, 32);
             btnExportFU.TabIndex = 5;
