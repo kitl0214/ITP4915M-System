@@ -39,31 +39,35 @@ namespace ITP4915M_System
             // cmbDept
             // 
             cmbDept.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbDept.Location = new Point(713, 479);
+            cmbDept.Location = new Point(615, 283);
+            cmbDept.Margin = new Padding(3, 2, 3, 2);
             cmbDept.Name = "cmbDept";
-            cmbDept.Size = new Size(368, 40);
+            cmbDept.Size = new Size(312, 31);
             cmbDept.TabIndex = 0;
             // 
             // txtUser
             // 
-            txtUser.Location = new Point(694, 561);
+            txtUser.Location = new Point(599, 342);
+            txtUser.Margin = new Padding(3, 2, 3, 2);
             txtUser.Name = "txtUser";
-            txtUser.Size = new Size(368, 39);
+            txtUser.Size = new Size(312, 30);
             txtUser.TabIndex = 1;
             // 
             // txtPwd
             // 
-            txtPwd.Location = new Point(694, 647);
+            txtPwd.Location = new Point(599, 404);
+            txtPwd.Margin = new Padding(3, 2, 3, 2);
             txtPwd.Name = "txtPwd";
-            txtPwd.Size = new Size(368, 39);
+            txtPwd.Size = new Size(312, 30);
             txtPwd.TabIndex = 2;
             txtPwd.UseSystemPasswordChar = true;
             // 
             // btnLogin
             // 
-            btnLogin.Location = new Point(694, 739);
+            btnLogin.Location = new Point(599, 470);
+            btnLogin.Margin = new Padding(3, 2, 3, 2);
             btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(167, 60);
+            btnLogin.Size = new Size(141, 43);
             btnLogin.TabIndex = 3;
             btnLogin.Text = "Login";
             btnLogin.UseVisualStyleBackColor = true;
@@ -71,9 +75,10 @@ namespace ITP4915M_System
             // 
             // btnClear
             // 
-            btnClear.Location = new Point(898, 739);
+            btnClear.Location = new Point(772, 470);
+            btnClear.Margin = new Padding(3, 2, 3, 2);
             btnClear.Name = "btnClear";
-            btnClear.Size = new Size(167, 60);
+            btnClear.Size = new Size(141, 43);
             btnClear.TabIndex = 4;
             btnClear.Text = "Clear";
             btnClear.UseVisualStyleBackColor = true;
@@ -82,36 +87,36 @@ namespace ITP4915M_System
             // lblDept
             // 
             lblDept.AutoSize = true;
-            lblDept.Location = new Point(493, 483);
+            lblDept.Location = new Point(429, 286);
             lblDept.Name = "lblDept";
-            lblDept.Size = new Size(142, 32);
+            lblDept.Size = new Size(114, 23);
             lblDept.TabIndex = 5;
             lblDept.Text = "Department";
             // 
             // lblUser
             // 
             lblUser.AutoSize = true;
-            lblUser.Location = new Point(493, 568);
+            lblUser.Location = new Point(429, 347);
             lblUser.Name = "lblUser";
-            lblUser.Size = new Size(121, 32);
+            lblUser.Size = new Size(96, 23);
             lblUser.TabIndex = 6;
             lblUser.Text = "Username";
             // 
             // lblPwd
             // 
             lblPwd.AutoSize = true;
-            lblPwd.Location = new Point(493, 653);
+            lblPwd.Location = new Point(429, 408);
             lblPwd.Name = "lblPwd";
-            lblPwd.Size = new Size(111, 32);
+            lblPwd.Size = new Size(90, 23);
             lblPwd.TabIndex = 7;
             lblPwd.Text = "Password";
             // 
             // LoginForm
             // 
             AcceptButton = btnLogin;
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1237, 849);
+            ClientSize = new Size(1047, 610);
             Controls.Add(lblDept);
             Controls.Add(cmbDept);
             Controls.Add(lblUser);
@@ -121,6 +126,7 @@ namespace ITP4915M_System
             Controls.Add(btnLogin);
             Controls.Add(btnClear);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Margin = new Padding(3, 2, 3, 2);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "LoginForm";

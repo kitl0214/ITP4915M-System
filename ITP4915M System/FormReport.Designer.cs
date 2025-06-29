@@ -41,7 +41,7 @@ namespace ITP4915M_System
             // 
             dgvOrders.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvOrders.ColumnHeadersHeight = 34;
-            dgvOrders.Location = new Point(72, 44);
+            dgvOrders.Location = new Point(72, 35);
             dgvOrders.Name = "dgvOrders";
             dgvOrders.ReadOnly = true;
             dgvOrders.RowHeadersVisible = false;
@@ -53,7 +53,7 @@ namespace ITP4915M_System
             // 
             dgvFollowups.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvFollowups.ColumnHeadersHeight = 34;
-            dgvFollowups.Location = new Point(72, 312);
+            dgvFollowups.Location = new Point(72, 289);
             dgvFollowups.Name = "dgvFollowups";
             dgvFollowups.ReadOnly = true;
             dgvFollowups.RowHeadersVisible = false;
@@ -90,7 +90,7 @@ namespace ITP4915M_System
             // 
             // btnExportFU
             // 
-            btnExportFU.Location = new Point(361, 312);
+            btnExportFU.Location = new Point(361, 301);
             btnExportFU.Name = "btnExportFU";
             btnExportFU.Size = new Size(163, 32);
             btnExportFU.TabIndex = 5;
@@ -109,7 +109,7 @@ namespace ITP4915M_System
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(72, 277);
+            label2.Location = new Point(72, 252);
             label2.Name = "label2";
             label2.Size = new Size(103, 23);
             label2.TabIndex = 7;
