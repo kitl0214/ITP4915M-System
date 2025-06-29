@@ -46,19 +46,19 @@ namespace ITP4915M_System
             dgvOrders.ReadOnly = true;
             dgvOrders.RowHeadersVisible = false;
             dgvOrders.RowHeadersWidth = 62;
-            dgvOrders.Size = new Size(259, 193);
+            dgvOrders.Size = new Size(244, 188);
             dgvOrders.TabIndex = 0;
             // 
             // dgvFollowups
             // 
             dgvFollowups.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvFollowups.ColumnHeadersHeight = 34;
-            dgvFollowups.Location = new Point(72, 289);
+            dgvFollowups.Location = new Point(72, 313);
             dgvFollowups.Name = "dgvFollowups";
             dgvFollowups.ReadOnly = true;
             dgvFollowups.RowHeadersVisible = false;
             dgvFollowups.RowHeadersWidth = 62;
-            dgvFollowups.Size = new Size(259, 201);
+            dgvFollowups.Size = new Size(244, 189);
             dgvFollowups.TabIndex = 3;
             // 
             // lblOrderCount
@@ -109,7 +109,7 @@ namespace ITP4915M_System
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(72, 252);
+            label2.Location = new Point(72, 276);
             label2.Name = "label2";
             label2.Size = new Size(103, 23);
             label2.TabIndex = 7;
@@ -117,7 +117,7 @@ namespace ITP4915M_System
             // 
             // FormReport
             // 
-            ClientSize = new Size(790, 575);
+            ClientSize = new Size(936, 663);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(dgvOrders);
