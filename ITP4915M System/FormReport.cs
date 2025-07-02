@@ -1,38 +1,45 @@
 ﻿// -----------------------------------------------------------------------------
-// FormReport.cs – monthly overview + safe CSV export (never throws on locked file)
+// FormReport.cs – orders summary + all follow-ups summary, pending count & CSV
 // -----------------------------------------------------------------------------
 using System;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
-using ITP4915MSystem;            //  Database.GetConnection()
+using ITP4915MSystem;
 
 namespace ITP4915M_System
 {
     public partial class FormReport : Form
     {
-        /* 若實際日期欄不是 due_date，請改為 order_date 或其他欄。                */
         private const string DATE_FIELD = "COALESCE(o.due_date, o.created_at)";
 
         public FormReport() => InitializeComponent();
 
-        /* -------------------------------  LIFE-CYCLE  ------------------------------- */
+        /* ----------------------------  FORM LOAD  ---------------------------- */
         private void FormReport_Load(object? sender, EventArgs e)
         {
-            dgvOrders.DataSource = LoadMonthlyOrders();     // 只顯示有訂單的月份
-            dgvFollowups.DataSource = LoadMonthlyPending();    // 只顯示有 PENDING 的月份
+            dgvOrders.DataSource = LoadMonthlyOrders();        // 訂單月份
+            dgvFollowups.DataSource = LoadMonthlyAllFollowups();  // 所有跟進月份
 
             lblOrderCount.Text = $"Total orders: {GetScalar("SELECT COUNT(*) FROM orders")}";
-            lblFUCount.Text = $"Pending follow-ups: {GetScalar("SELECT COUNT(*) FROM cs_followups WHERE status='PENDING'")}";
 
+            int pendingCnt = GetScalar("SELECT COUNT(*) FROM cs_followups WHERE status='PENDING'");
+            lblFUCount.Text = $"Pending follow-ups: {pendingCnt}";
+
+            // 自動欄寬
             dgvOrders.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             dgvFollowups.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+
+            // 將統計 Label 移到按鈕正下方
+            lblOrderCount.Location = new Point(btnExportOrders.Left, btnExportOrders.Bottom + 5);
+            lblFUCount.Location = new Point(btnExportFU.Left, btnExportFU.Bottom + 5);
         }
 
-        /* -------------------------------  SQL UTIL  --------------------------------- */
+        /* ----------------------------  SQL UTIL  ----------------------------- */
         private static DataTable Query(string sql)
         {
             using var conn = Database.GetConnection();
@@ -49,36 +56,38 @@ namespace ITP4915M_System
             return Convert.ToInt32(cmd.ExecuteScalar());
         }
 
-        /* -----------------------------  MONTHLY TABLES  ----------------------------- */
+        /* ---------------------  MONTHLY ORDER SUMMARY  ---------------------- */
         private DataTable LoadMonthlyOrders()
         {
             string sql = $@"
-              SELECT YEAR({DATE_FIELD}) AS `Year`,
-                     UPPER(LEFT(MONTHNAME({DATE_FIELD}),3)) AS `Month`,
-                     COUNT(*) AS `Orders`
+              SELECT YEAR({DATE_FIELD})                      AS `Year`,
+                     UPPER(LEFT(MONTHNAME({DATE_FIELD}),3))  AS `Month`,
+                     COUNT(*)                                AS `Orders`
               FROM orders o
-              GROUP BY `Year`,`Month`
-              ORDER BY `Year` DESC, MONTH({DATE_FIELD}) DESC";
-            return Query(sql);
-        }
-        private DataTable LoadMonthlyPending()
-        {
-            string sql = $@"
-              SELECT YEAR({DATE_FIELD}) AS `Year`,
-                     UPPER(LEFT(MONTHNAME({DATE_FIELD}),3)) AS `Month`,
-                     COUNT(*) AS `Pending`
-              FROM orders o
-              JOIN cs_followups f ON f.oid = o.oid AND f.status='PENDING'
               GROUP BY `Year`,`Month`
               ORDER BY `Year` DESC, MONTH({DATE_FIELD}) DESC";
             return Query(sql);
         }
 
-        /* -------------------------  FULL DETAIL FOR EXPORT  ------------------------- */
+        /* ---------  MONTHLY FOLLOW-UP SUMMARY (ALL STATUS)  ----------------- */
+        private DataTable LoadMonthlyAllFollowups()
+        {
+            string sql = $@"
+              SELECT YEAR({DATE_FIELD})                      AS `Year`,
+                     UPPER(LEFT(MONTHNAME({DATE_FIELD}),3))  AS `Month`,
+                     COUNT(*)                                AS `FollowUps`
+              FROM orders o
+              JOIN cs_followups f ON f.oid = o.oid
+              GROUP BY `Year`,`Month`
+              ORDER BY `Year` DESC, MONTH({DATE_FIELD}) DESC";
+            return Query(sql);
+        }
+
+        /* ----------------  DETAIL TABLES FOR CSV EXPORT  ------------------- */
         private static DataTable LoadAllOrders()
             => Query("SELECT * FROM orders ORDER BY created_at DESC");
 
-        private static DataTable LoadFullPendingFollowups()
+        private static DataTable LoadPendingFollowupsDetail()
         {
             const string sql = @"
               SELECT
@@ -97,16 +106,13 @@ namespace ITP4915M_System
             return Query(sql);
         }
 
-        /* ------------------------------  CSV EXPORT  -------------------------------- */
+        /* -----------------------------  EXPORT  ----------------------------- */
         private void btnExportOrders_Click(object? s, EventArgs e)
             => ExportCsv(LoadAllOrders(), "orders_full");
 
         private void btnExportFU_Click(object? s, EventArgs e)
-            => ExportCsv(LoadFullPendingFollowups(), "followups_pending");
+            => ExportCsv(LoadPendingFollowupsDetail(), "followups_pending");
 
-        /// <summary>
-        /// 寫入 CSV；若檔案被占用則提醒使用者並取消寫檔。
-        /// </summary>
         private static void ExportCsv(DataTable tbl, string prefix)
         {
             if (tbl.Rows.Count == 0)
@@ -148,23 +154,20 @@ namespace ITP4915M_System
             }
         }
 
-        /* ---------- 檢查檔案是否被鎖定 ---------- */
+        /* 判斷檔案是否被鎖定 */
         private static bool IsFileLocked(string path)
         {
             if (!File.Exists(path)) return false;
             try
             {
-                using FileStream fs = File.Open(path, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-                fs.Close();
-                return false;                        // 能夠獨佔
+                using FileStream fs = File.Open(path, FileMode.Open,
+                                                FileAccess.ReadWrite, FileShare.None);
+                fs.Close(); return false;
             }
-            catch (IOException)
-            {
-                return true;                         // 被佔用
-            }
+            catch (IOException) { return true; }
         }
 
-        /* 轉成 CSV-safe 字串 */
+        /* CSV-safe quoting */
         private static string Quote(string s) => $"\"{s.Replace("\"", "\"\"")}\"";
     }
 }
