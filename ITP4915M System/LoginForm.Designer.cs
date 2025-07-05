@@ -34,6 +34,7 @@ namespace ITP4915M_System
             lblDept = new Label();
             lblUser = new Label();
             lblPwd = new Label();
+            label1 = new Label();
             SuspendLayout();
             // 
             // cmbDept
@@ -111,12 +112,22 @@ namespace ITP4915M_System
             lblPwd.TabIndex = 7;
             lblPwd.Text = "Password";
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(414, 144);
+            label1.Name = "label1";
+            label1.Size = new Size(90, 23);
+            label1.TabIndex = 8;
+            label1.Text = "Welcome";
+            // 
             // LoginForm
             // 
             AcceptButton = btnLogin;
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1047, 610);
+            Controls.Add(label1);
             Controls.Add(lblDept);
             Controls.Add(cmbDept);
             Controls.Add(lblUser);
@@ -137,5 +148,7 @@ namespace ITP4915M_System
             PerformLayout();
         }
         #endregion
+
+        private Label label1;
     }
 }
