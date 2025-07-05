@@ -504,5 +504,41 @@ ORDER BY i.invoiceID DESC";
             return "I" + next.ToString("D5");
         }
         /*︿───────────────────── Finance Department ─────────────────────︿*/
+        public static InvoiceDetailModel GetInvoiceDetail(string invoiceID)
+        {
+            const string sql = @"
+SELECT
+    i.invoiceID,
+    i.orderID,
+    o.customer_name     AS user_name,
+    o.order_type,
+    i.amount,
+    i.issueDate,
+    i.status
+FROM invoice i
+INNER JOIN orders o ON i.orderID = o.oid
+WHERE i.invoiceID = @invoiceID
+LIMIT 1";
+
+            using var conn = GetConnection();
+            conn.Open();
+            using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@invoiceID", invoiceID);
+            using var rdr = cmd.ExecuteReader();
+            if (rdr.Read())
+            {
+                return new InvoiceDetailModel
+                {
+                    InvoiceID = rdr["invoiceID"].ToString(),
+                    OrderID = rdr["orderID"].ToString(),
+                    UserName = rdr["user_name"].ToString(),
+                    OrderType = rdr["order_type"].ToString(),
+                    Amount = rdr["amount"] is DBNull ? 0 : Convert.ToDecimal(rdr["amount"]),
+                    IssueDate = rdr["issueDate"] is DBNull ? DateTime.MinValue : Convert.ToDateTime(rdr["issueDate"]),
+                    Status = rdr["status"].ToString()
+                };
+            }
+            return null;
+        }
     }
 }

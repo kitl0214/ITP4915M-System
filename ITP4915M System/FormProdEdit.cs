@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ITP4915M_System
+/*namespace ITP4915M_System
 {
     public partial class FormProdEdit : Form
     {
@@ -23,3 +23,4 @@ namespace ITP4915M_System
         }
     }
 }
+*/

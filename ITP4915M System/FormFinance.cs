@@ -25,6 +25,7 @@ namespace ITP4915M_System
             dgvInvoice.CellValueChanged += dgvInvoice_CellValueChanged;
             dgvInvoice.CurrentCellDirtyStateChanged += dgvInvoice_CurrentCellDirtyStateChanged;
             dgvInvoice.RowPrePaint += dgvInvoice_RowPrePaint;
+            dgvInvoice.CellDoubleClick += dgvInvoice_CellDoubleClick; // 新增雙擊事件
 
             // 禁止自動新增空白行
             dgvInvoice.AllowUserToAddRows = false;
@@ -214,6 +215,20 @@ namespace ITP4915M_System
             {
                 row.DefaultCellStyle.BackColor = Color.White;
                 row.DefaultCellStyle.ForeColor = Color.Black;
+            }
+        }
+        private void dgvInvoice_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                string invoiceID = dgvInvoice.Rows[e.RowIndex].Cells["invoiceID"].Value?.ToString();
+                if (!string.IsNullOrEmpty(invoiceID))
+                {
+                    using (var dlg = new InvoiceDetailDialog(invoiceID))
+                    {
+                        dlg.ShowDialog();
+                    }
+                }
             }
         }
     }

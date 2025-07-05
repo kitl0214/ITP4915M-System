@@ -1,6 +1,6 @@
 ﻿// ... 省略前面程式碼 ...
 
-using Org.BouncyCastle.Asn1.Crmf;
+/*using Org.BouncyCastle.Asn1.Crmf;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
@@ -63,4 +63,4 @@ private void InitializeComponent()
 // ... 省略 ...
 private Button Cancel;  // <-- 修改這裡
 private Button Save;
-// ... 省略 ...
+// ... 省略 ... */
