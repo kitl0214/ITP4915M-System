@@ -1,4 +1,12 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------------
+// FormTemplate.cs – 基底表單
+//   • 右上：User / Dept 標籤（EnableUserInfo）
+//   • 右上：Logout 按鈕（EnableLogout）
+//   • Layout 自動對齊：Logout 在 Label 左側 10px，距窗框 20px
+//   • 共用 LogoutToLogin() 便於外部呼叫
+// -----------------------------------------------------------------------------
+using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -6,61 +14,104 @@ namespace ITP4915M_System
 {
     public partial class FormTemplate : Form
     {
-        public FormTemplate()
+        /* ── 常數：排版用 ─────────────────────── */
+        private const int MarginRight = 20;   // 與右框距離
+        private const int GapBetween = 10;   // Logout 與 Label 間隔
+
+        /* ── 欄位 ───────────────────────────── */
+        private readonly string _user;
+        private readonly string _dept;
+        private Label? lblUserInfo;
+
+        /* ── 子表單可覆寫屬性 ────────────────── */
+        protected virtual bool EnableUserInfo => false;
+        protected virtual bool EnableLogout => true;
+
+        /* ── 建構子 ─────────────────────────── */
+        public FormTemplate(string user = "Guest", string dept = "N/A")
         {
-            InitializeComponent();
+            _user = user;
+            _dept = dept;
+
+            InitializeComponent();              // 產生 btnLogout
+
+            if (EnableUserInfo) InitUserLabel();
+            btnLogout.Visible = EnableLogout;
         }
 
-        private void btnLogout_Click(object sender, EventArgs e)
+        /* ── 初始化 User 標籤 ────────────────── */
+        private void InitUserLabel()
         {
-            // 讓子類有機會在真正登出前做清理
-            OnLogout();
-
-            // 收集目前所有開啟中的表單（包含自己）
-            var formsToClose = Application.OpenForms.Cast<Form>().ToList();
-
-            // 開啟新的 LoginForm
-            LoginForm loginForm = new LoginForm();
-            loginForm.Show();
-
-            // 關閉舊表單
-            foreach (var form in formsToClose)
+            lblUserInfo = new Label
             {
-                if (form != loginForm)
-                    form.Close();
+                AutoSize = true,
+                Font = new Font("Segoe UI", 10F),
+                Text = $"User: {_user}  ({_dept})",
+                Anchor = AnchorStyles.Top | AnchorStyles.Right
+            };
+            Controls.Add(lblUserInfo);
+            RealignHeaderControls();
+        }
+
+        /* ── 共用排版 ────────────────────────── */
+        private void RealignHeaderControls()
+        {
+            int rightEdge = Width - MarginRight;
+
+            if (EnableUserInfo && lblUserInfo != null)
+            {
+                lblUserInfo.Left = rightEdge - lblUserInfo.Width;
+                lblUserInfo.Top = 18;
+                rightEdge = lblUserInfo.Left - GapBetween;
+            }
+
+            if (EnableLogout && btnLogout.Visible)
+            {
+                btnLogout.Left = rightEdge - btnLogout.Width;
+                btnLogout.Top = 12;
             }
         }
 
-        /// <summary>
-        /// 讓子類在登出時可覆寫額外清理邏輯
-        /// </summary>
+        /* ── 事件：Shown / Resize ─────────────── */
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            RealignHeaderControls();
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            RealignHeaderControls();
+        }
+
+        /* ── Logout 按鈕 ─────────────────────── */
         protected virtual void OnLogout() { }
 
-        private void FormTemplate_Load(object sender, EventArgs e)
+        private void btnLogout_Click(object? sender, EventArgs e)
         {
-            // 其他共用初始化可放這裡
+            OnLogout();
+            LogoutToLogin();
         }
 
-        /*─────────────────────────────────────────*/
-        /* 靜態工具 (可被任何表單呼叫以快速回登入頁)    */
-        /*─────────────────────────────────────────*/
+        /* ── 靜態：回登入表單 ────────────────── */
+        public static void LogoutToLogin()
+        {
+            var login = Application.OpenForms.OfType<LoginForm>().FirstOrDefault()
+                        ?? new LoginForm();
+
+            login.Show();
+            login.WindowState = FormWindowState.Normal;
+            login.BringToFront();
+
+            foreach (Form f in Application.OpenForms.Cast<Form>().ToList())
+                if (f != login) f.Close();
+        }
+
+        /* 相容舊程式碼 */
         public static class AppHelper
         {
-            /// <summary>
-            /// 關閉所有現有表單並重新顯示 LoginForm
-            /// </summary>
-            public static void LogoutToLogin()
-            {
-                var oldForms = Application.OpenForms.Cast<Form>().ToList();
-                LoginForm login = new LoginForm();
-                login.Show();
-
-                foreach (var f in oldForms)
-                {
-                    if (f != login)
-                        f.Close();
-                }
-            }
+            public static void LogoutToLogin() => FormTemplate.LogoutToLogin();
         }
     }
 }

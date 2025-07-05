@@ -8,19 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-/*namespace ITP4915M_System
+namespace ITP4915M_System
 {
-    public partial class FormProdEdit : Form
+    public partial class Form4 : Form
     {
-        public FormProdEdit()
+        public Form4()
         {
             InitializeComponent();
         }
-
-        private void Save_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
-*/

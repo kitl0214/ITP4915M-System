@@ -13,13 +13,15 @@ namespace ITP4915M_System
 {
     public partial class FormRD : Form
     {
-        private Button btnRefresh;
+        
 
         public FormRD()
         {
             InitializeComponent();
+            btnRefresh.Click += btnRefresh_Click;
 
-           
+
+
             // 新增手動刷新按鈕
             btnRefresh = new Button();
             btnRefresh.Text = "Refresh";

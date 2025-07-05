@@ -1,62 +1,75 @@
-﻿// ✅ FormNDashboard.cs ─ 已加入 FormReport
+﻿// -----------------------------------------------------------------------------
+// FormNDashboard.cs – Main dashboard, holds multiple functional tabs
+// -----------------------------------------------------------------------------
 using System;
+using System.Linq;
 using System.Windows.Forms;
-using ITP4915MSystem;
 
 namespace ITP4915M_System
 {
+    /* 改為繼承 FormTemplate，享有 Logout 與 User Info 標籤 */
     public partial class FormNDashboard : FormTemplate
     {
-        public FormNDashboard() => InitializeComponent();
+        private readonly string _user;
+        private readonly string _dept;
 
-        /* ---------- life-cycle ---------- */
+        /* ── 執行期建構子：一定要傳 user / dept ── */
+        public FormNDashboard(string user, string dept) : base(user, dept)
+        {
+            _user = user;
+            _dept = dept;
+            InitializeComponent();
+        }
+
+        /// <summary>只給 Visual Studio 設計工具使用；執行期請勿呼叫</summary>
+        protected FormNDashboard() : base()
+        {
+            InitializeComponent();
+        }
+
+        /* 若不想在 Dashboard 顯示使用者資訊，設為 false */
+        protected override bool EnableUserInfo => true;
+
+        /* ───────────────────────────────────────── */
+        /* life-cycle                                */
+        /* ───────────────────────────────────────── */
         private void FormDashboard_Load(object sender, EventArgs e)
         {
-            Embed(new FormSales(), "Sales");
+            /* ---- 已改造（能吃 user / dept）的表單 ---- */
+            Embed(new FormHR(_user, _dept), "HR");
+            Embed(new FormCS(_user, _dept), "Customer Service");
+            Embed(new FormSales(_user, _dept), "Sales");
+
+
+            /* ---- 尚未改造的表單，暫用無參數版 ---- */
+            Embed(new FormReport(), "Report");
+            
+            Embed(new FormRD(), "R&D");
             Embed(new FormProd(), "Production");
-            Embed(new FormHR(), "HR");
-            Embed(new FormCS(), "Customer Service");
             Embed(new FormFinance(), "Finance");
             Embed(new FormLogistics(), "Logistics");
-            Embed(new FormRD(), "R&D");
-            Embed(new FormReport(), "Report");   // ★ 新增
+
             tabMain.SelectedIndex = 0;
         }
 
-        private void tabProcurement_Click(object sender, EventArgs e)
+        /* ───────────────────────────────────────── */
+        /* helper                                    */
+        /* ───────────────────────────────────────── */
+        /// <summary>
+        /// 把子表單嵌入對應 TabPage，標題以 TabPage.Text 比對
+        /// </summary>
+        private void Embed(Form child, string tabText)
         {
-            // 可實作 tabProcurement 功能
-        }
+            TabPage? tp = tabMain.TabPages
+                                 .Cast<TabPage>()
+                                 .FirstOrDefault(p => p.Text == tabText);
+            if (tp == null) return;
 
-        /// <summary>嵌入子表單至指定 TabPage</summary>
-        private void Embed(Form childForm, string tabName)
-        {
-            var tp = FindTab(tabName);
-            if (tp is null) return;
-
-            childForm.TopLevel = false;
-            childForm.FormBorderStyle = FormBorderStyle.None;
-            childForm.Dock = DockStyle.Fill;
-            tp.Controls.Add(childForm);
-            childForm.Show();
-        }
-
-        /// <summary>按文字尋找 TabPage；找不到則傳 null</summary>
-        private TabPage? FindTab(string name)
-        {
-            foreach (TabPage tp in tabMain.TabPages)
-                if (tp.Text.Equals(name, StringComparison.Ordinal))
-                    return tp;
-            return null;
-        }
-
-        /// <summary>登出前清理嵌入子表單</summary>
-        protected override void OnLogout()
-        {
-            foreach (TabPage tp in tabMain.TabPages)
-                foreach (Control ctrl in tp.Controls)
-                    if (ctrl is Form embeddedForm)
-                        embeddedForm.Close();
+            child.TopLevel = false;
+            child.FormBorderStyle = FormBorderStyle.None;
+            child.Dock = DockStyle.Fill;
+            tp.Controls.Add(child);
+            child.Show();
         }
     }
 }

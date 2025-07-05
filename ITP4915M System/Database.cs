@@ -251,6 +251,24 @@ namespace ITP4915MSystem
             da.Fill(dt);
             return dt;
         }
+        // Database.cs
+        public static DataTable GetOrdersWithoutInvoice()
+        {
+            const string sql = """
+                SELECT  o.*
+                FROM    orders  AS o
+                LEFT JOIN invoice AS i          -- 注意：單數表名
+                       ON i.orderID = o.oid
+                WHERE   i.orderID IS NULL;      -- 尚未產生發票
+            """;
+
+            using var conn = GetConnection();
+            using var da = new MySqlDataAdapter(sql, conn);
+
+            var dt = new DataTable();
+            da.Fill(dt);
+            return dt;
+        }
 
         public static void AddFollowup(string oid, string action, string comment)
         {
@@ -504,5 +522,41 @@ ORDER BY i.invoiceID DESC";
             return "I" + next.ToString("D5");
         }
         /*︿───────────────────── Finance Department ─────────────────────︿*/
+        public static InvoiceDetailModel GetInvoiceDetail(string invoiceID)
+        {
+            const string sql = @"
+SELECT
+    i.invoiceID,
+    i.orderID,
+    o.customer_name     AS user_name,
+    o.order_type,
+    i.amount,
+    i.issueDate,
+    i.status
+FROM invoice i
+INNER JOIN orders o ON i.orderID = o.oid
+WHERE i.invoiceID = @invoiceID
+LIMIT 1";
+
+            using var conn = GetConnection();
+            conn.Open();
+            using var cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@invoiceID", invoiceID);
+            using var rdr = cmd.ExecuteReader();
+            if (rdr.Read())
+            {
+                return new InvoiceDetailModel
+                {
+                    InvoiceID = rdr["invoiceID"].ToString(),
+                    OrderID = rdr["orderID"].ToString(),
+                    UserName = rdr["user_name"].ToString(),
+                    OrderType = rdr["order_type"].ToString(),
+                    Amount = rdr["amount"] is DBNull ? 0 : Convert.ToDecimal(rdr["amount"]),
+                    IssueDate = rdr["issueDate"] is DBNull ? DateTime.MinValue : Convert.ToDateTime(rdr["issueDate"]),
+                    Status = rdr["status"].ToString()
+                };
+            }
+            return null;
+        }
     }
 }

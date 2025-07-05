@@ -2,15 +2,20 @@
 {
     partial class FormRD
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Panel panelOP;
+        private System.Windows.Forms.Label labelOP;
+        private System.Windows.Forms.DataGridView dgvOP;
+        private System.Windows.Forms.Panel panelTR;
+        private System.Windows.Forms.Label labelTR;
+        private System.Windows.Forms.DataGridView dgvTR;
+        private System.Windows.Forms.Panel panelCP;
+        private System.Windows.Forms.Label labelCP;
+        private System.Windows.Forms.DataGridView dgvCP;
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,111 +27,97 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            ongoingProjects = new GroupBox();
-            dgvOP = new DataGridView();
-            taskReminder = new GroupBox();
-            dgvTR = new DataGridView();
-            completedProjects = new GroupBox();
-            dgvCP = new DataGridView();
-            ongoingProjects.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvOP).BeginInit();
-            taskReminder.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvTR).BeginInit();
-            completedProjects.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvCP).BeginInit();
-            SuspendLayout();
-            // 
-            // ongoingProjects
-            // 
-            ongoingProjects.Controls.Add(dgvOP);
-            ongoingProjects.Location = new Point(12, 48);
-            ongoingProjects.Name = "ongoingProjects";
-            ongoingProjects.Size = new Size(776, 171);
-            ongoingProjects.TabIndex = 2;
-            ongoingProjects.TabStop = false;
-            ongoingProjects.Text = "Ongoing Projects";
-            
-            // 
-            // dgvOP
-            // 
-            dgvOP.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvOP.Dock = DockStyle.Fill;
-            dgvOP.Location = new Point(3, 19);
-            dgvOP.Name = "dgvOP";
-            dgvOP.Size = new Size(770, 149);
-            dgvOP.TabIndex = 7;
-            
-            // 
-            // taskReminder
-            // 
-            taskReminder.Controls.Add(dgvTR);
-            taskReminder.Location = new Point(15, 225);
-            taskReminder.Name = "taskReminder";
-            taskReminder.Size = new Size(770, 171);
-            taskReminder.TabIndex = 8;
-            taskReminder.TabStop = false;
-            taskReminder.Text = "Task Reminder";
-            // 
-            // dgvTR
-            // 
-            dgvTR.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvTR.Dock = DockStyle.Fill;
-            dgvTR.Location = new Point(3, 19);
-            dgvTR.Name = "dgvTR";
-            dgvTR.Size = new Size(764, 149);
-            dgvTR.TabIndex = 7;
-            // 
-            // completedProjects
-            // 
-            completedProjects.Controls.Add(dgvCP);
-            completedProjects.Location = new Point(18, 402);
-            completedProjects.Name = "completedProjects";
-            completedProjects.Size = new Size(764, 171);
-            completedProjects.TabIndex = 9;
-            completedProjects.TabStop = false;
-            completedProjects.Text = "Completed Projects";
-            // 
-            // dgvCP
-            // 
-            dgvCP.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCP.Dock = DockStyle.Fill;
-            dgvCP.Location = new Point(3, 19);
-            dgvCP.Name = "dgvCP";
-            dgvCP.Size = new Size(758, 149);
-            dgvCP.TabIndex = 7;
-            // 
-            // FormRD
-            // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 592);
-            Controls.Add(completedProjects);
-            Controls.Add(taskReminder);
-            Controls.Add(ongoingProjects);
-            Name = "FormRD";
-            Text = "FormRD";
-            ongoingProjects.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dgvOP).EndInit();
-            taskReminder.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dgvTR).EndInit();
-            completedProjects.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dgvCP).EndInit();
-            ResumeLayout(false);
+            this.components = new System.ComponentModel.Container();
+
+            // TableLayoutPanel
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F)); // Button row
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 34F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.Controls.Add(this.tableLayoutPanel1);
+
+            // Refresh Button Panel
+            var panelTop = new System.Windows.Forms.Panel();
+            panelTop.Dock = System.Windows.Forms.DockStyle.Fill;
+            panelTop.Padding = new System.Windows.Forms.Padding(8, 8, 0, 8);
+
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.Size = new System.Drawing.Size(80, 32);
+            this.btnRefresh.Anchor = System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Top;
+            panelTop.Controls.Add(this.btnRefresh);
+
+            this.tableLayoutPanel1.Controls.Add(panelTop, 0, 0);
+
+            // Panel for Ongoing Projects
+            this.panelOP = new System.Windows.Forms.Panel();
+            this.panelOP.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelOP.Padding = new System.Windows.Forms.Padding(0);
+            this.labelOP = new System.Windows.Forms.Label();
+            this.labelOP.Text = "Ongoing Projects";
+            this.labelOP.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelOP.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.labelOP.Height = 26;
+            this.labelOP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.dgvOP = new System.Windows.Forms.DataGridView();
+            this.dgvOP.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvOP.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.panelOP.Controls.Add(this.dgvOP);
+            this.panelOP.Controls.Add(this.labelOP);
+            this.tableLayoutPanel1.Controls.Add(this.panelOP, 0, 1);
+
+            // Panel for Task Reminder
+            this.panelTR = new System.Windows.Forms.Panel();
+            this.panelTR.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelTR.Padding = new System.Windows.Forms.Padding(0);
+            this.labelTR = new System.Windows.Forms.Label();
+            this.labelTR.Text = "Task Reminder";
+            this.labelTR.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelTR.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.labelTR.Height = 26;
+            this.labelTR.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.dgvTR = new System.Windows.Forms.DataGridView();
+            this.dgvTR.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvTR.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.panelTR.Controls.Add(this.dgvTR);
+            this.panelTR.Controls.Add(this.labelTR);
+            this.tableLayoutPanel1.Controls.Add(this.panelTR, 0, 2);
+
+            // Panel for Completed Projects
+            this.panelCP = new System.Windows.Forms.Panel();
+            this.panelCP.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelCP.Padding = new System.Windows.Forms.Padding(0);
+            this.labelCP = new System.Windows.Forms.Label();
+            this.labelCP.Text = "Completed Projects";
+            this.labelCP.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelCP.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.labelCP.Height = 26;
+            this.labelCP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.dgvCP = new System.Windows.Forms.DataGridView();
+            this.dgvCP.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvCP.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.panelCP.Controls.Add(this.dgvCP);
+            this.panelCP.Controls.Add(this.labelCP);
+            this.tableLayoutPanel1.Controls.Add(this.panelCP, 0, 3);
+
+            // Form 基本屬性
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(900, 700);
+            this.Name = "FormRD";
+            this.Text = "FormRD";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.MinimumSize = new System.Drawing.Size(800, 600);
         }
 
         #endregion
-
-        private GroupBox ongoingProjects;
-        private DataGridView dgvOP;
-        private GroupBox taskReminder;
-        private DataGridView dgvTR;
-        private GroupBox completedProjects;
-        private DataGridView dgvCP;
     }
 }

@@ -1,113 +1,105 @@
 ﻿// -----------------------------------------------------------------------------
-// FormCS.cs – Customer-Service dashboard
-//   • adds RefundFlag / DiscountFlag by reading action ENUM
-//   • double-click row → read-only FollowupViewDialog
+// FormCS.cs – Customer-Service Dashboard
+//   • 只顯示「未開發票」訂單
+//   • Follow-up Grid 取消 “Complete / Done” 欄
+//   • 行標頭寬度縮至 20 px
 // -----------------------------------------------------------------------------
-using ITP4915MSystem;
 using System;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using ITP4915MSystem;
 
 namespace ITP4915M_System
 {
-    public partial class FormCS : Form
+    public partial class FormCS : FormTemplate
     {
-        private DataTable _followups;
+        private DataTable? _followups;
+        protected override bool EnableUserInfo => true;
 
-        public FormCS() => InitializeComponent();
+        /*── 建構子 ─────────────────────────────*/
+        public FormCS(string user, string dept) : base(user, dept) => InitializeComponent();
+        protected FormCS() : base() => InitializeComponent();   // 供 VS Designer
 
-        /* ---------- life-cycle ---------- */
+        /*── Form Load ─────────────────────────*/
         private void FormCS_Load(object sender, EventArgs e)
         {
             LoadOrders();
             LoadFollowups();
         }
 
-        /* ---------- Orders ---------- */
-        private void btnLoadOrders_Click(object sender, EventArgs e) => LoadOrders();
+        /*──────────────── Orders Grid ─────────*/
+        private void btnLoadOrders_Click(object? s, EventArgs e) => LoadOrders();
 
         private void LoadOrders()
         {
-            dgvOrders.DataSource = Database.GetAllOrders();
+            dgvOrders.DataSource = Database.GetOrdersWithoutInvoice();
             dgvOrders.RowHeadersVisible = false;
 
-            void H(string col, string txt)
-            { if (dgvOrders.Columns.Contains(col)) dgvOrders.Columns[col].HeaderText = txt; }
+            void H(string col, string cap)
+            { if (dgvOrders.Columns.Contains(col)) dgvOrders.Columns[col].HeaderText = cap; }
 
             H("oid", "Order ID");
             H("customer_name", "Customer");
             H("product", "Product");
             H("unit", "Unit");
-            H("qty", "Quantity");
+            H("qty", "Qty");
             H("order_type", "Order Type");
             H("extra_pkg", "Extra Package");
             H("due_date", "Due Date");
             H("total", "Total");
             H("created_at", "Created At");
+
+            dgvOrders.ClearSelection();
         }
 
-        /* ---------- Add / Edit follow-up ---------- */
-        private void btnAddFollowup_Click(object sender, EventArgs e)
+        /*──────── 新增 / 編輯 Follow-up ────────*/
+        private void btnAddFollowup_Click(object? s, EventArgs e)
         {
             if (dgvOrders.SelectedRows.Count == 0)
             { MessageBox.Show("Please select one order first."); return; }
 
-            string oid = dgvOrders.SelectedRows[0].Cells["oid"].Value.ToString();
+            string oid = dgvOrders.SelectedRows[0].Cells["oid"].Value!.ToString()!;
             using var dlg = new FollowupDialog(oid);
-            if (dlg.ShowDialog() == DialogResult.OK)
+            if (dlg.ShowDialog(this) == DialogResult.OK)
             {
                 Database.AddFollowup(oid, dlg.SelectedAction, dlg.CustomerComment);
                 LoadFollowups();
             }
         }
 
-        private void btnEditFollowup_Click(object sender, EventArgs e)
+        private void btnEditFollowup_Click(object? s, EventArgs e)
         {
-            if (dgvFollowups.SelectedRows.Count == 0 || dgvFollowups.SelectedRows[0].IsNewRow)
+            if (dgvFollowups.SelectedRows.Count == 0)
             { MessageBox.Show("Please select one follow-up first."); return; }
 
             var row = dgvFollowups.SelectedRows[0];
             if (!int.TryParse(row.Cells["fid"].Value?.ToString(), out int fid))
             { MessageBox.Show("Invalid follow-up record."); return; }
 
-            string oid = row.Cells["oid"]?.Value?.ToString() ?? "";
-            string act = row.Cells["action"]?.Value?.ToString() ?? "";
-            string comm = row.Cells["comment"]?.Value?.ToString() ?? "";
+            string oid = row.Cells["oid"].Value?.ToString() ?? "";
+            string act = row.Cells["action"].Value?.ToString() ?? "";
+            string comm = row.Cells["comment"].Value?.ToString() ?? "";
 
             using var dlg = new FollowupDialog(oid, act, comm);
-            if (dlg.ShowDialog(this) != DialogResult.OK) return;
-
-            Database.UpdateFollowup(fid, dlg.SelectedAction, dlg.CustomerComment);
-            LoadFollowups();
+            if (dlg.ShowDialog(this) == DialogResult.OK)
+            {
+                Database.UpdateFollowup(fid, dlg.SelectedAction, dlg.CustomerComment);
+                LoadFollowups();
+            }
         }
 
-        /* ---------- build follow-up grid ---------- */
+        /*──────────────── Follow-ups Grid ─────*/
         private void LoadFollowups()
         {
             _followups = Database.GetAllFollowups();
-
-            // add Y/blank flags based on action enum
             AddFlagColumn(_followups, "RefundFlag");
             AddFlagColumn(_followups, "DiscountFlag");
 
             dgvFollowups.DataSource = _followups;
 
-            /* Done button --------------------------------------------------- */
-            const string doneCol = "ActionBtn";
-            if (!dgvFollowups.Columns.Contains(doneCol))
-            {
-                dgvFollowups.Columns.Add(new DataGridViewButtonColumn
-                {
-                    Name = doneCol,
-                    HeaderText = "Complete",
-                    Text = "Done",
-                    UseColumnTextForButtonValue = true,
-                    Width = 70
-                });
-            }
-
-            /* status → ComboBox --------------------------------------------- */
+            /* Status 欄改為 ComboBox */
             const string stsCol = "status";
             if (dgvFollowups.Columns[stsCol] is not DataGridViewComboBoxColumn)
             {
@@ -127,9 +119,9 @@ namespace ITP4915M_System
                 dgvFollowups.Columns.Insert(idx, cbo);
             }
 
-            /* friendly headers --------------------------------------------- */
-            void FH(string col, string txt)
-            { if (dgvFollowups.Columns.Contains(col)) dgvFollowups.Columns[col].HeaderText = txt; }
+            /* 欄位標題 */
+            void FH(string col, string cap)
+            { if (dgvFollowups.Columns.Contains(col)) dgvFollowups.Columns[col].HeaderText = cap; }
 
             FH("fid", "ID");
             FH("oid", "Order ID");
@@ -144,14 +136,18 @@ namespace ITP4915M_System
             FH("RefundFlag", "Refund");
             FH("DiscountFlag", "Discount");
 
+            /* 行標頭收窄 */
+            dgvFollowups.RowHeadersVisible = true;
+            dgvFollowups.RowHeadersWidth = 20;
+            dgvFollowups.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+
             dgvFollowups.ClearSelection();
         }
 
-        /* ---------- flag helper ---------- */
+        /*──────── Flag Helper ─────────────────*/
         private static void AddFlagColumn(DataTable dt, string flagCol)
         {
-            if (dt.Columns.Contains(flagCol))
-                return;
+            if (dt.Columns.Contains(flagCol)) return;
 
             dt.Columns.Add(flagCol, typeof(string));
 
@@ -168,37 +164,25 @@ namespace ITP4915M_System
             }
         }
 
-        /* ---------- Done button click ---------- */
-        private void dgvFollowups_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0) return;
-            if (dgvFollowups.Columns[e.ColumnIndex].Name != "ActionBtn") return;
-
-            int fid = Convert.ToInt32(dgvFollowups.Rows[e.RowIndex].Cells["fid"].Value);
-            Database.SetFollowupCompleted(fid);
-            LoadFollowups();
-        }
-
-        /* ---------- status change ---------- */
-        private void dgvFollowups_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        /*──────── Status 變更 ────────────────*/
+        private void dgvFollowups_CellValueChanged(object? s, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
             if (dgvFollowups.Columns[e.ColumnIndex].Name != "status") return;
 
             int fid = Convert.ToInt32(dgvFollowups.Rows[e.RowIndex].Cells["fid"].Value);
-            string newSt = dgvFollowups.Rows[e.RowIndex].Cells["status"].Value?.ToString() ?? "PENDING";
-            Database.SetFollowupStatus(fid, newSt);
-            dgvFollowups.InvalidateRow(e.RowIndex);
+            string st = dgvFollowups.Rows[e.RowIndex].Cells["status"].Value?.ToString() ?? "PENDING";
+            Database.SetFollowupStatus(fid, st);
         }
 
-        private void dgvFollowups_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        private void dgvFollowups_CurrentCellDirtyStateChanged(object? s, EventArgs e)
         {
             if (dgvFollowups.IsCurrentCellDirty)
                 dgvFollowups.CommitEdit(DataGridViewDataErrorContexts.Commit);
         }
 
-        /* ---------- row color ---------- */
-        private void dgvFollowups_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        /*──────── 行著色 ─────────────────────*/
+        private void dgvFollowups_RowPrePaint(object? s, DataGridViewRowPrePaintEventArgs e)
         {
             var row = dgvFollowups.Rows[e.RowIndex];
             string st = row.Cells["status"].Value?.ToString() ?? "";
@@ -214,19 +198,19 @@ namespace ITP4915M_System
             row.DefaultCellStyle.SelectionForeColor = Color.Black;
         }
 
-        /* ---------- double-click → read-only dialog ---------- */
-        private void dgvFollowups_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        /*──────── 雙擊檢視 ────────────────────*/
+        private void dgvFollowups_CellDoubleClick(object? s, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
-            DataGridViewRow r = dgvFollowups.Rows[e.RowIndex];
+            var r = dgvFollowups.Rows[e.RowIndex];
             string act = r.Cells["action"].Value?.ToString()?.Trim().ToUpper() ?? "NONE";
 
             bool refund = act is "REFUND" or "BOTH";
             bool discount = act is "DISCOUNT" or "BOTH";
 
-            string comment = r.Cells["comment"]?.Value?.ToString() ?? "";
-            string oid = r.Cells["oid"]?.Value?.ToString() ?? "";
+            string comment = r.Cells["comment"].Value?.ToString() ?? "";
+            string oid = r.Cells["oid"].Value?.ToString() ?? "";
 
             using var dlg = new FollowupViewDialog(oid, refund, discount, comment);
             dlg.ShowDialog(this);

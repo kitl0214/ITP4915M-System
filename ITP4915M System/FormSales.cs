@@ -1,17 +1,36 @@
-﻿// =========================== FormSales.cs ===========================
+﻿// -----------------------------------------------------------------------------
+// FormSales.cs – Sales Dashboard
+//   • 右上角顯示使用者名稱／部門（繼承自 FormTemplate）
+//   • 功能：載入、建立、編輯、刪除訂單
+// -----------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;         // NEW
+using System.Globalization;
 using System.Windows.Forms;
 using ITP4915MSystem;
 
 namespace ITP4915M_System
 {
-    public partial class FormSales : Form
+    /// <summary>Sales 主畫面</summary>
+    public partial class FormSales : FormTemplate
     {
-        public FormSales() => InitializeComponent();
+        /* 讓本頁也顯示 User / Dept；若不要顯示改 false */
+        protected override bool EnableUserInfo => true;
 
+        /*─────────────────── 建構子 ───────────────────*/
+        public FormSales(string user, string dept) : base(user, dept)
+        {
+            InitializeComponent();
+        }
+
+        /// <remarks>僅供 VS Designer 用；執行期請改用兩參數版本</remarks>
+        protected FormSales() : base()
+        {
+            InitializeComponent();
+        }
+
+        /*─────────────────── Form Load ───────────────────*/
         private void FormSales_Load(object sender, EventArgs e)
         {
             dgvOrders.CurrentCellDirtyStateChanged += (_, __) =>
@@ -22,13 +41,13 @@ namespace ITP4915M_System
             LoadOrders();
         }
 
-        /* ───── Data Loading ───── */
+        /*─────────────────── Data Loading ───────────────────*/
         private void LoadOrders()
         {
             dgvOrders.DataSource = null;
             dgvOrders.Columns.Clear();
 
-            DataTable dt = Database.GetAllOrders();      // still returns cid / customer_name
+            DataTable dt = Database.GetAllOrders(); // still returns cid / customer_name
             dt.DefaultView.Sort = "created_at ASC";
 
             /* 1 ─ remove cid only */
@@ -98,15 +117,11 @@ namespace ITP4915M_System
             Pos("total", 9);
             Pos("created_at", 10);
 
-            /* 7 ─ shrink or hide row-header column */
-            dgvOrders.RowHeadersVisible = false;   // simplest
-            // If you prefer to keep the arrow but make it narrow, comment previous
-            // line and uncomment below two:
-            // dgvOrders.RowHeadersWidth         = 20;
-            // dgvOrders.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            /* 7 ─ hide row header */
+            dgvOrders.RowHeadersVisible = false;
         }
 
-        /* ───── Buttons ───── */
+        /*─────────────────── Buttons ───────────────────*/
         private void btnRefresh_Click(object? s, EventArgs e) => LoadOrders();
 
         private void btnCreate_Click(object? s, EventArgs e)
@@ -137,7 +152,8 @@ namespace ITP4915M_System
             { MessageBox.Show("Tick checkbox to delete."); return; }
 
             if (MessageBox.Show($"Delete {ids.Count} order(s)?", "Confirm",
-                                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return;
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+                != DialogResult.Yes) return;
 
             int ok = 0, fail = 0;
             foreach (int id in ids)

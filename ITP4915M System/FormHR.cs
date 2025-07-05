@@ -1,56 +1,60 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------------
+// FormHR.cs – Human-Resources Dashboard
+//   • 右上角顯示 User / Dept（來自 FormTemplate）
+//   • 人員帳號：篩選 / 新增 / 刪除 / 即時刷新
+//   • 登出按鈕由 FormTemplate 提供；如需額外清理，可覆寫 OnLogout()
+// -----------------------------------------------------------------------------
+using ITP4915MSystem;          // Database.*
+using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
-using ITP4915M_System;
-using ITP4915MSystem;
-using static ITP4915M_System.FormTemplate;
 
 namespace ITP4915M_System
 {
-    public partial class FormHR : Form
+    public partial class FormHR : FormTemplate
     {
-        /*─────────────────────────────────────────*/
-        /* MASTER DEPARTMENT LIST                   */
-        /*─────────────────────────────────────────*/
-        private static readonly string[] MasterDepts =
-        {
-            "Root",
-            "HR",
-            "Sales",
-            "RD",
-            "Production",
-            "Finance",
-            "Customer Service",
-            "Logistics"
-        };
+        protected override bool EnableUserInfo => true;   // 顯示登入資訊
 
-        private string _selectedUser = string.Empty;
-
-        public FormHR()
+        /*─────────────── 建構子 ───────────────*/
+        public FormHR(string user, string dept) : base(user, dept)
         {
             InitializeComponent();
             RefreshDepartmentLists();
             LoadData();
         }
 
-        /*─────────────────────────────────────────*/
-        /* DATA BINDING                            */
-        /*─────────────────────────────────────────*/
+        /// <remarks>僅供設計工具使用；執行期請勿呼叫</remarks>
+        protected FormHR() : base()
+        {
+            InitializeComponent();
+            if (DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+            {
+                RefreshDepartmentLists();
+                LoadData();
+            }
+        }
+
+        /*─────────────── 常數 / 欄位 ───────────────*/
+        private static readonly string[] MasterDepts =
+        {
+            "Root","HR","Sales","RD","Production",
+            "Finance","Customer Service","Logistics"
+        };
+        private string _selectedUser = string.Empty;
+
+        /*─────────────── Data Binding ───────────────*/
         private void RefreshDepartmentLists()
         {
             var dbDepts = Database.GetDepartments().ToList();
-            var allDepts = MasterDepts
-                           .Union(dbDepts, StringComparer.OrdinalIgnoreCase)
-                           .OrderBy(d => d)
-                           .ToList();
+            var allDepts = MasterDepts.Union(dbDepts, StringComparer.OrdinalIgnoreCase)
+                                      .OrderBy(d => d).ToList();
 
-            // Filter ComboBox (include "All")
             cmbFilter.Items.Clear();
             cmbFilter.Items.Add("All");
             cmbFilter.Items.AddRange(allDepts.ToArray());
             if (cmbFilter.SelectedIndex < 0) cmbFilter.SelectedIndex = 0;
 
-            // New-Dept ComboBox (no "All")
             cmbNewDept.Items.Clear();
             cmbNewDept.Items.AddRange(allDepts.ToArray());
             if (cmbNewDept.SelectedIndex < 0) cmbNewDept.SelectedIndex = 0;
@@ -63,17 +67,16 @@ namespace ITP4915M_System
             _selectedUser = string.Empty;
         }
 
-        /*─────────────────────────────────────────*/
-        /* UI EVENTS                               */
-        /*─────────────────────────────────────────*/
-        private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e)
-            => LoadData();
+        /*─────────────── UI 事件 ───────────────*/
+        private void FormHR_Load(object sender, EventArgs e) { }
+
+        private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e) => LoadData();
 
         private void gvAccounts_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
             _selectedUser = gvAccounts.Rows[e.RowIndex]
-                                         .Cells["username"].Value?.ToString() ?? string.Empty;
+                                       .Cells["username"].Value?.ToString() ?? "";
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -84,8 +87,7 @@ namespace ITP4915M_System
 
             if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pwd))
             {
-                MessageBox.Show("Username / Password required");
-                return;
+                MessageBox.Show("Username / Password required"); return;
             }
 
             try
@@ -104,8 +106,7 @@ namespace ITP4915M_System
         {
             if (string.IsNullOrEmpty(_selectedUser))
             {
-                MessageBox.Show("Select a row first.");
-                return;
+                MessageBox.Show("Select a row first."); return;
             }
 
             if (MessageBox.Show($"Delete {_selectedUser} ?",
@@ -120,29 +121,26 @@ namespace ITP4915M_System
 
         private void btnRefresh_Click(object sender, EventArgs e) => LoadData();
 
-        private void btnLogout_Click(object sender, EventArgs e)
-            => AppHelper.LogoutToLogin();
+        /*─────────────── Logout 追加清理 (可選) ───────────────*/
+        protected override void OnLogout()
+        {
+            // 例：把當前選取清掉；或釋放資源
+            _selectedUser = string.Empty;
+            base.OnLogout();   // 保留父類其他處理
+        }
 
-        /*─────────────────────────────────────────*/
-        /* HELPER                                  */
-        /*─────────────────────────────────────────*/
+        /*─────────────── Helper ───────────────*/
         private void AfterAccountChanged()
         {
             RefreshDepartmentLists();
             LoadData();
 
-            // Notify every opened LoginForm to refresh its department list
             foreach (LoginForm lf in Application.OpenForms.OfType<LoginForm>())
                 lf.RefreshDepartmentList();
 
             txtNewUser.Clear();
             txtNewPwd.Clear();
             txtNewUser.Focus();
-        }
-
-        private void FormHR_Load(object sender, EventArgs e)
-        {
-            // Optional: place holder for future use
         }
     }
 }
